@@ -13,6 +13,7 @@ import {
   Maximize2,
   X,
 } from "lucide-react";
+import { withBasePath } from "./basePath";
 
 interface ProjectTvModalProps {
   project: ProjectItem | null;
@@ -359,7 +360,7 @@ export default function ProjectTvModal({
           {/* 100% CLEAR SCREENSHOT IMAGE */}
           <img
             key={currentImage}
-            src={currentImage}
+            src={withBasePath(currentImage)}
             alt={currentImageTitle}
             className={animStage === "power-on" ? "crt-screen-turn-on" : animStage === "power-off" ? "crt-screen-turn-off" : ""}
             style={{
@@ -501,7 +502,7 @@ export default function ProjectTvModal({
               </button>
             </div>
             <img
-              src={currentImage}
+              src={withBasePath(currentImage)}
               alt={currentImageTitle}
               style={{
                 maxWidth: "100%",

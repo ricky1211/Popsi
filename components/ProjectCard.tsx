@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ProjectItem } from "./projectsData";
 import { ExternalLink, Tv, ArrowUpRight } from "lucide-react";
 import { playTvSound } from "./tvAudio";
+import { withBasePath } from "./basePath";
 
 interface ProjectCardProps {
   project: ProjectItem;
@@ -107,7 +108,7 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
         }}
       >
         <img
-          src={project.image}
+          src={withBasePath(project.image)}
           alt={project.title}
           style={{
             width: "100%",

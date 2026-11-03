@@ -125,20 +125,27 @@ export const projectsData: ProjectItem[] = [
     id: "andon-quality",
     channel: "CH 03",
     title: "Andon Quality Display",
-    subtitle: "Real-time Shopfloor Stop & Alert",
+    subtitle: "Astra MTM · Quality Control Shopfloor Dashboard",
     category: "Industrial & IoT",
-    desc: "Display visual lantai pabrik real-time untuk sinyal abnormalitas dan line stop.",
-    problem: "Keterlambatan respon supervisor saat terjadi defect berujung produk cacat lolos.",
-    solution: "Andon visual berbasis WebSockets instan dengan notifikasi darurat < 500ms.",
+    desc: "Dashboard visual monitoring status lini produksi (40 Line: RUN, IDLE, STOP) real-time di lantai pabrik Astra MTM dengan peringatan instan saat terjadi defect.",
+    problem: "Keterlambatan respon leader/supervisor saat terjadi breakdown atau defect berujung pada lolosnya produk reject dan kerugian line stop.",
+    solution: "Sistem AndonQC Client terpusat dengan filter area (MPI, Visual, Assy, Machining, Forging), visualisasi composite status, dan deteksi abnormalitas cepat.",
     highlights: [
-      "Board visual 3 warna standar pabrik",
-      "Push alert leader smartwatch",
-      "Auto-timer stoppage duration",
-      "Analisa Pareto defect shift"
+      "Monitoring 40 Lini Produksi aktif (24 RUN · 10 IDLE · 6 STOP)",
+      "Kategori Area: MPI, Visual, Assy, Machining, Forging",
+      "Kalkulasi total reject defect (258 pcs) & persentase change",
+      "Refresh data real-time dengan status composite alert"
     ],
-    metrics: { label: "Respon Leader", value: "< 45 Detik" },
-    tags: ["WebSockets", "React", "MQTT", "Node.js"],
-    image: "/projects/andon-quality.jpg",
+    metrics: { label: "Monitoring Line", value: "40 Line Aktif" },
+    tags: ["Andon QC", "Shopfloor Alert", "Industrial Dashboard", "Line Control"],
+    image: "/projects/andon-quality.png",
+    gallery: [
+      {
+        title: "AndonQC Client - Quality Control Dashboard (Astra MTM)",
+        image: "/projects/andon-quality.png",
+        badge: "Andon Client"
+      }
+    ],
     status: "Enterprise",
     color: "#ef4444"
   },
@@ -288,21 +295,73 @@ export const projectsData: ProjectItem[] = [
   {
     id: "capex",
     channel: "CH 06",
-    title: "Capex Management",
-    subtitle: "Capital Budget · Feasibility & Approval",
+    title: "Capex Management & BODR",
+    subtitle: "Astra MTM · Capital Expenditure & BOD Resolution",
     category: "Web & App",
-    desc: "Evaluasi proposal investasi mesin bernilai miliaran, analisa ROI & approval berjenjang.",
-    problem: "Pengajuan anggaran modal rawan salah hitung kelayakan dan sulit dikontrol.",
-    solution: "Kalkulator otomatis ROI/NPV/Payback Period dan alur persetujuan multi-level.",
+    desc: "Sistem otomasi evaluasi proposal investasi modal (Capex), tracking alokasi anggaran, analisa ROI & kelayakan finansial, serta alur otorisasi berjenjang Board of Directors Resolution (BODR) di PT Menara Terus Makmur.",
+    problem: "Pengajuan investasi mesin presisi bernilai miliaran rupiah sebelumnya rawan overbudget, kalkulasi ROI lambat, dan pelacakan approval dokumen BODR sulit dimonitor lintas departemen.",
+    solution: "Platform digital terpadu untuk pengajuan proposal Capex, kalkulasi otomatis kelayakan finansial, tracking realisasi anggaran vs budget, serta workflow multi-tier approval terintegrasi.",
     highlights: [
-      "Kalkulator kelayakan finansial ROI/NPV",
-      "Multi-tier approval workflow",
-      "Budget lock per department",
-      "Komparasi tender vendor"
+      "Dashboard realisasi Capex & alokasi budget per departemen",
+      "Pengajuan proposal investasi modal (Marketing, Production, QA, Engineering)",
+      "Tracking dokumen BODR (Board of Directors Resolution) multi-tier",
+      "Monitoring realisasi vs budget & audit pengadaan aset mesin"
     ],
-    metrics: { label: "Akurasi Budget", value: "100% Terkontrol" },
-    tags: ["Next.js", "TypeScript", "Prisma", "MySQL"],
-    image: "/projects/capex.jpg",
+    metrics: { label: "Pengajuan Terkontrol", value: "Multi-Tier BODR" },
+    tags: ["Capital Expenditure", "BODR Approval", "Budget Tracking", "Astra MTM"],
+    image: "/projects/capex/01-dashboard.png",
+    gallery: [
+      {
+        title: "Dashboard Utama Capex & Pricing Management",
+        image: "/projects/capex/01-dashboard.png",
+        badge: "Executive Capex"
+      },
+      {
+        title: "Form Pengajuan Proposal Capex Marketing (Rp 1.000 Juta)",
+        image: "/projects/capex/02-pengajuan-marketing.png",
+        badge: "Pengajuan Capex"
+      },
+      {
+        title: "Perencanaan & Tracking BODR (Board of Directors)",
+        image: "/projects/capex/03-bodr-planning.png",
+        badge: "BODR Planning"
+      },
+      {
+        title: "Capex Tracking & Monitoring Real-Time",
+        image: "/projects/capex/04-capex-tracking.png",
+        badge: "Tracking Capex"
+      },
+      {
+        title: "Alokasi & Kontrol Batas Budget Departemen",
+        image: "/projects/capex/05-budget-allocation.png",
+        badge: "Alokasi Budget"
+      },
+      {
+        title: "Matriks Approval Otorisasi Multi-Tier Digital",
+        image: "/projects/capex/06-approval-matrix.png",
+        badge: "Approval Matrix"
+      },
+      {
+        title: "Komparasi Realisasi vs Anggaran Investasi",
+        image: "/projects/capex/07-realization-vs-budget.png",
+        badge: "Realisasi vs Budget"
+      },
+      {
+        title: "Executive Summary & BOD Dashboard",
+        image: "/projects/capex/08-executive-summary.png",
+        badge: "BOD Summary"
+      },
+      {
+        title: "Pengadaan Aset & Manajemen Vendor Tender",
+        image: "/projects/capex/09-asset-procurement.png",
+        badge: "Pengadaan Aset"
+      },
+      {
+        title: "Closing & Audit Investasi Capex Mesin",
+        image: "/projects/capex/10-closing-audit.png",
+        badge: "Closing Audit"
+      }
+    ],
     status: "Enterprise",
     color: "#10b981"
   },

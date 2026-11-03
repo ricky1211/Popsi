@@ -12,6 +12,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { projectsData, ProjectItem } from "@/components/projectsData";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTvModal from "@/components/ProjectTvModal";
+import { withBasePath } from "@/components/basePath";
 
 const GlobeCanvas = dynamic(() => import("@/components/GlobeCanvas"), { ssr: false });
 
@@ -308,7 +309,7 @@ export default function Home() {
             <div className="card" style={{ padding: "24px", borderRadius: 18 }}>
               <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
                 <img
-                  src="/profile.jpg"
+                  src={withBasePath("/profile.jpg")}
                   alt="Ricky Alfian"
                   style={{ width: 64, height: 64, borderRadius: 14, objectFit: "cover" }}
                   onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
