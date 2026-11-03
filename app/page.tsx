@@ -13,6 +13,7 @@ import ProjectCard from "@/components/ProjectCard";
 import ProjectTvModal from "@/components/ProjectTvModal";
 import { withBasePath } from "@/components/basePath";
 import CosmicHeroShowcase from "@/components/CosmicHeroShowcase";
+import CodeNewspaperBackground from "@/components/CodeNewspaperBackground";
 
 const emptySubscribe = () => () => {};
 function useMounted() {
@@ -91,9 +92,12 @@ export default function Home() {
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <Navbar />
 
-      {/* HERO SECTION - COMPACT & CENTERED */}
-      <div style={{ minHeight: "88vh", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 82, paddingBottom: 40 }}>
-        <div style={{ maxWidth: 840, margin: "0 auto", padding: "10px 24px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+      {/* HERO SECTION - COMPACT & CENTERED WITH NEWSPAPER CODE BACKGROUND */}
+      <div style={{ minHeight: "88vh", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 82, paddingBottom: 40, position: "relative", overflow: "hidden" }}>
+        {/* Background Koran Codingan (Gazette Layout) */}
+        <CodeNewspaperBackground />
+
+        <div style={{ maxWidth: 840, margin: "0 auto", padding: "10px 24px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", position: "relative", zIndex: 1 }}>
           {/* Status Pill */}
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 7,
