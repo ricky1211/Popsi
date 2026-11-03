@@ -73,7 +73,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
 
   const ticker = [
-    "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "8D Customer Claims",
+    "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "Quality Claim Customers",
     "Capex System", "IoT Sensors", "PT Menara Terus Makmur", "Next.js", "Python ML", "PostgreSQL", "WebSockets", "FastAPI"
   ];
 
@@ -179,7 +179,7 @@ export default function Home() {
                   display: "flex", alignItems: "center", gap: 8,
                 }}>
                   <div style={{ width: 28, height: 28, borderRadius: 6, background: "#f0f5ff", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent2)" }}><Star size={14} /></div>
-                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>IPK</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>3.55 / 4.00</div></div>
+                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>IPK</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>3.56 / 4.00</div></div>
                 </div>
 
                 <div className="animate-float delay-400" style={{
@@ -324,7 +324,7 @@ export default function Home() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Lokasi</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Cikarang, ID</div></div>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Kampus</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Pelita Bangsa</div></div>
-                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>IPK</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>3.55 / 4.00</div></div>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>IPK</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>3.56 / 4.00</div></div>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Status</div><div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#16a34a" }}>Siap Kerja</div></div>
               </div>
             </div>
@@ -342,7 +342,7 @@ export default function Home() {
                     role: "IT & System Development Intern",
                     company: "PT Menara Terus Makmur (Astra Otoparts Group)",
                     period: "Internship",
-                    desc: "Digitalisasi sistem manufaktur: Predictive/Preventive Maintenance, display Andon Quality, penanganan Customer Claim 8D, dan Capex tracking.",
+                    desc: "Digitalisasi sistem manufaktur: Predictive/Preventive Maintenance, display Andon Quality, penanganan Quality Claim Customers (8D), dan Capex tracking.",
                     highlight: true
                   },
                   {

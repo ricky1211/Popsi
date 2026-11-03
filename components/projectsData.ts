@@ -83,7 +83,7 @@ export const projectsData: ProjectItem[] = [
   {
     id: "claim-customers",
     channel: "CH 04",
-    title: "Claim Customers 8D",
+    title: "Quality Claim Customers",
     subtitle: "Complaint Workflow · Root Cause Analysis",
     category: "Web & App",
     desc: "Portal terpadu penanganan komplain kualitas customer dengan alur investigasi 8D.",
