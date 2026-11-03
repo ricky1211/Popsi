@@ -74,7 +74,7 @@ export default function Home() {
 
   const ticker = [
     "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "8D Customer Claims",
-    "Capex System", "IoT Sensors", "Next.js", "Python ML", "PostgreSQL", "WebSockets", "FastAPI"
+    "Capex System", "IoT Sensors", "PT Menara Terus Makmur", "Next.js", "Python ML", "PostgreSQL", "WebSockets", "FastAPI"
   ];
 
   const categories = [
@@ -319,13 +319,13 @@ export default function Home() {
                 </div>
               </div>
               <p style={{ color: "var(--fg-muted)", fontSize: "0.86rem", lineHeight: 1.6, margin: "0 0 16px" }}>
-                Berfokus pada pengembangan sistem cerdas manufaktur (Predictive & Preventive Maintenance, Andon Board) dan web application modern.
+                Pengembang sistem cerdas manufaktur dengan pengalaman internship di <strong>PT Menara Terus Makmur (Astra Otoparts)</strong> dalam digitalisasi pemeliharaan mesin, Andon Quality, dan alur operasional.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Lokasi</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Cikarang, ID</div></div>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Kampus</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Pelita Bangsa</div></div>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>IPK</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>3.55 / 4.00</div></div>
-                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Pengalaman</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>2023 – Now</div></div>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Status</div><div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#16a34a" }}>Siap Kerja</div></div>
               </div>
             </div>
           </Reveal>
@@ -338,17 +338,64 @@ export default function Home() {
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  { role: "Full-Stack Web Developer", company: "Freelance", period: "2023 – Sekarang", desc: "Membangun sistem web enterprise manufaktur, API backend, dan dashboard visual." },
-                  { role: "Project Leader – IoT Penyiraman", company: "Perum Graha Cikarang", period: "2025", desc: "Perancangan sistem otomasi penyiraman berbasis sensor ESP32." },
-                  { role: "Staff Divisi PDD", company: "Seminar Universitas Pelita Bangsa", period: "2025", desc: "Dokumentasi & implementasi sistem absensi digital seminar." },
+                  {
+                    role: "IT & System Development Intern",
+                    company: "PT Menara Terus Makmur (Astra Otoparts Group)",
+                    period: "Internship",
+                    desc: "Digitalisasi sistem manufaktur: Predictive/Preventive Maintenance, display Andon Quality, penanganan Customer Claim 8D, dan Capex tracking.",
+                    highlight: true
+                  },
+                  {
+                    role: "Full-Stack Web Developer",
+                    company: "Freelance",
+                    period: "2023 – Sekarang",
+                    desc: "Membangun sistem web enterprise manufaktur, API backend, dan dashboard visual."
+                  },
+                  {
+                    role: "Project Leader – IoT Penyiraman",
+                    company: "Perum Graha Cikarang",
+                    period: "2025",
+                    desc: "Perancangan sistem otomasi penyiraman berbasis sensor ESP32."
+                  },
+                  {
+                    role: "Staff Divisi PDD",
+                    company: "Seminar Universitas Pelita Bangsa",
+                    period: "2025",
+                    desc: "Dokumentasi & implementasi sistem absensi digital seminar."
+                  },
                 ].map((exp, i) => (
-                  <div key={i} style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 14px" }}>
+                  <div
+                    key={i}
+                    style={{
+                      background: "var(--bg-card)",
+                      border: exp.highlight ? "1px solid var(--accent)" : "1px solid var(--border)",
+                      borderRadius: 10,
+                      padding: "10px 14px",
+                      position: "relative",
+                      boxShadow: exp.highlight ? "0 2px 12px rgba(232, 103, 58, 0.12)" : "none"
+                    }}
+                  >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
-                      <span style={{ fontWeight: 700, fontSize: "0.85rem" }}>{exp.role}</span>
-                      <span style={{ fontSize: "0.72rem", color: "var(--fg-muted)" }}>{exp.period}</span>
+                      <span style={{ fontWeight: 700, fontSize: "0.85rem", color: exp.highlight ? "var(--accent)" : "var(--fg)" }}>
+                        {exp.role}
+                      </span>
+                      <span style={{
+                        fontSize: "0.7rem",
+                        color: exp.highlight ? "#ffffff" : "var(--fg-muted)",
+                        background: exp.highlight ? "var(--accent)" : "transparent",
+                        padding: exp.highlight ? "2px 8px" : "0",
+                        borderRadius: exp.highlight ? 100 : 0,
+                        fontWeight: exp.highlight ? 700 : 500
+                      }}>
+                        {exp.period}
+                      </span>
                     </div>
-                    <div style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600, marginBottom: 3 }}>{exp.company}</div>
-                    <p style={{ margin: 0, fontSize: "0.78rem", color: "var(--fg-muted)", lineHeight: 1.45 }}>{exp.desc}</p>
+                    <div style={{ fontSize: "0.78rem", color: "var(--fg)", fontWeight: 600, marginBottom: 3 }}>
+                      {exp.company}
+                    </div>
+                    <p style={{ margin: 0, fontSize: "0.78rem", color: "var(--fg-muted)", lineHeight: 1.45 }}>
+                      {exp.desc}
+                    </p>
                   </div>
                 ))}
               </div>
