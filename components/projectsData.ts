@@ -207,8 +207,87 @@ export const projectsData: ProjectItem[] = [
     color: "#8b5cf6"
   },
   {
-    id: "capex",
+    id: "qpr-astra",
     channel: "CH 05",
+    title: "QPR & Confirmation Letter",
+    subtitle: "Astra MTM · Quality Problem Report & Vendor Settlement",
+    category: "Web & App",
+    desc: "Sistem digital terintegrasi pelacakan Quality Problem Report (QPR) dan penerbitan Confirmation Letter (CL) untuk klaim mutu internal & vendor di PT Menara Terus Makmur (Astra Otoparts Group).",
+    problem: "Dokumen klaim kualitas mengendap berhari-hari pada antrean otorisasi (Section Head QA, Dept Head, Div Head, Purchasing, Finance) dan perhitungan klaim vendor belum tersinkronisasi.",
+    solution: "Dashboard monitoring lead time dokumen mengendap per peran otorisasi secara real-time, approval multi-tier digital, email reminder otomatis, dan integrasi penagihan SSC Billing & Payment.",
+    highlights: [
+      "Dashboard lead time & dokumen mengendap per peran otorisasi",
+      "Alur approval berjenjang digital: Section Head QA, Dept Head, Div Head",
+      "Form pembuatan Confirmation Letter (CL) & perhitungan allowance",
+      "Email reminder otomatis & pelacakan status pengiriman vendor",
+      "Integrasi SSC Billing & tracking pelunasan SSC Payment"
+    ],
+    metrics: { label: "Lead Time Status", value: "Real-Time Tracking" },
+    tags: ["Quality Problem Report", "Confirmation Letter", "Multi-Tier Approval", "SSC Billing"],
+    image: "/projects/qpr/dashboard.png",
+    gallery: [
+      {
+        title: "Dashboard Utama Status Lead Time & QPR/CL",
+        image: "/projects/qpr/dashboard.png",
+        badge: "Executive QPR"
+      },
+      {
+        title: "Form Pengisian Quality Problem Report (QPR)",
+        image: "/projects/qpr/pengisian-qpr.png",
+        badge: "Input QPR"
+      },
+      {
+        title: "Approval Dokumen QPR Otorisasi Berjenjang",
+        image: "/projects/qpr/approval-qpr.png",
+        badge: "Approval QPR"
+      },
+      {
+        title: "Pembuatan Confirmation Letter (CL) Vendor",
+        image: "/projects/qpr/buat-cl.png",
+        badge: "Buat CL"
+      },
+      {
+        title: "Approval Confirmation Letter & Allowance Klaim",
+        image: "/projects/qpr/approval-cl.png",
+        badge: "Approval CL"
+      },
+      {
+        title: "Kirim Confirmation Letter (CL) ke Vendor",
+        image: "/projects/qpr/kirim-cl-vendor.png",
+        badge: "Vendor Dispatch"
+      },
+      {
+        title: "Email Reminder Otomatis Penanganan Klaim",
+        image: "/projects/qpr/email-reminder.png",
+        badge: "Auto Reminder"
+      },
+      {
+        title: "Integrasi SSC Billing & Settlement Kompensasi",
+        image: "/projects/qpr/ssc-billing.png",
+        badge: "SSC Billing"
+      },
+      {
+        title: "Tracking Pembayaran & Pelunasan SSC Payment",
+        image: "/projects/qpr/ssc-payment.png",
+        badge: "SSC Payment"
+      },
+      {
+        title: "Rekapitulasi Daftar Dokumen NCR, QPR & CL",
+        image: "/projects/qpr/list-qpr-cl.png",
+        badge: "Master List"
+      },
+      {
+        title: "Master Database Parts & Vendor Rekanan",
+        image: "/projects/qpr/parts-vendor.png",
+        badge: "Parts Vendor"
+      }
+    ],
+    status: "Enterprise",
+    color: "#06b6d4"
+  },
+  {
+    id: "capex",
+    channel: "CH 06",
     title: "Capex Management",
     subtitle: "Capital Budget · Feasibility & Approval",
     category: "Web & App",
@@ -229,7 +308,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "absensi-seminar",
-    channel: "CH 06",
+    channel: "CH 07",
     title: "Absensi Seminar Live",
     subtitle: "QR Code Pass · Live Counter & Certificate",
     category: "Web & App",
@@ -251,7 +330,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "landing-seo",
-    channel: "CH 07",
+    channel: "CH 08",
     title: "Landing Page SEO",
     subtitle: "Core Web Vitals · High Conversion",
     category: "Web & App",
@@ -273,7 +352,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "nlp-project",
-    channel: "CH 08",
+    channel: "CH 09",
     title: "NLP Text Analytics",
     subtitle: "Indonesian Sentiment · Slang Normalizer",
     category: "Data & AI",
@@ -295,7 +374,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "data-science",
-    channel: "CH 09",
+    channel: "CH 10",
     title: "Data Science Dashboard",
     subtitle: "EDA Analytics · Trend Forecasting",
     category: "Data & AI",
@@ -317,7 +396,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "mcgoo-guide",
-    channel: "CH 10",
+    channel: "CH 11",
     title: "MCGOO Strategy Guide",
     subtitle: "Gaming Tier-List · Synergy Builder",
     category: "Web & App",
@@ -339,7 +418,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "berita-live",
-    channel: "CH 11",
+    channel: "CH 12",
     title: "Portal Berita Mandiri",
     subtitle: "REST API Feed · Distraction-Free",
     category: "Web & App",
@@ -361,7 +440,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: "warga-rt",
-    channel: "CH 12",
+    channel: "CH 13",
     title: "WargaRT02 Smart App",
     subtitle: "Civic Governance · IoT Barrier Gate",
     category: "Industrial & IoT",
