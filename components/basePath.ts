@@ -1,6 +1,14 @@
+const isVercel = typeof process !== "undefined" && Boolean(process.env.VERCEL);
+const isGitHubActions = typeof process !== "undefined" && Boolean(process.env.GITHUB_ACTIONS);
+
 export const basePath =
-  process.env.NEXT_PUBLIC_BASE_PATH ??
-  (process.env.NODE_ENV === "production" ? "/Popsi" : "");
+  process.env.NEXT_PUBLIC_BASE_PATH !== undefined
+    ? process.env.NEXT_PUBLIC_BASE_PATH
+    : isVercel
+    ? ""
+    : isGitHubActions
+    ? "/Popsi"
+    : "";
 
 /**
  * Prepends basePath to static assets so they load correctly on GitHub Pages or custom sub-paths.
@@ -11,9 +19,11 @@ export function withBasePath(path: string): string {
     return path;
   }
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  if (basePath && cleanPath.startsWith(basePath)) {
+  if (!basePath) {
+    return cleanPath;
+  }
+  if (cleanPath.startsWith(basePath)) {
     return cleanPath;
   }
   return `${basePath}${cleanPath}`;
 }
-
