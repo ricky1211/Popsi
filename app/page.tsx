@@ -211,7 +211,7 @@ export default function Home() {
               >
                 <span>{cat.label}</span>
                 <span style={{
-                  background: isActive ? "rgba(255,255,255,0.25)" : "#ece7e1",
+                  background: isActive ? "rgba(255,255,255,0.25)" : "rgba(255, 255, 255, 0.08)",
                   color: isActive ? "#ffffff" : "var(--fg)",
                   borderRadius: 100,
                   padding: "1px 6px",
@@ -250,12 +250,12 @@ export default function Home() {
               <Reveal key={s.label} delay={i * 0.05}>
                 <div className="card" style={{ padding: "16px 18px", height: "100%", borderRadius: 14 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}>{s.icon}</div>
+                    <div style={{ width: 34, height: 34, borderRadius: 8, background: "rgba(249, 115, 22, 0.12)", border: "1px solid rgba(249, 115, 22, 0.25)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}>{s.icon}</div>
                     <h3 style={{ margin: 0, fontSize: "0.88rem", fontWeight: 700 }}>{s.label}</h3>
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
                     {s.items.map(it => (
-                      <span key={it} style={{ background: "#f3efe9", color: "var(--fg-muted)", fontSize: "0.72rem", padding: "3px 8px", borderRadius: 4, fontWeight: 500 }}>
+                      <span key={it} style={{ background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.08)", color: "#cbd5e1", fontSize: "0.72rem", padding: "3px 8px", borderRadius: 4, fontWeight: 500 }}>
                         {it}
                       </span>
                     ))}
@@ -522,7 +522,7 @@ export default function Home() {
             ].map(c => (
               <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" className="card"
                 style={{ padding: "12px 14px", display: "flex", gap: 10, alignItems: "center", textDecoration: "none", color: "inherit", textAlign: "left", borderRadius: 12 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)", flexShrink: 0 }}>{c.icon}</div>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(249, 115, 22, 0.12)", border: "1px solid rgba(249, 115, 22, 0.25)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)", flexShrink: 0 }}>{c.icon}</div>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>{c.label}</div>
                   <div style={{ fontSize: "0.78rem", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.value}</div>

@@ -310,8 +310,9 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             <span
               key={tag}
               style={{
-                background: "#f1ede7",
-                color: "var(--fg-muted)",
+                background: "rgba(255, 255, 255, 0.06)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                color: "#cbd5e1",
                 fontSize: "0.7rem",
                 fontWeight: 600,
                 padding: "2px 7px",
