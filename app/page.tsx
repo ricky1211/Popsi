@@ -91,77 +91,73 @@ export default function Home() {
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <Navbar />
 
-      {/* HERO SECTION */}
-      <div style={{ minHeight: "92vh", display: "flex", alignItems: "center", paddingTop: 76, paddingBottom: 40 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 24px", width: "100%" }}>
-          <div className="hero-grid" style={{ display: "grid", gap: 48, alignItems: "center" }}>
-            <div>
-              {/* Status Pill */}
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 7,
-                background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 100, padding: "5px 14px", marginBottom: 20,
-                boxShadow: "0 2px 10px var(--shadow)",
-                opacity: mounted ? 1 : 0, transition: "opacity 0.4s"
-              }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 0 3px rgba(34,197,94,0.2)" }} />
-                <span style={{ fontSize: "0.78rem", color: "var(--fg-muted)", fontWeight: 600 }}>Available for Hire · Cikarang, ID</span>
-              </div>
+      {/* HERO SECTION - COMPACT & CENTERED */}
+      <div style={{ minHeight: "88vh", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 82, paddingBottom: 40 }}>
+        <div style={{ maxWidth: 840, margin: "0 auto", padding: "10px 24px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+          {/* Status Pill */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 7,
+            background: "rgba(13, 18, 31, 0.85)", border: "1px solid var(--border)", borderRadius: 100, padding: "5px 14px", marginBottom: 16,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.4)", backdropFilter: "blur(10px)",
+            opacity: mounted ? 1 : 0, transition: "opacity 0.4s"
+          }}>
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 0 3px rgba(34,197,94,0.25)" }} />
+            <span style={{ fontSize: "0.78rem", color: "var(--fg-muted)", fontWeight: 600 }}>Available for Hire · Cikarang, ID</span>
+          </div>
 
-              {/* Punchy Title */}
-              <h1 style={{
-                fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2.4rem,5vw,3.5rem)",
-                lineHeight: 1.1, margin: "0 0 14px",
-                opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)",
-                transition: "opacity 0.6s 0.1s, transform 0.6s 0.1s"
-              }}>
-                Ricky Alfian<br />
-                <span style={{ background: "linear-gradient(135deg,var(--accent),var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  Saputra
-                </span>
-              </h1>
+          {/* Cosmic Hero Showcase: Bintang Jatuh, Siluet Kode di Belakang, & Foto Profil Bulat di Tengah */}
+          <div style={{ width: "100%", marginBottom: 10, display: "flex", justifyContent: "center", position: "relative" }}>
+            <CosmicHeroShowcase />
+          </div>
 
-              {/* Compact 1-liner Intro */}
-              <p style={{
-                fontSize: "1.02rem", color: "var(--fg-muted)", lineHeight: 1.65, marginBottom: 26, maxWidth: 460,
-                opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.2s"
-              }}>
-                Membangun <strong style={{ color: "var(--fg)" }}>Smart Industrial Systems</strong>, telemetri IoT, arsitektur web modern, dan analitik berbasis data presisi.
-              </p>
+          {/* Nama di Bawah Foto Profile (Sesuai Screenshot User) */}
+          <h1 style={{
+            fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2.2rem, 5vw, 3.2rem)",
+            lineHeight: 1.15, margin: "12px 0 10px",
+            opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.6s 0.1s, transform 0.6s 0.1s"
+          }}>
+            Ricky Alfian{" "}
+            <span style={{ background: "linear-gradient(135deg,var(--accent),var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Saputra
+            </span>
+          </h1>
 
-              {/* Action Buttons */}
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 28, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.3s" }}>
-                <a href="#projects" className="btn-primary" style={{ padding: "10px 22px", fontSize: "0.9rem" }}>
-                  Eksplorasi Project <ArrowRight size={15} />
-                </a>
-                <a href="#contact" className="btn-outline" style={{ padding: "10px 20px", fontSize: "0.9rem" }}>
-                  Kontak Langsung
-                </a>
-              </div>
+          {/* Compact 1-liner Intro */}
+          <p style={{
+            fontSize: "1.02rem", color: "var(--fg-muted)", lineHeight: 1.6, marginBottom: 22, maxWidth: 540,
+            opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.2s"
+          }}>
+            Membangun <strong style={{ color: "var(--fg)" }}>Smart Industrial Systems</strong>, telemetri IoT, arsitektur web modern, dan analitik berbasis data presisi.
+          </p>
 
-              {/* Compact Social Badges */}
-              <div style={{ display: "flex", gap: 10, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.4s" }}>
-                {[
-                  { icon: <GitBranch size={16} />, href: "https://github.com/ricky1211", label: "GitHub" },
-                  { icon: <Briefcase size={16} />, href: "https://www.linkedin.com/in/rkyalfnsptr", label: "LinkedIn" },
-                  { icon: <Mail size={16} />, href: "mailto:rickyalfian751@gmail.com", label: "Email" },
-                  { icon: <Phone size={16} />, href: "tel:+6285215784866", label: "Phone" },
-                ].map(s => (
-                  <a key={s.label} href={s.href} title={s.label} target="_blank" rel="noopener noreferrer" style={{
-                    width: 38, height: 38, borderRadius: 10, background: "var(--bg-card)",
-                    border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
-                    color: "var(--fg-muted)", textDecoration: "none", transition: "all 0.2s",
-                  }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.color = "var(--accent)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--fg-muted)"; e.currentTarget.style.transform = "translateY(0)"; }}
-                  >{s.icon}</a>
-                ))}
-              </div>
-            </div>
+          {/* Action Buttons */}
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 22, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.3s" }}>
+            <a href="#projects" className="btn-primary" style={{ padding: "10px 24px", fontSize: "0.9rem" }}>
+              Eksplorasi Project <ArrowRight size={15} />
+            </a>
+            <a href="#contact" className="btn-outline" style={{ padding: "10px 22px", fontSize: "0.9rem" }}>
+              Kontak Langsung
+            </a>
+          </div>
 
-            {/* Cosmic Hero Showcase: Cosmic Immersive Highlight with Orbiting Comets & Jas Hitam Badge */}
-            <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
-              <CosmicHeroShowcase />
-            </div>
+          {/* Compact Social Badges */}
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.4s" }}>
+            {[
+              { icon: <GitBranch size={16} />, href: "https://github.com/ricky1211", label: "GitHub" },
+              { icon: <Briefcase size={16} />, href: "https://www.linkedin.com/in/rkyalfnsptr", label: "LinkedIn" },
+              { icon: <Mail size={16} />, href: "mailto:rickyalfian751@gmail.com", label: "Email" },
+              { icon: <Phone size={16} />, href: "tel:+6285215784866", label: "Phone" },
+            ].map(s => (
+              <a key={s.label} href={s.href} title={s.label} target="_blank" rel="noopener noreferrer" style={{
+                width: 38, height: 38, borderRadius: 10, background: "var(--bg-card)",
+                border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
+                color: "var(--fg-muted)", textDecoration: "none", transition: "all 0.2s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.color = "var(--accent)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--fg-muted)"; e.currentTarget.style.transform = "translateY(0)"; }}
+              >{s.icon}</a>
+            ))}
           </div>
         </div>
       </div>

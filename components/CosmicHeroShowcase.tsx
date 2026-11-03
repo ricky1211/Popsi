@@ -32,35 +32,88 @@ export default function CosmicHeroShowcase() {
       style={{
         position: "relative",
         width: "100%",
-        maxWidth: 380,
+        maxWidth: 780,
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
     >
-      {/* 3D CELESTIAL ORBITS & COMET TRAILS (BEBAS TANPA CARD) */}
+      {/* 1. SHOOTING STARS / BINTANG JATUH (MELUNCUR DI ANGKASA) */}
       <div
         style={{
           position: "absolute",
-          inset: "-60px -60px",
+          inset: "-80px -100px",
           pointerEvents: "none",
           zIndex: 0,
+          overflow: "hidden",
+        }}
+      >
+        <div className="shooting-star star-drop-1" />
+        <div className="shooting-star star-drop-2" />
+        <div className="shooting-star star-drop-3" />
+        <div className="shooting-star star-drop-4" />
+      </div>
+
+      {/* 2. SILUET KODE PROGRAMMER DI BELAKANG FOTO PROFIL */}
+      <div
+        style={{
+          position: "absolute",
+          top: "44%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "min(720px, 94vw)",
+          height: "220px",
+          zIndex: 1,
+          pointerEvents: "none",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={withBasePath("/Profile/code-silhouette.jpg")}
+          alt="Silhouette Code Background"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: 0.72,
+            filter: "contrast(1.2) brightness(1.1)",
+            maskImage:
+              "radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)",
+          }}
+        />
+      </div>
+
+      {/* 3. 3D CELESTIAL ORBITS & COMET TRAILS */}
+      <div
+        style={{
+          position: "absolute",
+          top: "44%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "460px",
+          height: "460px",
+          pointerEvents: "none",
+          zIndex: 2,
           overflow: "visible",
         }}
       >
-        {/* NEBULA GLOW */}
+        {/* NEBULA AMBIENT GLOW */}
         <div
           style={{
             position: "absolute",
-            top: "42%",
+            top: "50%",
             left: "50%",
-            width: "380px",
-            height: "380px",
+            width: "360px",
+            height: "360px",
             transform: "translate(-50%, -50%)",
             background:
-              "radial-gradient(circle, rgba(168, 85, 247, 0.38) 0%, rgba(56, 189, 248, 0.22) 40%, rgba(249, 115, 22, 0.12) 60%, rgba(0, 0, 0, 0) 75%)",
-            filter: "blur(30px)",
+              "radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(56, 189, 248, 0.25) 45%, rgba(0, 0, 0, 0) 75%)",
+            filter: "blur(28px)",
             borderRadius: "50%",
             animation: "nebulaPulse 6s ease-in-out infinite alternate",
           }}
@@ -71,14 +124,14 @@ export default function CosmicHeroShowcase() {
           className="orbit-track track-1"
           style={{
             position: "absolute",
-            top: "42%",
+            top: "50%",
             left: "50%",
-            width: "420px",
-            height: "210px",
+            width: "400px",
+            height: "200px",
             transform: "translate(-50%, -50%) rotate(-18deg)",
             borderRadius: "50%",
-            border: "1.5px dashed rgba(56, 189, 248, 0.4)",
-            boxShadow: "0 0 25px rgba(56, 189, 248, 0.2)",
+            border: "1.5px dashed rgba(56, 189, 248, 0.45)",
+            boxShadow: "0 0 25px rgba(56, 189, 248, 0.22)",
           }}
         >
           <div className="comet comet-cyan">
@@ -92,14 +145,14 @@ export default function CosmicHeroShowcase() {
           className="orbit-track track-2"
           style={{
             position: "absolute",
-            top: "42%",
+            top: "50%",
             left: "50%",
-            width: "370px",
-            height: "260px",
+            width: "360px",
+            height: "250px",
             transform: "translate(-50%, -50%) rotate(34deg)",
             borderRadius: "50%",
-            border: "1.5px dashed rgba(216, 70, 239, 0.4)",
-            boxShadow: "0 0 25px rgba(216, 70, 239, 0.2)",
+            border: "1.5px dashed rgba(216, 70, 239, 0.45)",
+            boxShadow: "0 0 25px rgba(216, 70, 239, 0.22)",
           }}
         >
           <div className="comet comet-magenta">
@@ -113,13 +166,13 @@ export default function CosmicHeroShowcase() {
           className="orbit-track track-3"
           style={{
             position: "absolute",
-            top: "42%",
+            top: "50%",
             left: "50%",
-            width: "320px",
-            height: "170px",
+            width: "300px",
+            height: "160px",
             transform: "translate(-50%, -50%) rotate(-48deg)",
             borderRadius: "50%",
-            border: "1.5px dashed rgba(249, 115, 22, 0.45)",
+            border: "1.5px dashed rgba(249, 115, 22, 0.5)",
             boxShadow: "0 0 25px rgba(249, 115, 22, 0.25)",
           }}
         >
@@ -136,17 +189,18 @@ export default function CosmicHeroShowcase() {
         <div className="starlight star-4" />
       </div>
 
-      {/* PORTAL KOSMIK: MURNI FOTO ORGANIK TANPA CARD / TANPA BINGKAI KOTAK TEBAL */}
+      {/* 4. FOTO PROFIL BULAT DI TENGAH */}
       <div
         style={{
           position: "relative",
-          zIndex: 2,
-          width: 280,
-          height: 280,
+          zIndex: 3,
+          width: 250,
+          height: 250,
           borderRadius: "50%",
           padding: 3,
           background: "linear-gradient(135deg, #a855f7 0%, #38bdf8 50%, #f97316 100%)",
-          boxShadow: "0 0 45px rgba(168, 85, 247, 0.4), 0 0 30px rgba(56, 189, 248, 0.3)",
+          boxShadow:
+            "0 0 50px rgba(168, 85, 247, 0.5), 0 0 35px rgba(56, 189, 248, 0.35)",
         }}
       >
         <div
@@ -159,7 +213,6 @@ export default function CosmicHeroShowcase() {
             position: "relative",
           }}
         >
-          {/* FOTO AUTO-ROTATE */}
           <img
             key={currentPhoto.src}
             src={withBasePath(currentPhoto.src)}
@@ -177,47 +230,7 @@ export default function CosmicHeroShowcase() {
         </div>
       </div>
 
-      {/* NAMA BERSIH DI BAWAH FOTO (BEBAS CARD, BEBAS TEKS BERLEBIH) */}
-      <div
-        style={{
-          marginTop: 18,
-          textAlign: "center",
-          zIndex: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 4,
-        }}
-      >
-        <div
-          style={{
-            fontSize: "1.25rem",
-            fontWeight: 800,
-            color: "#ffffff",
-            letterSpacing: "-0.01em",
-            display: "flex",
-            alignItems: "center",
-            gap: 7,
-          }}
-        >
-          <span>Ricky Alfian Saputra</span>
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "#22c55e",
-              boxShadow: "0 0 10px #22c55e",
-              display: "inline-block",
-            }}
-          />
-        </div>
-        <div style={{ fontSize: "0.82rem", color: "#94a3b8", fontWeight: 500 }}>
-          Teknik Informatika · Cikarang, ID
-        </div>
-      </div>
-
-      {/* MINIMALIST DOTS SELECTOR (TANPA TEKS, HANYA AVATAR BULAT BERSIH) */}
+      {/* 5. MINIMALIST DOTS SELECTOR (TITIK AVATAR BERSIH) */}
       <div
         style={{
           marginTop: 14,
@@ -258,8 +271,71 @@ export default function CosmicHeroShowcase() {
         })}
       </div>
 
-      {/* CSS KEYFRAMES UNTUK KOMET & FADE */}
+      {/* CSS STYLING UNTUK BINTANG JATUH & KOMET */}
       <style>{`
+        /* SHOOTING STARS / BINTANG JATUH */
+        .shooting-star {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(-45deg, #ffffff, rgba(56, 189, 248, 0.8), rgba(0, 0, 255, 0));
+          border-radius: 999px;
+          filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.8));
+          transform: rotate(-38deg);
+          pointer-events: none;
+          opacity: 0;
+        }
+
+        .star-drop-1 {
+          top: 10%;
+          right: 15%;
+          width: 140px;
+          animation: meteorDrop 4.2s ease-in-out infinite;
+          animation-delay: 0.5s;
+        }
+
+        .star-drop-2 {
+          top: 30%;
+          right: 5%;
+          width: 110px;
+          animation: meteorDrop 5.5s ease-in-out infinite;
+          animation-delay: 2.2s;
+        }
+
+        .star-drop-3 {
+          top: 5%;
+          right: 35%;
+          width: 90px;
+          animation: meteorDrop 6s ease-in-out infinite;
+          animation-delay: 3.8s;
+        }
+
+        .star-drop-4 {
+          top: 25%;
+          left: 10%;
+          width: 120px;
+          animation: meteorDrop 4.8s ease-in-out infinite;
+          animation-delay: 1.4s;
+        }
+
+        @keyframes meteorDrop {
+          0% {
+            opacity: 0;
+            transform: rotate(-38deg) translate3d(0, 0, 0);
+          }
+          10% {
+            opacity: 1;
+          }
+          30% {
+            opacity: 0;
+            transform: rotate(-38deg) translate3d(-240px, 190px, 0);
+          }
+          100% {
+            opacity: 0;
+            transform: rotate(-38deg) translate3d(-240px, 190px, 0);
+          }
+        }
+
+        /* ORBIT REVOLUTION */
         .orbit-track {
           pointer-events: none;
         }
@@ -291,6 +367,7 @@ export default function CosmicHeroShowcase() {
           100% { transform: translate(-50%, -50%) rotate(-48deg) rotate(360deg); }
         }
 
+        /* COMETS */
         .comet {
           position: absolute;
           top: -5px;
