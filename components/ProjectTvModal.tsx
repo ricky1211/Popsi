@@ -17,6 +17,9 @@ import {
   Power,
   Radio,
   Share2,
+  Maximize2,
+  Eye,
+  X,
 } from "lucide-react";
 
 interface ProjectTvModalProps {
@@ -35,6 +38,14 @@ export default function ProjectTvModal({
   const [animStage, setAnimStage] = useState<"power-on" | "active" | "power-off">("power-on");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [scanlinesEnabled, setScanlinesEnabled] = useState(true);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [prevProjectId, setPrevProjectId] = useState<string | undefined>(project?.id);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  if (project?.id !== prevProjectId) {
+    setPrevProjectId(project?.id);
+    setActiveImageIndex(0);
+  }
 
   const currentIndex = project ? projects.findIndex((p) => p.id === project.id) : 0;
   const prevProject = projects[(currentIndex - 1 + projects.length) % projects.length];
@@ -382,58 +393,255 @@ export default function ProjectTvModal({
             }}
           >
             {/* Screen Picture */}
-            <div style={{ position: "relative", height: 260, overflow: "hidden" }}>
-              <img
-                src={project.image}
-                alt={project.title}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  filter: "brightness(0.85) contrast(1.15)",
-                }}
-              />
+            <div style={{ position: "relative", height: 260, overflow: "hidden", background: "#060810" }}>
+              {(() => {
+                const currentImage = project.gallery?.[activeImageIndex]?.image || project.image;
+                const currentImageTitle = project.gallery?.[activeImageIndex]?.title || project.title;
+                const currentBadge = project.gallery?.[activeImageIndex]?.badge || project.status;
+
+                return (
+                  <>
+                    <img
+                      key={currentImage}
+                      src={currentImage}
+                      alt={currentImageTitle}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        background: "#070a14",
+                        filter: "brightness(0.92) contrast(1.1)",
+                        cursor: "zoom-in",
+                        transition: "filter 0.3s ease",
+                      }}
+                      onClick={() => setIsZoomed(true)}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background: "linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.3) 60%, rgba(5,7,14,0.92) 100%)",
+                        pointerEvents: "none",
+                      }}
+                    />
+
+                    {/* HUD Screen Overlay Badges */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        left: 12,
+                        right: 12,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        pointerEvents: "none",
+                        zIndex: 7,
+                      }}
+                    >
+                      <div
+                        style={{
+                          background: "rgba(0,0,0,0.8)",
+                          backdropFilter: "blur(4px)",
+                          padding: "2px 7px",
+                          borderRadius: 4,
+                          fontSize: "0.68rem",
+                          color: "#38bdf8",
+                          fontFamily: "monospace",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ef4444", display: "inline-block" }} />
+                        LIVE [00:14:82]
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, pointerEvents: "auto" }}>
+                        <button
+                          onClick={() => setIsZoomed(true)}
+                          title="Perbesar Layar Penuh (Zoom High-Res)"
+                          style={{
+                            background: "rgba(0,0,0,0.75)",
+                            backdropFilter: "blur(4px)",
+                            border: "1px solid rgba(255,255,255,0.2)",
+                            color: "#ffffff",
+                            padding: "3px 8px",
+                            borderRadius: 4,
+                            fontSize: "0.65rem",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          <Maximize2 size={11} />
+                          <span>Zoom HD</span>
+                        </button>
+                        <div
+                          style={{
+                            background: "rgba(0,0,0,0.8)",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            fontSize: "0.68rem",
+                            color: project.color,
+                            fontFamily: "monospace",
+                            fontWeight: 700,
+                          }}
+                        >
+                          CH: {project.channel}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Title & Tagline On Screen */}
+                    <div style={{ position: "absolute", bottom: 10, left: 14, right: 14, pointerEvents: "none", zIndex: 7 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                        <span
+                          style={{
+                            background: project.color,
+                            color: "#ffffff",
+                            fontSize: "0.62rem",
+                            fontWeight: 700,
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {currentBadge}
+                        </span>
+                        {project.gallery && project.gallery.length > 1 && (
+                          <span
+                            style={{
+                              background: "rgba(255,255,255,0.15)",
+                              color: "#e2e8f0",
+                              fontSize: "0.62rem",
+                              fontWeight: 600,
+                              padding: "2px 6px",
+                              borderRadius: 4,
+                            }}
+                          >
+                            Modul {activeImageIndex + 1} dari {project.gallery.length}
+                          </span>
+                        )}
+                      </div>
+                      <h2 style={{ fontSize: "1.25rem", fontWeight: 700, margin: "2px 0", color: "#ffffff", lineHeight: 1.2 }}>
+                        {currentImageTitle}
+                      </h2>
+                      <p style={{ color: "#94a3b8", fontSize: "0.75rem", margin: 0, fontWeight: 500 }}>
+                        {project.subtitle}
+                      </p>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            {/* MULTI-MODULE SCREENSHOT SELECTOR (GALLERY STRIP) */}
+            {project.gallery && project.gallery.length > 1 && (
               <div
                 style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "linear-gradient(180deg, rgba(5,7,14,0.1) 0%, rgba(5,7,14,0.9) 100%)",
+                  padding: "8px 12px",
+                  background: "#080a14",
+                  borderTop: "1px solid #1a2034",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 6,
                 }}
-              />
-
-              {/* HUD Screen Overlay Badges */}
-              <div style={{ position: "absolute", top: 10, left: 12, right: 12, display: "flex", justifyContent: "space-between" }}>
-                <div style={{ background: "rgba(0,0,0,0.75)", padding: "2px 6px", borderRadius: 4, fontSize: "0.68rem", color: "#38bdf8", fontFamily: "monospace" }}>
-                  REC [00:14:82]
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span
+                    style={{
+                      fontSize: "0.62rem",
+                      color: "#94a3b8",
+                      fontWeight: 700,
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                  >
+                    <Eye size={11} style={{ color: project.color }} />
+                    MODUL TAMPILAN SISTEM ({project.gallery.length} SCREENSHOT)
+                  </span>
+                  <span style={{ fontSize: "0.62rem", color: project.color, fontWeight: 600 }}>
+                    Klik untuk ganti layar
+                  </span>
                 </div>
-                <div style={{ background: "rgba(0,0,0,0.75)", padding: "2px 6px", borderRadius: 4, fontSize: "0.68rem", color: project.color, fontFamily: "monospace", fontWeight: 700 }}>
-                  CH: {project.channel}
-                </div>
-              </div>
 
-              {/* Title & Tagline On Screen */}
-              <div style={{ position: "absolute", bottom: 12, left: 16, right: 16 }}>
-                <span
+                <div
                   style={{
-                    background: project.color,
-                    color: "#ffffff",
-                    fontSize: "0.65rem",
-                    fontWeight: 700,
-                    padding: "2px 6px",
-                    borderRadius: 4,
-                    textTransform: "uppercase",
+                    display: "flex",
+                    gap: 6,
+                    overflowX: "auto",
+                    paddingBottom: 2,
                   }}
+                  className="no-scrollbar"
                 >
-                  {project.status}
-                </span>
-                <h2 style={{ fontSize: "1.35rem", fontWeight: 700, margin: "6px 0 2px", color: "#ffffff", lineHeight: 1.2 }}>
-                  {project.title}
-                </h2>
-                <p style={{ color: "#94a3b8", fontSize: "0.78rem", margin: 0, fontWeight: 500 }}>
-                  {project.subtitle}
-                </p>
+                  {project.gallery.map((item, idx) => {
+                    const isSel = idx === activeImageIndex;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          if (soundEnabled) playTvSound("switch");
+                          setActiveImageIndex(idx);
+                        }}
+                        style={{
+                          flex: "0 0 auto",
+                          position: "relative",
+                          width: 84,
+                          height: 52,
+                          borderRadius: 6,
+                          overflow: "hidden",
+                          border: isSel ? `2px solid ${project.color}` : "1px solid #1e263d",
+                          boxShadow: isSel ? `0 0 12px ${project.color}77` : "none",
+                          cursor: "pointer",
+                          background: "#0c0f1d",
+                          padding: 0,
+                          transition: "all 0.2s ease",
+                          transform: isSel ? "scale(1.03)" : "scale(1)",
+                        }}
+                        title={item.title}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            opacity: isSel ? 1 : 0.65,
+                          }}
+                        />
+                        {item.badge && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              background: isSel ? project.color : "rgba(0,0,0,0.85)",
+                              color: "#ffffff",
+                              fontSize: "0.52rem",
+                              padding: "2px 2px",
+                              textAlign: "center",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Quick Telemetry Strip */}
             <div
@@ -622,6 +830,95 @@ export default function ProjectTvModal({
           </div>
         </div>
       </div>
+
+      {/* FULLSCREEN HIGH-RES IMAGE ZOOM OVERLAY */}
+      {isZoomed && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 10005,
+            background: "rgba(2, 4, 10, 0.96)",
+            backdropFilter: "blur(14px)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+          }}
+          onClick={() => setIsZoomed(false)}
+        >
+          <div
+            style={{
+              position: "relative",
+              maxWidth: "96vw",
+              maxHeight: "90vh",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 8,
+                color: "#ffffff",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span
+                  style={{
+                    background: project.color,
+                    padding: "2px 8px",
+                    borderRadius: 4,
+                    fontSize: "0.72rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  {project.gallery?.[activeImageIndex]?.badge || "HIGH RES"}
+                </span>
+                <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "#f8fafc" }}>
+                  {project.gallery?.[activeImageIndex]?.title || project.title}
+                </span>
+              </div>
+              <button
+                onClick={() => setIsZoomed(false)}
+                title="Tutup Zoom"
+                style={{
+                  background: "#dc2626",
+                  border: "none",
+                  color: "#ffffff",
+                  borderRadius: "50%",
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <img
+              src={project.gallery?.[activeImageIndex]?.image || project.image}
+              alt={project.gallery?.[activeImageIndex]?.title || project.title}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "82vh",
+                borderRadius: 8,
+                border: "1px solid #334155",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
+                objectFit: "contain",
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       <style>{`
         /* VORTEX SUCTION TUNNEL ANIMATION ( TERSUDOT MASUK ) */

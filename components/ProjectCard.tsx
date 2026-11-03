@@ -215,19 +215,41 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             ⚡ {project.metrics.value}
           </span>
 
-          <span
-            style={{
-              background: project.status === "Live" ? "#16a34a" : "#2563eb",
-              color: "#ffffff",
-              borderRadius: 4,
-              padding: "1px 6px",
-              fontSize: "0.65rem",
-              fontWeight: 700,
-              textTransform: "uppercase",
-            }}
-          >
-            {project.status}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            {project.gallery && project.gallery.length > 1 && (
+              <span
+                style={{
+                  background: "rgba(10, 15, 30, 0.9)",
+                  color: "#38bdf8",
+                  border: "1px solid rgba(56, 189, 248, 0.4)",
+                  borderRadius: 4,
+                  padding: "1px 5px",
+                  fontSize: "0.62rem",
+                  fontWeight: 700,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+              >
+                <span>📷</span>
+                <span>{project.gallery.length} screens</span>
+              </span>
+            )}
+
+            <span
+              style={{
+                background: project.status === "Live" ? "#16a34a" : "#2563eb",
+                color: "#ffffff",
+                borderRadius: 4,
+                padding: "1px 6px",
+                fontSize: "0.65rem",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              {project.status}
+            </span>
+          </div>
         </div>
 
         {/* HOVER QUICK PORTAL LAUNCH OVERLAY */}

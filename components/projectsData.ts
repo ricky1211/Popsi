@@ -1,3 +1,9 @@
+export interface ProjectGalleryItem {
+  title: string;
+  image: string;
+  badge?: string;
+}
+
 export interface ProjectItem {
   id: string;
   channel: string;
@@ -11,6 +17,7 @@ export interface ProjectItem {
   metrics: { label: string; value: string };
   tags: string[];
   image: string;
+  gallery?: ProjectGalleryItem[];
   link?: string;
   status: "Live" | "Enterprise" | "In Dev";
   color: string;
@@ -21,20 +28,42 @@ export const projectsData: ProjectItem[] = [
     id: "predictive-maintenance",
     channel: "CH 01",
     title: "Predictive Maintenance",
-    subtitle: "IoT Telemetry · ML Failure Prediction",
+    subtitle: "Astra MTM · IoT Telemetry & Sensor Alert",
     category: "Industrial & IoT",
-    desc: "Monitoring sensor getaran & suhu mesin via ML untuk mencegah kerusakan mendadak.",
-    problem: "Unplanned downtime mesin menyebabkan kerugian puluhan juta rupiah per jam.",
-    solution: "Model Random Forest & FFT memprediksi sisa umur mesin (RUL) sebelum rusak.",
+    desc: "Sistem pemantauan prediktif getaran (RMS vibration) & suhu bearing/bushing mesin Jingduan 630T real-time dengan ambang batas alarm ISO otomatis.",
+    problem: "Kerusakan mendadak pada bearing & bushing mesin press/forging beresiko fatal dan menghentikan seluruh lini produksi tanpa peringatan dini.",
+    solution: "Telemetri multi-sensor live (Mode TV & Web Dashboard), tren getaran sumbu Z, serta auto-alert saat suhu/getaran melewati set point bahaya.",
     highlights: [
-      "Vibration spectrum FFT",
-      "Alert bot Telegram real-time",
-      "Sensor MQTT < 300ms latency",
-      "InfluxDB & Grafana dashboard"
+      "Live TV Mode: Telemetri 6 titik sensor Jingduan 630T",
+      "Tren getaran sumbu Z Crown Frame & Suhu Bushing",
+      "Pengaturan Set Point Warning & Danger berbasis ISO",
+      "Alarm audio instan & notifikasi pop-up saat deviasi"
     ],
-    metrics: { label: "Downtime", value: "-38% Unplanned" },
-    tags: ["IoT ESP32", "Python ML", "FastAPI", "InfluxDB"],
-    image: "/projects/predictive-maintenance.jpg",
+    metrics: { label: "Telemetry Live", value: "Real-Time Sensor" },
+    tags: ["IoT Sensor", "Real-Time Telemetry", "ISO Vibration", "Dashboard TV"],
+    image: "/projects/maintenance/predictive-tv-monitoring.png",
+    gallery: [
+      {
+        title: "Monitoring Real-Time (Mode TV JINGDUAN-630T)",
+        image: "/projects/maintenance/predictive-tv-monitoring.png",
+        badge: "Live Telemetry"
+      },
+      {
+        title: "Dashboard Sensor (Tren Suhu & Getaran RMS)",
+        image: "/projects/maintenance/predictive-sensor-dashboard.png",
+        badge: "Sensor Analytics"
+      },
+      {
+        title: "Pengaturan Set Point Warning & Danger Sensor",
+        image: "/projects/maintenance/predictive-setpoint-config.png",
+        badge: "ISO Threshold"
+      },
+      {
+        title: "Portal Maintenance Apps Astra MTM",
+        image: "/projects/maintenance/mtm-portal-hub.png",
+        badge: "Portal Hub"
+      }
+    ],
     status: "Enterprise",
     color: "#f97316"
   },
@@ -42,20 +71,53 @@ export const projectsData: ProjectItem[] = [
     id: "preventive-maintenance",
     channel: "CH 02",
     title: "Preventive Maintenance",
-    subtitle: "Digital Work Orders · MTBF / MTTR",
+    subtitle: "Astra MTM · PM Schedule & Machine Accuracy",
     category: "Industrial & IoT",
-    desc: "Digitalisasi checklist inspeksi fisik & otomasi jadwal servis mesin berkala.",
-    problem: "Servis mesin sering terlewat akibat pencatatan manual kertas yang berserakan.",
-    solution: "Verifikasi fisik via QR-Code mesin dan perhitungan otomatis MTBF & MTTR.",
+    desc: "Platform manajemen perawatan mesin berkala (PM), monitoring kepatuhan 96%, kalender jadwal shift, inspeksi akurasi geometri, hingga pelacakan overhaul mesin berat.",
+    problem: "Jadwal servis berkala 90 unit mesin sering tercecer, keterlambatan identifikasi deviasi akurasi, dan minimnya rekam jejak overhaul mesin.",
+    solution: "Dashboard PM & Accuracy terpusat dengan kalender eksekusi dinamis, evaluasi akurasi CNC/Forging, Pareto Abnormality PICA, dan progress overhaul.",
     highlights: [
-      "QR-code tag verifikasi teknisi",
-      "Auto calendar PM generator",
-      "Kalkulasi MTBF/MTTR live",
-      "Logbook digital export PDF"
+      "Dashboard PM 96.0% Achieved & 94.5% Availability",
+      "Kalender jadwal PM bulanan interaktif (420 Plan)",
+      "Machine Accuracy Check standar deviasi geometris",
+      "Pareto Abnormality & Breakdown Management (PICA)",
+      "Pelacakan Overhaul Mesin Berat (Spindle & Linier)"
     ],
-    metrics: { label: "Kepatuhan PM", value: "99.4% On-Time" },
-    tags: ["Next.js", "PostgreSQL", "Node.js", "Docker"],
-    image: "/projects/preventive-maintenance.jpg",
+    metrics: { label: "Pencapaian PM", value: "96.0% (Avail 94.5%)" },
+    tags: ["PM Scheduling", "Machine Accuracy", "Pareto PICA", "Overhaul Tracking"],
+    image: "/projects/maintenance/preventive-pm-dashboard.png",
+    gallery: [
+      {
+        title: "Dashboard PM & Machine Accuracy (90 Unit)",
+        image: "/projects/maintenance/preventive-pm-dashboard.png",
+        badge: "Executive PM"
+      },
+      {
+        title: "Kalender Jadwal PM & Eksekusi Shift",
+        image: "/projects/maintenance/preventive-calendar-schedule.png",
+        badge: "Calendar PM"
+      },
+      {
+        title: "Machine Accuracy Check & Standar Toleransi",
+        image: "/projects/maintenance/preventive-accuracy-check.png",
+        badge: "Precision Check"
+      },
+      {
+        title: "Abnormality & Breakdown Pareto (PICA)",
+        image: "/projects/maintenance/preventive-abnormality-pareto.png",
+        badge: "Pareto & RCA"
+      },
+      {
+        title: "Overhaul Schedule & Scope of Work Tracking",
+        image: "/projects/maintenance/preventive-overhaul-tracking.png",
+        badge: "Overhaul"
+      },
+      {
+        title: "Portal Maintenance Apps Astra MTM",
+        image: "/projects/maintenance/mtm-portal-hub.png",
+        badge: "Portal Hub"
+      }
+    ],
     status: "Enterprise",
     color: "#0284c7"
   },
@@ -84,20 +146,63 @@ export const projectsData: ProjectItem[] = [
     id: "claim-customers",
     channel: "CH 04",
     title: "Quality Claim Customers",
-    subtitle: "Complaint Workflow · Root Cause Analysis",
+    subtitle: "Astra MTM · Customer Complaint & Defect Resolution",
     category: "Web & App",
-    desc: "Portal terpadu penanganan komplain kualitas customer dengan alur investigasi 8D.",
-    problem: "Penanganan klaim lambat di email membuat customer kecewa dan defect berulang.",
-    solution: "Sistem tiket klaim terstandarisasi, countdown SLA, dan generator 8D Report.",
+    desc: "Sistem pelacakan dan resolusi komplain mutu pelanggan Astra MTM (AHM, ADM, Hino, Toyota) dengan analisa akar masalah (Root Cause), Pareto cacat produk, dan verifikasi tindakan perbaikan.",
+    problem: "Penanganan komplain pelanggan lambat dimonitor, status FMEA/ECN/C.Plan tidak terpantau transparan, dan waktu tanggap melewati batas SLA.",
+    solution: "Dashboard QA/QC komprehensif dengan metrik resolusi real-time, register komplain otomatis, matriks harian, dan integrasi persetujuan dokumen mutu.",
     highlights: [
-      "Generator 8D Report otomatis",
-      "Fishbone & 5-Why digital",
-      "Upload bukti foto & video cacat",
-      "SLA alert & counter kompensasi"
+      "Dashboard komplain pelanggan real-time (AHM, ADM, Hino, Toyota)",
+      "Pareto analisis defect dominan (Karat, Run-out, Crack Forging)",
+      "Form input terstandarisasi dengan Root Cause (DM & DO)",
+      "Tracking status dokumen mutu (FMEA, ECN, C.Plan, C.Sheet, MPS)",
+      "Matriks komplain harian & rekap laporan tahunan otomatis"
     ],
-    metrics: { label: "Resolusi Klaim", value: "3x Lebih Cepat" },
-    tags: ["React", "Express.js", "PostgreSQL", "Tailwind"],
-    image: "/projects/claim-customers.jpg",
+    metrics: { label: "Resolusi Kasus", value: "66.7% Closed (2.9 Hari)" },
+    tags: ["Quality Assurance", "Customer Complaint", "Pareto Defect", "FMEA/ECN Tracking"],
+    image: "/projects/claim-customers/dashboard-komplain.png",
+    gallery: [
+      {
+        title: "Dashboard Utama Komplain Pelanggan (Astra MTM)",
+        image: "/projects/claim-customers/dashboard-komplain.png",
+        badge: "Executive QA"
+      },
+      {
+        title: "Portal Login Quality Complaint System",
+        image: "/projects/claim-customers/login-system.png",
+        badge: "Login Auth"
+      },
+      {
+        title: "Form Input Registrasi Komplain & Root Cause",
+        image: "/projects/claim-customers/form-input-claim.png",
+        badge: "Input Claim"
+      },
+      {
+        title: "Daftar Komplain & Otorisasi Approval",
+        image: "/projects/claim-customers/daftar-komplain-approval.png",
+        badge: "Approval QA"
+      },
+      {
+        title: "Database Arsip & Status Klaim Pelanggan",
+        image: "/projects/claim-customers/database-claim.png",
+        badge: "Database"
+      },
+      {
+        title: "Matriks Komplain Harian & Trend Defect",
+        image: "/projects/claim-customers/matriks-komplain-harian.png",
+        badge: "Matriks Harian"
+      },
+      {
+        title: "Laporan Rekap Bulanan & Tahunan",
+        image: "/projects/claim-customers/laporan-tahunan.png",
+        badge: "Laporan Tahunan"
+      },
+      {
+        title: "Master Data Customer & Nomor Part",
+        image: "/projects/claim-customers/master-customer-part.png",
+        badge: "Master Part"
+      }
+    ],
     status: "Enterprise",
     color: "#8b5cf6"
   },
