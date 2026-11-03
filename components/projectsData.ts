@@ -173,34 +173,34 @@ export const projectsData: ProjectItem[] = [
         badge: "Login Auth"
       },
       {
-        title: "Form Input Registrasi Komplain & Root Cause",
+        title: "Form Input Registrasi Komplain & Root Cause Analysis",
         image: "/projects/claim-customers/form-input-claim.png",
         badge: "Input Claim"
       },
       {
-        title: "Daftar Komplain & Otorisasi Approval",
+        title: "Daftar Komplain & Otorisasi Approval QA",
         image: "/projects/claim-customers/daftar-komplain-approval.png",
         badge: "Approval QA"
       },
       {
-        title: "Database Arsip & Status Klaim Pelanggan",
-        image: "/projects/claim-customers/database-claim.png",
-        badge: "Database"
+        title: "Database Claim: Nilai Klaim FG (Rp 215,7 Juta)",
+        image: "/projects/claim-customers/database-claim-nilai.png",
+        badge: "Nilai Klaim"
       },
       {
-        title: "Matriks Komplain Harian & Trend Defect",
+        title: "Matriks Komplain Harian & Reject Monitoring",
         image: "/projects/claim-customers/matriks-komplain-harian.png",
         badge: "Matriks Harian"
       },
       {
-        title: "Laporan Rekap Bulanan & Tahunan",
-        image: "/projects/claim-customers/laporan-tahunan.png",
-        badge: "Laporan Tahunan"
+        title: "Matriks Daftar OEM Pelanggan Otomotif",
+        image: "/projects/claim-customers/matriks-oem-pelanggan.png",
+        badge: "OEM Pelanggan"
       },
       {
-        title: "Master Data Customer & Nomor Part",
-        image: "/projects/claim-customers/master-customer-part.png",
-        badge: "Master Part"
+        title: "Laporan Bulanan & Resume Komplain Pelanggan",
+        image: "/projects/claim-customers/laporan-resume-komplain.png",
+        badge: "Resume Laporan"
       }
     ],
     status: "Enterprise",
