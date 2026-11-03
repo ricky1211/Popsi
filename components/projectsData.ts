@@ -124,10 +124,10 @@ export const projectsData: ProjectItem[] = [
   {
     id: "andon-quality",
     channel: "CH 03",
-    title: "Andon Quality Display",
-    subtitle: "Astra MTM · Quality Control Shopfloor Dashboard",
+    title: "Andon Quality Client",
+    subtitle: "Astra MTM · Real-Time Quality Control & Line Status",
     category: "Industrial & IoT",
-    desc: "Dashboard visual monitoring status lini produksi (40 Line: RUN, IDLE, STOP) real-time di lantai pabrik Astra MTM dengan peringatan instan saat terjadi defect.",
+    desc: "Sistem client monitoring status 40 lini produksi manufaktur (24 RUN · 10 IDLE · 6 STOP) secara real-time di lantai pabrik Astra MTM dengan peringatan instan saat terjadi defect reject.",
     problem: "Keterlambatan respon leader/supervisor saat terjadi breakdown atau defect berujung pada lolosnya produk reject dan kerugian line stop.",
     solution: "Sistem AndonQC Client terpusat dengan filter area (MPI, Visual, Assy, Machining, Forging), visualisasi composite status, dan deteksi abnormalitas cepat.",
     highlights: [
@@ -138,11 +138,11 @@ export const projectsData: ProjectItem[] = [
     ],
     metrics: { label: "Monitoring Line", value: "40 Line Aktif" },
     tags: ["Andon QC", "Shopfloor Alert", "Industrial Dashboard", "Line Control"],
-    image: "/projects/andon-quality.png",
+    image: "/projects/andon-quality/andon-qc-client.png",
     gallery: [
       {
-        title: "AndonQC Client - Quality Control Dashboard (Astra MTM)",
-        image: "/projects/andon-quality.png",
+        title: "AndonQC Client - Monitoring 40 Lini Produksi Astra MTM",
+        image: "/projects/andon-quality/andon-qc-client.png",
         badge: "Andon Client"
       }
     ],
