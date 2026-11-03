@@ -7,18 +7,11 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  Tv,
   Volume2,
   VolumeX,
   Sparkles,
-  CheckCircle2,
-  AlertCircle,
-  Lightbulb,
   Power,
-  Radio,
-  Share2,
   Maximize2,
-  Eye,
   X,
 } from "lucide-react";
 
@@ -42,6 +35,7 @@ export default function ProjectTvModal({
   const [prevProjectId, setPrevProjectId] = useState<string | undefined>(project?.id);
   const [isZoomed, setIsZoomed] = useState(false);
 
+  // Sync state reset when project prop changes without triggering cascading effect renders
   if (project?.id !== prevProjectId) {
     setPrevProjectId(project?.id);
     setActiveImageIndex(0);
@@ -85,7 +79,11 @@ export default function ProjectTvModal({
     if (!project) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        handleClose();
+        if (isZoomed) {
+          setIsZoomed(false);
+        } else {
+          handleClose();
+        }
       } else if (e.key === "ArrowLeft") {
         navigateChannel("prev");
       } else if (e.key === "ArrowRight") {
@@ -94,9 +92,13 @@ export default function ProjectTvModal({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [project, handleClose, navigateChannel]);
+  }, [project, handleClose, navigateChannel, isZoomed]);
 
   if (!project) return null;
+
+  const galleryList = project.gallery && project.gallery.length > 0 ? project.gallery : null;
+  const currentImage = galleryList ? galleryList[activeImageIndex]?.image || project.image : project.image;
+  const currentImageTitle = galleryList ? galleryList[activeImageIndex]?.title || project.title : project.title;
 
   return (
     <div
@@ -107,8 +109,8 @@ export default function ProjectTvModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "rgba(3, 5, 14, 0.95)",
-        backdropFilter: "blur(22px)",
+        background: "rgba(3, 5, 12, 0.94)",
+        backdropFilter: "blur(20px)",
         padding: "16px",
         overflowY: "auto",
         perspective: "1200px",
@@ -117,7 +119,7 @@ export default function ProjectTvModal({
         if (e.target === e.currentTarget) handleClose();
       }}
     >
-      {/* FULLSCREEN VORTEX SUCTION TUNNEL ( هنگام Tersedot ) */}
+      {/* FULLSCREEN VORTEX SUCTION TUNNEL */}
       {animStage === "power-on" && (
         <div
           style={{
@@ -131,12 +133,9 @@ export default function ProjectTvModal({
             overflow: "hidden",
           }}
         >
-          {/* Suction Tunnel Rings */}
           <div className="vortex-ring ring-1" style={{ borderColor: project.color }} />
           <div className="vortex-ring ring-2" style={{ borderColor: "#38bdf8" }} />
           <div className="vortex-ring ring-3" style={{ borderColor: "#ffffff" }} />
-
-          {/* Central Singularity Beam */}
           <div
             style={{
               position: "absolute",
@@ -144,12 +143,10 @@ export default function ProjectTvModal({
               height: 18,
               borderRadius: "50%",
               background: "#ffffff",
-              boxShadow: `0 0 60px 25px #ffffff, 0 0 120px 50px ${project.color}`,
+              boxShadow: `0 0 50px #ffffff, 0 0 100px ${project.color}`,
               animation: "suctionSingularity 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
           />
-
-          {/* Radial Speed Warp Lines */}
           <div
             className="vortex-warp-burst"
             style={{
@@ -159,7 +156,7 @@ export default function ProjectTvModal({
         </div>
       )}
 
-      {/* REVERSE SUCTION BLACK HOLE COLLAPSE ( When closing ) */}
+      {/* REVERSE SUCTION BLACK HOLE COLLAPSE */}
       {animStage === "power-off" && (
         <div
           style={{
@@ -185,16 +182,16 @@ export default function ProjectTvModal({
         </div>
       )}
 
-      {/* TV CYBER CONSOLE HOUSING (SUCKED IN FROM VORTEX) */}
+      {/* RETRO TELEVISION CHASSIS (AUTHENTIC CRT CABINET) */}
       <div
         className={`tv-chassis ${animStage === "power-on" ? "tv-suction-enter" : animStage === "power-off" ? "tv-suction-exit" : "tv-stable"}`}
         style={{
           width: "100%",
-          maxWidth: 960,
-          background: "linear-gradient(160deg, #121422 0%, #0b0d18 100%)",
-          borderRadius: 22,
-          border: `2px solid ${project.color}66`,
-          boxShadow: `0 20px 70px rgba(0,0,0,0.9), 0 0 45px ${project.color}35`,
+          maxWidth: 1040,
+          background: "linear-gradient(175deg, #181b28 0%, #0e101a 50%, #080a12 100%)",
+          borderRadius: 26,
+          border: `2px solid ${project.color}77`,
+          boxShadow: `0 25px 80px rgba(0,0,0,0.95), 0 0 50px ${project.color}33, inset 0 1px 1px rgba(255,255,255,0.15)`,
           display: "flex",
           flexDirection: "column",
           position: "relative",
@@ -204,382 +201,239 @@ export default function ProjectTvModal({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* RETRO TV TOP DECK */}
+        {/* RETRO TV TOP BEZEL: ANTENNA PIVOT & BRAND BADGE */}
         <div
           style={{
-            padding: "10px 18px",
-            background: "rgba(10, 12, 20, 0.98)",
-            borderBottom: "1px solid #1f2338",
+            padding: "8px 20px",
+            background: "linear-gradient(180deg, #222638 0%, #161926 100%)",
+            borderBottom: "1px solid #2a3148",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 8,
           }}
         >
-          {/* Channel Dial & Status */}
+          {/* Brand Badge Vintage */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 5,
-                background: project.color + "25",
-                border: `1px solid ${project.color}88`,
-                borderRadius: 6,
-                padding: "3px 8px",
-                fontSize: "0.74rem",
-                fontWeight: 800,
-                color: project.color,
-                fontFamily: "monospace",
-              }}
-            >
-              <Tv size={12} />
-              <span>{project.channel}</span>
+            <div style={{ display: "flex", gap: 4 }}>
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#ef4444" }} />
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#f59e0b" }} />
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e" }} />
             </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.72rem", color: "#94a3b8" }}>
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "#22c55e",
-                  display: "inline-block",
-                  boxShadow: "0 0 8px #22c55e",
-                  animation: "pulse 1.5s infinite",
-                }}
-              />
-              <span style={{ fontWeight: 600, fontFamily: "monospace", letterSpacing: "0.04em" }}>
-                WARP IN · 4K CRT
-              </span>
-            </div>
-
             <span
               style={{
-                background: "#1e2438",
+                fontFamily: "monospace",
+                fontSize: "0.72rem",
+                letterSpacing: "0.14em",
+                fontWeight: 800,
                 color: "#94a3b8",
-                padding: "2px 6px",
-                borderRadius: 4,
-                fontSize: "0.68rem",
-                fontWeight: 600,
+                textTransform: "uppercase",
               }}
             >
-              {project.category}
+              TRINITRON CRT · POPSI-VISION 4K
             </span>
           </div>
 
-          {/* Controls: Audio, Scanlines, Switchers, Power Off */}
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <button
-              onClick={() => navigateChannel("prev")}
-              title="Channel Sebelumnya"
-              style={{
-                background: "#191d2e",
-                border: "1px solid #2e3550",
-                color: "#cbd5e1",
-                borderRadius: 6,
-                padding: "4px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 3,
-                fontSize: "0.72rem",
-                cursor: "pointer",
-              }}
-            >
-              <ChevronLeft size={13} />
-              <span className="hidden-mobile">Prev</span>
-            </button>
-
-            <button
-              onClick={() => navigateChannel("next")}
-              title="Channel Berikutnya"
-              style={{
-                background: "#191d2e",
-                border: "1px solid #2e3550",
-                color: "#cbd5e1",
-                borderRadius: 6,
-                padding: "4px 8px",
-                display: "flex",
-                alignItems: "center",
-                gap: 3,
-                fontSize: "0.72rem",
-                cursor: "pointer",
-              }}
-            >
-              <span className="hidden-mobile">Next</span>
-              <ChevronRight size={13} />
-            </button>
-
-            <button
-              onClick={() => setScanlinesEnabled(!scanlinesEnabled)}
-              title="Toggle Garis CRT"
-              style={{
-                background: scanlinesEnabled ? "#1e293b" : "#141724",
-                border: `1px solid ${scanlinesEnabled ? "#38bdf8" : "#2a3048"}`,
-                color: scanlinesEnabled ? "#38bdf8" : "#64748b",
-                borderRadius: 6,
-                padding: "4px 7px",
-                fontSize: "0.7rem",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-              }}
-            >
-              <Sparkles size={11} />
-              <span className="hidden-mobile">CRT</span>
-            </button>
-
-            <button
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              title="Toggle Audio TV"
-              style={{
-                background: "#191d2e",
-                border: "1px solid #2e3550",
-                color: soundEnabled ? "#22c55e" : "#64748b",
-                borderRadius: 6,
-                padding: "4px 7px",
-                cursor: "pointer",
-              }}
-            >
-              {soundEnabled ? <Volume2 size={13} /> : <VolumeX size={13} />}
-            </button>
-
-            <button
-              onClick={handleClose}
-              title="Matikan TV & Keluar (Esc)"
-              style={{
-                background: "#dc2626",
-                border: "none",
-                color: "#ffffff",
-                borderRadius: 6,
-                padding: "4px 10px",
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                fontSize: "0.74rem",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              <Power size={12} />
-              <span>Tutup TV</span>
-            </button>
-          </div>
-        </div>
-
-        {/* TV MAIN INTERACTIVE CONSOLE (COMPACT DUAL-PANE) */}
-        <div
-          className="tv-modal-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr 1fr",
-            position: "relative",
-            background: "#080a12",
-          }}
-        >
-          {scanlinesEnabled && <div className="crt-scanline-layer" />}
-          <div className="crt-vignette-layer" />
-
-          {/* LEFT: CRT SCREEN WITH TV GLOW & TELEMETRY */}
-          <div
+          {/* Quick Exit / ESC button */}
+          <button
+            onClick={handleClose}
+            title="Matikan TV (Esc)"
             style={{
-              position: "relative",
-              borderRight: "1px solid #1f2338",
+              background: "#dc2626",
+              border: "1px solid #ef4444",
+              color: "#ffffff",
+              borderRadius: 6,
+              padding: "4px 10px",
               display: "flex",
-              flexDirection: "column",
-              background: "#05070e",
+              alignItems: "center",
+              gap: 5,
+              fontSize: "0.72rem",
+              fontWeight: 800,
+              cursor: "pointer",
+              boxShadow: "0 0 12px rgba(220, 38, 38, 0.4)",
             }}
           >
-            {/* Screen Picture */}
-            <div style={{ position: "relative", height: 260, overflow: "hidden", background: "#060810" }}>
-              {(() => {
-                const currentImage = project.gallery?.[activeImageIndex]?.image || project.image;
-                const currentImageTitle = project.gallery?.[activeImageIndex]?.title || project.title;
-                const currentBadge = project.gallery?.[activeImageIndex]?.badge || project.status;
+            <Power size={12} />
+            <span>POWER OFF</span>
+          </button>
+        </div>
 
-                return (
-                  <>
-                    <img
-                      key={currentImage}
-                      src={currentImage}
-                      alt={currentImageTitle}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                        background: "#070a14",
-                        filter: "brightness(0.92) contrast(1.1)",
-                        cursor: "zoom-in",
-                        transition: "filter 0.3s ease",
-                      }}
-                      onClick={() => setIsZoomed(true)}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        background: "linear-gradient(180deg, rgba(5,7,14,0.05) 0%, rgba(5,7,14,0.3) 60%, rgba(5,7,14,0.92) 100%)",
-                        pointerEvents: "none",
-                      }}
-                    />
+        {/* TV MAIN INTERFACE: CRT SCREEN TUBE (LEFT) + RETRO PHYSICAL CONTROL PANEL (RIGHT) */}
+        <div
+          className="tv-layout-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 140px",
+            gap: 0,
+            background: "#080a14",
+            position: "relative",
+          }}
+        >
+          {/* LEFT: THE CLEAR CRT SCREEN TUBE (100% CLEAR - ZERO TEXT OVERLAY) */}
+          <div
+            style={{
+              padding: "16px",
+              display: "flex",
+              flexDirection: "column",
+              background: "#070912",
+              borderRight: "2px solid #1c2236",
+            }}
+          >
+            {/* Curved CRT Screen Tube Container */}
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                height: 480,
+                background: "#000000",
+                borderRadius: 20,
+                overflow: "hidden",
+                border: "4px solid #191e30",
+                boxShadow: "inset 0 0 45px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 0, 0, 0.8)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "zoom-in",
+              }}
+              onClick={() => setIsZoomed(true)}
+              title="Klik layar untuk memperbesar tampilan (Zoom HD)"
+            >
+              {/* Scanline CRT Phosphor Layer */}
+              {scanlinesEnabled && <div className="crt-scanline-layer" />}
+              {/* Glass Tube Curvature & Reflection */}
+              <div className="crt-glass-reflection" />
+              <div className="crt-vignette-layer" />
 
-                    {/* HUD Screen Overlay Badges */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 10,
-                        left: 12,
-                        right: 12,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        pointerEvents: "none",
-                        zIndex: 7,
-                      }}
-                    >
-                      <div
-                        style={{
-                          background: "rgba(0,0,0,0.8)",
-                          backdropFilter: "blur(4px)",
-                          padding: "2px 7px",
-                          borderRadius: 4,
-                          fontSize: "0.68rem",
-                          color: "#38bdf8",
-                          fontFamily: "monospace",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 4,
-                        }}
-                      >
-                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ef4444", display: "inline-block" }} />
-                        LIVE [00:14:82]
-                      </div>
+              {/* PURE CLEAR SCREENSHOT IMAGE (NO TEXT, NO DARKENING GRADIENT) */}
+              <img
+                key={currentImage}
+                src={currentImage}
+                alt={currentImageTitle}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  background: "#020308",
+                  filter: "brightness(0.98) contrast(1.04)",
+                  display: "block",
+                  position: "relative",
+                  zIndex: 2,
+                }}
+              />
 
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, pointerEvents: "auto" }}>
-                        <button
-                          onClick={() => setIsZoomed(true)}
-                          title="Perbesar Layar Penuh (Zoom High-Res)"
-                          style={{
-                            background: "rgba(0,0,0,0.75)",
-                            backdropFilter: "blur(4px)",
-                            border: "1px solid rgba(255,255,255,0.2)",
-                            color: "#ffffff",
-                            padding: "3px 8px",
-                            borderRadius: 4,
-                            fontSize: "0.65rem",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4,
-                          }}
-                        >
-                          <Maximize2 size={11} />
-                          <span>Zoom HD</span>
-                        </button>
-                        <div
-                          style={{
-                            background: "rgba(0,0,0,0.8)",
-                            padding: "2px 6px",
-                            borderRadius: 4,
-                            fontSize: "0.68rem",
-                            color: project.color,
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                          }}
-                        >
-                          CH: {project.channel}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Title & Tagline On Screen */}
-                    <div style={{ position: "absolute", bottom: 10, left: 14, right: 14, pointerEvents: "none", zIndex: 7 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                        <span
-                          style={{
-                            background: project.color,
-                            color: "#ffffff",
-                            fontSize: "0.62rem",
-                            fontWeight: 700,
-                            padding: "2px 6px",
-                            borderRadius: 4,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {currentBadge}
-                        </span>
-                        {project.gallery && project.gallery.length > 1 && (
-                          <span
-                            style={{
-                              background: "rgba(255,255,255,0.15)",
-                              color: "#e2e8f0",
-                              fontSize: "0.62rem",
-                              fontWeight: 600,
-                              padding: "2px 6px",
-                              borderRadius: 4,
-                            }}
-                          >
-                            Modul {activeImageIndex + 1} dari {project.gallery.length}
-                          </span>
-                        )}
-                      </div>
-                      <h2 style={{ fontSize: "1.25rem", fontWeight: 700, margin: "2px 0", color: "#ffffff", lineHeight: 1.2 }}>
-                        {currentImageTitle}
-                      </h2>
-                      <p style={{ color: "#94a3b8", fontSize: "0.75rem", margin: 0, fontWeight: 500 }}>
-                        {project.subtitle}
-                      </p>
-                    </div>
-                  </>
-                );
-              })()}
-            </div>
-
-            {/* MULTI-MODULE SCREENSHOT SELECTOR (GALLERY STRIP) */}
-            {project.gallery && project.gallery.length > 1 && (
+              {/* Minimal CRT Phosphor OSD (Top Right Corner - Unobtrusive) */}
               <div
                 style={{
-                  padding: "8px 12px",
-                  background: "#080a14",
-                  borderTop: "1px solid #1a2034",
+                  position: "absolute",
+                  top: 12,
+                  right: 14,
+                  zIndex: 10,
                   display: "flex",
-                  flexDirection: "column",
+                  alignItems: "center",
                   gap: 6,
+                  pointerEvents: "none",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span
-                    style={{
-                      fontSize: "0.62rem",
-                      color: "#94a3b8",
-                      fontWeight: 700,
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 4,
-                    }}
-                  >
-                    <Eye size={11} style={{ color: project.color }} />
-                    MODUL TAMPILAN SISTEM ({project.gallery.length} SCREENSHOT)
-                  </span>
-                  <span style={{ fontSize: "0.62rem", color: project.color, fontWeight: 600 }}>
-                    Klik untuk ganti layar
-                  </span>
-                </div>
-
                 <div
                   style={{
-                    display: "flex",
-                    gap: 6,
-                    overflowX: "auto",
-                    paddingBottom: 2,
+                    background: "rgba(0, 0, 0, 0.75)",
+                    border: `1px solid ${project.color}66`,
+                    color: project.color,
+                    borderRadius: 4,
+                    padding: "2px 7px",
+                    fontFamily: "monospace",
+                    fontSize: "0.7rem",
+                    fontWeight: 800,
+                    letterSpacing: "0.08em",
+                    boxShadow: `0 0 10px ${project.color}44`,
+                    textShadow: `0 0 6px ${project.color}`,
                   }}
-                  className="no-scrollbar"
                 >
-                  {project.gallery.map((item, idx) => {
+                  {project.channel}
+                </div>
+                {galleryList && (
+                  <div
+                    style={{
+                      background: "rgba(0, 0, 0, 0.75)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "#38bdf8",
+                      borderRadius: 4,
+                      padding: "2px 6px",
+                      fontFamily: "monospace",
+                      fontSize: "0.68rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    PROG {activeImageIndex + 1}/{galleryList.length}
+                  </div>
+                )}
+              </div>
+
+              {/* Live Signal Indicator (Top Left Corner) */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 12,
+                  left: 14,
+                  zIndex: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                  background: "rgba(0, 0, 0, 0.75)",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  borderRadius: 4,
+                  padding: "2px 7px",
+                  fontSize: "0.65rem",
+                  fontFamily: "monospace",
+                  color: "#22c55e",
+                  fontWeight: 700,
+                  pointerEvents: "none",
+                }}
+              >
+                <span
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: "#22c55e",
+                    boxShadow: "0 0 6px #22c55e",
+                  }}
+                />
+                LIVE BROADCAST
+              </div>
+            </div>
+
+            {/* TV CHANNEL / PROGRAM SWITCHER PRESET (BELOW THE CRT TUBE) */}
+            {galleryList && galleryList.length > 1 && (
+              <div
+                style={{
+                  marginTop: 12,
+                  padding: "10px 14px",
+                  background: "#0c0f1d",
+                  borderRadius: 12,
+                  border: "1px solid #1c223a",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  overflowX: "auto",
+                }}
+                className="no-scrollbar"
+              >
+                <span
+                  style={{
+                    fontSize: "0.65rem",
+                    fontWeight: 800,
+                    color: "#94a3b8",
+                    letterSpacing: "0.08em",
+                    fontFamily: "monospace",
+                    whiteSpace: "nowrap",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  PROGRAM ACARA:
+                </span>
+
+                <div style={{ display: "flex", gap: 6, flex: 1, overflowX: "auto" }} className="no-scrollbar">
+                  {galleryList.map((item, idx) => {
                     const isSel = idx === activeImageIndex;
                     return (
                       <button
@@ -589,53 +443,32 @@ export default function ProjectTvModal({
                           setActiveImageIndex(idx);
                         }}
                         style={{
-                          flex: "0 0 auto",
-                          position: "relative",
-                          width: 84,
-                          height: 52,
+                          background: isSel ? project.color : "#141829",
+                          color: isSel ? "#ffffff" : "#cbd5e1",
+                          border: isSel ? `1px solid ${project.color}` : "1px solid #232a42",
                           borderRadius: 6,
-                          overflow: "hidden",
-                          border: isSel ? `2px solid ${project.color}` : "1px solid #1e263d",
-                          boxShadow: isSel ? `0 0 12px ${project.color}77` : "none",
+                          padding: "5px 10px",
+                          fontSize: "0.72rem",
+                          fontWeight: isSel ? 800 : 600,
                           cursor: "pointer",
-                          background: "#0c0f1d",
-                          padding: 0,
-                          transition: "all 0.2s ease",
-                          transform: isSel ? "scale(1.03)" : "scale(1)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                          whiteSpace: "nowrap",
+                          boxShadow: isSel ? `0 0 14px ${project.color}66` : "none",
+                          transition: "all 0.18s ease",
                         }}
-                        title={item.title}
                       >
-                        <img
-                          src={item.image}
-                          alt={item.title}
+                        <span
                           style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            opacity: isSel ? 1 : 0.65,
+                            fontFamily: "monospace",
+                            fontSize: "0.65rem",
+                            opacity: isSel ? 1 : 0.6,
                           }}
-                        />
-                        {item.badge && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              background: isSel ? project.color : "rgba(0,0,0,0.85)",
-                              color: "#ffffff",
-                              fontSize: "0.52rem",
-                              padding: "2px 2px",
-                              textAlign: "center",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              fontWeight: 700,
-                            }}
-                          >
-                            {item.badge}
-                          </span>
-                        )}
+                        >
+                          P-{String(idx + 1).padStart(2, "0")}
+                        </span>
+                        <span>{item.badge || item.title}</span>
                       </button>
                     );
                   })}
@@ -643,195 +476,286 @@ export default function ProjectTvModal({
               </div>
             )}
 
-            {/* Quick Telemetry Strip */}
+            {/* MINIMAL ONE-LINE TV OSD BAR (BOTTOM OF SCREEN) */}
             <div
               style={{
-                padding: "12px 16px",
-                background: "#0c0e1a",
-                borderTop: "1px solid #1b2034",
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 8,
+                marginTop: 8,
+                padding: "8px 12px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                color: "#94a3b8",
+                fontSize: "0.76rem",
               }}
             >
-              <div style={{ background: "#121524", border: "1px solid #232840", borderRadius: 8, padding: "8px 10px" }}>
-                <span style={{ fontSize: "0.65rem", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
-                  {project.metrics.label}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ color: project.color, fontWeight: 800, fontFamily: "monospace" }}>
+                  {project.channel}
                 </span>
-                <div style={{ fontSize: "0.95rem", fontWeight: 800, color: project.color, marginTop: 1 }}>
-                  {project.metrics.value}
-                </div>
+                <span style={{ color: "#ffffff", fontWeight: 700 }}>
+                  {project.title}
+                </span>
+                <span style={{ color: "#64748b" }}>—</span>
+                <span style={{ color: "#cbd5e1" }}>
+                  {currentImageTitle}
+                </span>
               </div>
 
-              <div style={{ background: "#121524", border: "1px solid #232840", borderRadius: 8, padding: "8px 10px" }}>
-                <span style={{ fontSize: "0.65rem", color: "#64748b", textTransform: "uppercase", fontWeight: 600 }}>
-                  Signal Telemetri
-                </span>
-                <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#22c55e", marginTop: 1, display: "flex", alignItems: "center", gap: 4 }}>
-                  <Radio size={12} /> Terhubung Live
-                </div>
+              <div style={{ fontSize: "0.68rem", color: "#64748b", fontFamily: "monospace" }}>
+                Klik layar untuk perbesar HD
               </div>
-            </div>
-
-            {/* Action Buttons on Left */}
-            <div style={{ padding: "12px 16px", display: "flex", gap: 8, marginTop: "auto" }}>
-              {project.link ? (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                  style={{
-                    background: project.color,
-                    color: "#ffffff",
-                    fontSize: "0.82rem",
-                    padding: "8px 16px",
-                    flex: 1,
-                    justifyContent: "center",
-                    boxShadow: `0 4px 16px ${project.color}40`,
-                  }}
-                >
-                  Buka Live Demo <ExternalLink size={13} />
-                </a>
-              ) : (
-                <a
-                  href="#contact"
-                  onClick={handleClose}
-                  className="btn-primary"
-                  style={{
-                    background: project.color,
-                    color: "#ffffff",
-                    fontSize: "0.82rem",
-                    padding: "8px 16px",
-                    flex: 1,
-                    justifyContent: "center",
-                  }}
-                >
-                  Hubungi untuk Demo
-                </a>
-              )}
-
-              <a
-                href="https://github.com/ricky1211"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-                style={{
-                  color: "#cbd5e1",
-                  borderColor: "#2e3550",
-                  fontSize: "0.82rem",
-                  padding: "8px 14px",
-                }}
-              >
-                GitHub
-              </a>
             </div>
           </div>
 
-          {/* RIGHT: COMPACT MISSION BRIEF & SYSTEM SPECS */}
+          {/* RIGHT: RETRO PHYSICAL TV CONTROL PANEL */}
           <div
             style={{
-              padding: "18px 20px 20px",
+              padding: "18px 12px",
+              background: "linear-gradient(180deg, #131624 0%, #0d0f1a 100%)",
               display: "flex",
               flexDirection: "column",
-              gap: 16,
-              background: "#0a0c16",
-              overflowY: "auto",
-              maxHeight: 460,
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
             }}
           >
-            {/* Description 1-liner */}
-            <div style={{ background: "#111422", border: "1px solid #232840", borderRadius: 10, padding: "10px 14px" }}>
-              <div style={{ fontSize: "0.7rem", color: project.color, fontWeight: 700, textTransform: "uppercase", marginBottom: 3, letterSpacing: "0.04em" }}>
-                Fokus Sistem
-              </div>
-              <p style={{ margin: 0, color: "#e2e8f0", fontSize: "0.85rem", lineHeight: 1.5 }}>
-                {project.desc}
-              </p>
-            </div>
-
-            {/* Problem & Solution Mini Deck */}
-            <div style={{ display: "grid", gap: 8 }}>
-              <div style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 8, padding: "8px 12px", display: "flex", gap: 8, alignItems: "flex-start" }}>
-                <AlertCircle size={14} style={{ color: "#f87171", marginTop: 2, flexShrink: 0 }} />
-                <div>
-                  <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#f87171", textTransform: "uppercase" }}>Tantangan: </span>
-                  <span style={{ fontSize: "0.8rem", color: "#cbd5e1" }}>{project.problem}</span>
-                </div>
-              </div>
-
-              <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.2)", borderRadius: 8, padding: "8px 12px", display: "flex", gap: 8, alignItems: "flex-start" }}>
-                <Lightbulb size={14} style={{ color: "#4ade80", marginTop: 2, flexShrink: 0 }} />
-                <div>
-                  <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#4ade80", textTransform: "uppercase" }}>Solusi: </span>
-                  <span style={{ fontSize: "0.8rem", color: "#cbd5e1" }}>{project.solution}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Key Capabilities Chips */}
-            <div>
-              <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", marginBottom: 6, letterSpacing: "0.04em" }}>
-                Fitur & Kapabilitas Kunci
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                {project.highlights.map((h, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      background: "#131626",
-                      border: "1px solid #232840",
-                      borderRadius: 6,
-                      padding: "6px 8px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                    }}
-                  >
-                    <CheckCircle2 size={12} style={{ color: project.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: "0.74rem", color: "#cbd5e1", lineHeight: 1.3 }}>{h}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tech Stack Pills */}
-            <div>
-              <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", marginBottom: 6, letterSpacing: "0.04em" }}>
-                Teknologi
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                {project.tags.map((t) => (
-                  <span
-                    key={t}
-                    style={{
-                      background: "#181c2e",
-                      border: "1px solid #2a3250",
-                      color: "#e2e8f0",
-                      padding: "3px 8px",
-                      borderRadius: 4,
-                      fontSize: "0.72rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Keyboard shortcut tip */}
-            <div style={{ marginTop: "auto", borderTop: "1px solid #1a1e32", paddingTop: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: "0.7rem", color: "#64748b" }}>
-                Ganti saluran: <kbd style={{ background: "#1a1e32", padding: "1px 5px", borderRadius: 3 }}>◄</kbd> <kbd style={{ background: "#1a1e32", padding: "1px 5px", borderRadius: 3 }}>►</kbd> · Keluar: <kbd style={{ background: "#1a1e32", padding: "1px 5px", borderRadius: 3 }}>Esc</kbd>
+            {/* Top Control: LED Glow Indicator */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  boxShadow: "0 0 12px #22c55e, 0 0 20px #22c55e",
+                  border: "2px solid #14532d",
+                  animation: "pulse 2s infinite",
+                }}
+              />
+              <span style={{ fontSize: "0.6rem", color: "#64748b", fontFamily: "monospace", letterSpacing: "0.08em" }}>
+                POWER ON
               </span>
-              <Share2 size={12} style={{ color: "#64748b" }} />
             </div>
+
+            {/* Channel Up / Down Physical Dial Buttons */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 6,
+                width: "100%",
+                padding: "8px 0",
+                borderTop: "1px solid #1c2236",
+                borderBottom: "1px solid #1c2236",
+              }}
+            >
+              <span style={{ fontSize: "0.62rem", color: "#94a3b8", fontWeight: 700, fontFamily: "monospace" }}>
+                CHANNEL
+              </span>
+
+              <button
+                onClick={() => navigateChannel("prev")}
+                title="Channel Sebelumnya (◄)"
+                style={{
+                  width: "100%",
+                  background: "#1e2438",
+                  border: "1px solid #323b56",
+                  color: "#ffffff",
+                  borderRadius: 6,
+                  padding: "8px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 4,
+                  fontSize: "0.72rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                <ChevronLeft size={14} />
+                <span>CH ▼</span>
+              </button>
+
+              <button
+                onClick={() => navigateChannel("next")}
+                title="Channel Berikutnya (►)"
+                style={{
+                  width: "100%",
+                  background: "#1e2438",
+                  border: "1px solid #323b56",
+                  color: "#ffffff",
+                  borderRadius: 6,
+                  padding: "8px 4px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 4,
+                  fontSize: "0.72rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                <span>CH ▲</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+
+            {/* Audio Toggle / Volume Knob */}
+            <button
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              title={soundEnabled ? "Mute Suara TV" : "Nyalakan Suara TV"}
+              style={{
+                width: "100%",
+                background: soundEnabled ? "#192238" : "#141724",
+                border: `1px solid ${soundEnabled ? "#38bdf8" : "#22273c"}`,
+                color: soundEnabled ? "#38bdf8" : "#64748b",
+                borderRadius: 8,
+                padding: "8px 4px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                cursor: "pointer",
+              }}
+            >
+              {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+              <span style={{ fontSize: "0.62rem", fontWeight: 700, fontFamily: "monospace" }}>
+                {soundEnabled ? "VOL ON" : "MUTED"}
+              </span>
+            </button>
+
+            {/* Scanlines CRT Toggle */}
+            <button
+              onClick={() => setScanlinesEnabled(!scanlinesEnabled)}
+              title="Toggle Garis Tabung CRT"
+              style={{
+                width: "100%",
+                background: scanlinesEnabled ? "#162035" : "#141724",
+                border: `1px solid ${scanlinesEnabled ? "#38bdf8" : "#22273c"}`,
+                color: scanlinesEnabled ? "#38bdf8" : "#64748b",
+                borderRadius: 8,
+                padding: "8px 4px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                cursor: "pointer",
+              }}
+            >
+              <Sparkles size={14} />
+              <span style={{ fontSize: "0.62rem", fontWeight: 700, fontFamily: "monospace" }}>
+                CRT LINE
+              </span>
+            </button>
+
+            {/* Zoom Screen Button */}
+            <button
+              onClick={() => setIsZoomed(true)}
+              title="Perbesar Layar Penuh (Zoom HD)"
+              style={{
+                width: "100%",
+                background: "#1e2438",
+                border: "1px solid #323b56",
+                color: "#ffffff",
+                borderRadius: 8,
+                padding: "8px 4px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                cursor: "pointer",
+              }}
+            >
+              <Maximize2 size={14} />
+              <span style={{ fontSize: "0.62rem", fontWeight: 700, fontFamily: "monospace" }}>
+                ZOOM HD
+              </span>
+            </button>
+
+            {/* External Live Link (If available) */}
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Buka Website Asli"
+                style={{
+                  width: "100%",
+                  background: project.color,
+                  color: "#ffffff",
+                  borderRadius: 8,
+                  padding: "8px 4px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 3,
+                  textDecoration: "none",
+                  fontSize: "0.62rem",
+                  fontWeight: 800,
+                  fontFamily: "monospace",
+                  boxShadow: `0 0 12px ${project.color}55`,
+                }}
+              >
+                <ExternalLink size={14} />
+                <span>EXT LINK</span>
+              </a>
+            )}
+
+            {/* Vintage Speaker Grille */}
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 3,
+                padding: "6px 0",
+              }}
+            >
+              <div style={{ height: 2, background: "#1f253a", borderRadius: 1 }} />
+              <div style={{ height: 2, background: "#1f253a", borderRadius: 1 }} />
+              <div style={{ height: 2, background: "#1f253a", borderRadius: 1 }} />
+              <div style={{ height: 2, background: "#1f253a", borderRadius: 1 }} />
+              <div style={{ height: 2, background: "#1f253a", borderRadius: 1 }} />
+            </div>
+
+            {/* Big Red Power Switch */}
+            <button
+              onClick={handleClose}
+              title="Matikan TV & Keluar"
+              style={{
+                width: "100%",
+                background: "linear-gradient(180deg, #ef4444 0%, #b91c1c 100%)",
+                border: "1px solid #f87171",
+                color: "#ffffff",
+                borderRadius: 8,
+                padding: "10px 4px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(239, 68, 68, 0.4)",
+              }}
+            >
+              <Power size={16} />
+              <span style={{ fontSize: "0.62rem", fontWeight: 800, fontFamily: "monospace" }}>
+                POWER OFF
+              </span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* FULLSCREEN HIGH-RES IMAGE ZOOM OVERLAY */}
+      {/* FULLSCREEN HIGH-RES ZOOM OVERLAY */}
       {isZoomed && (
         <div
           style={{
@@ -852,7 +776,7 @@ export default function ProjectTvModal({
             style={{
               position: "relative",
               maxWidth: "96vw",
-              maxHeight: "90vh",
+              maxHeight: "92vh",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -865,24 +789,25 @@ export default function ProjectTvModal({
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                marginBottom: 8,
+                marginBottom: 10,
                 color: "#ffffff",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span
                   style={{
                     background: project.color,
-                    padding: "2px 8px",
+                    padding: "3px 9px",
                     borderRadius: 4,
-                    fontSize: "0.72rem",
-                    fontWeight: 700,
+                    fontSize: "0.75rem",
+                    fontWeight: 800,
+                    fontFamily: "monospace",
                   }}
                 >
-                  {project.gallery?.[activeImageIndex]?.badge || "HIGH RES"}
+                  {project.channel}
                 </span>
-                <span style={{ fontSize: "0.88rem", fontWeight: 600, color: "#f8fafc" }}>
-                  {project.gallery?.[activeImageIndex]?.title || project.title}
+                <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "#f8fafc" }}>
+                  {currentImageTitle}
                 </span>
               </div>
               <button
@@ -905,14 +830,14 @@ export default function ProjectTvModal({
               </button>
             </div>
             <img
-              src={project.gallery?.[activeImageIndex]?.image || project.image}
-              alt={project.gallery?.[activeImageIndex]?.title || project.title}
+              src={currentImage}
+              alt={currentImageTitle}
               style={{
                 maxWidth: "100%",
-                maxHeight: "82vh",
-                borderRadius: 8,
-                border: "1px solid #334155",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
+                maxHeight: "84vh",
+                borderRadius: 10,
+                border: "2px solid #334155",
+                boxShadow: "0 25px 70px rgba(0,0,0,0.9)",
                 objectFit: "contain",
               }}
             />
@@ -921,7 +846,7 @@ export default function ProjectTvModal({
       )}
 
       <style>{`
-        /* VORTEX SUCTION TUNNEL ANIMATION ( TERSUDOT MASUK ) */
+        /* VORTEX SUCTION TUNNEL ANIMATION */
         .vortex-ring {
           position: absolute;
           border-radius: 50%;
@@ -983,17 +908,18 @@ export default function ProjectTvModal({
 
         .vortex-warp-burst {
           position: absolute;
-          inset: 0;
+          width: 100vw;
+          height: 100vh;
           pointer-events: none;
-          animation: warpBurst 0.6s ease-out forwards;
+          animation: warpBurst 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
         @keyframes warpBurst {
           0% {
-            transform: scale(0.2) rotate(-45deg);
-            opacity: 1;
+            transform: scale(0.2) rotate(45deg);
+            opacity: 0;
           }
-          70% {
+          50% {
             transform: scale(1.8) rotate(15deg);
             opacity: 0.8;
           }
@@ -1003,7 +929,7 @@ export default function ProjectTvModal({
           }
         }
 
-        /* TV CHASSIS WARP-IN: BEING SUCKED FORWARD THROUGH WORMHOLE */
+        /* TV CHASSIS WARP-IN: BEING SUCKED FORWARD */
         .tv-suction-enter {
           animation: tvSuctionInward 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -1036,7 +962,7 @@ export default function ProjectTvModal({
           }
         }
 
-        /* REVERSE SUCTION EXIT (COLLAPSES BACK INTO SINGULARITY) */
+        /* REVERSE SUCTION EXIT */
         .tv-suction-exit {
           animation: tvSuctionOutward 0.42s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
         }
@@ -1081,7 +1007,7 @@ export default function ProjectTvModal({
           inset: 0;
           background: linear-gradient(
             rgba(18, 16, 16, 0) 50%,
-            rgba(0, 0, 0, 0.22) 50%
+            rgba(0, 0, 0, 0.25) 50%
           ), linear-gradient(
             90deg,
             rgba(255, 0, 0, 0.02),
@@ -1094,20 +1020,33 @@ export default function ProjectTvModal({
           opacity: 0.85;
         }
 
+        /* CRT GLASS CORNER REFLECTION (REAL VINTAGE TUBE) */
+        .crt-glass-reflection {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 40%;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 60%);
+          pointer-events: none;
+          z-index: 6;
+          border-top-left-radius: 18px;
+          border-top-right-radius: 18px;
+        }
+
         /* CRT VIGNETTE TUBE CURVATURE LAYER */
         .crt-vignette-layer {
           position: absolute;
           inset: 0;
-          box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.85);
+          box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
           pointer-events: none;
           z-index: 6;
         }
 
         @media (max-width: 768px) {
-          .tv-modal-grid {
+          .tv-layout-grid {
             grid-template-columns: 1fr !important;
           }
-          .hidden-mobile { display: none !important; }
         }
       `}</style>
     </div>
