@@ -3,95 +3,30 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import {
-  GitBranch, Briefcase, Mail, Phone, ExternalLink, MapPin,
+  GitBranch, Briefcase, Mail, Phone, MapPin,
   Code2, BookOpen, Award, Users, Layers, Clock, ChevronRight,
-  Braces, Server, BarChart2, Smartphone, Wifi, Lock, Globe,
-  Star, ArrowRight, Database
+  Server, BarChart2, Wifi, Lock, Globe,
+  Star, ArrowRight, Database, Tv
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { projectsData, ProjectItem } from "@/components/projectsData";
+import ProjectCard from "@/components/ProjectCard";
+import ProjectTvModal from "@/components/ProjectTvModal";
 
 const GlobeCanvas = dynamic(() => import("@/components/GlobeCanvas"), { ssr: false });
 
-const skills = [
-  { icon: <Code2 size={20} />, label: "Frontend", items: ["HTML", "CSS", "React", "Next.js"] },
-  { icon: <Server size={20} />, label: "Backend", items: ["PHP", "Python", "Java", "Dart"] },
-  { icon: <Database size={20} />, label: "Database", items: ["MySQL", "PostgreSQL", "Firebase"] },
-  { icon: <BarChart2 size={20} />, label: "Data", items: ["Data Analysis", "NLP", "Data Science"] },
-  { icon: <Wifi size={20} />, label: "IoT", items: ["Arduino", "Sensor", "Mikrokontroler"] },
-  { icon: <Globe size={20} />, label: "Deploy", items: ["Vercel", "Git", "GitHub"] },
-];
+const emptySubscribe = () => () => {};
+function useMounted() {
+  return useSyncExternalStore(emptySubscribe, () => true, () => false);
+}
 
-const projects = [
-  {
-    title: "Absensi Seminar",
-    desc: "Sistem absensi seminar real-time berbasis Firebase Database dengan fitur export Excel dan manajemen sertifikat.",
-    tags: ["Firebase", "React", "Vercel"],
-    link: "https://absensi-seminar.vercel.app/",
-    icon: <Users size={24} />,
-    color: "#e8673a",
-    bg: "linear-gradient(135deg, #fff5f0 0%, #ffe0d0 100%)",
-    soon: false,
-  },
-  {
-    title: "Landing Page SEO",
-    desc: "Landing page teroptimasi SEO untuk kampanye digital marketing dengan performa tinggi.",
-    tags: ["Next.js", "SEO", "Marketing"],
-    link: "https://project-uas-digital-marketing-klmpk.vercel.app/",
-    icon: <Globe size={24} />,
-    color: "#3a7be8",
-    bg: "linear-gradient(135deg, #f0f5ff 0%, #d0e0ff 100%)",
-    soon: false,
-  },
-  {
-    title: "NLP Project",
-    desc: "Aplikasi Natural Language Processing untuk analisis teks berbahasa Indonesia dengan visualisasi interaktif.",
-    tags: ["Python", "NLP", "ML"],
-    link: "https://project-uas-nlp.vercel.app/",
-    icon: <Braces size={24} />,
-    color: "#5a3ae8",
-    bg: "linear-gradient(135deg, #f5f0ff 0%, #ddd0ff 100%)",
-    soon: false,
-  },
-  {
-    title: "MCGOO Guide",
-    desc: "Landing page panduan Magic Chest untuk game mobile dengan UI yang menarik dan informatif.",
-    tags: ["React", "Tailwind", "Landing Page"],
-    link: "https://magicchestguide.vercel.app/",
-    icon: <Star size={24} />,
-    color: "#e8a03a",
-    bg: "linear-gradient(135deg, #fffbf0 0%, #ffe8c0 100%)",
-    soon: false,
-  },
-  {
-    title: "Website Berita Live",
-    desc: "Portal berita dengan konten dinamis, kategori berita, dan fitur pencarian artikel real-time.",
-    tags: ["React", "REST API", "Frontend"],
-    link: "https://fe-berita-mandiri-seal.vercel.app/",
-    icon: <BookOpen size={24} />,
-    color: "#22c55e",
-    bg: "linear-gradient(135deg, #f0fff5 0%, #c8ffd8 100%)",
-    soon: false,
-  },
-  {
-    title: "Data Science Dashboard",
-    desc: "Dashboard analisis data dengan visualisasi chart interaktif dan exploratory data analysis.",
-    tags: ["Python", "Data Science", "Visualization"],
-    link: "https://data-science-xi.vercel.app/",
-    icon: <BarChart2 size={24} />,
-    color: "#e83a7b",
-    bg: "linear-gradient(135deg, #fff0f5 0%, #ffc8dc 100%)",
-    soon: false,
-  },
-  {
-    title: "WargaRT02 App",
-    desc: "Aplikasi manajemen warga RT 02 dengan fitur iuran, pengumuman, dan data kependudukan berbasis IoT.",
-    tags: ["Coming Soon", "Flutter", "Firebase"],
-    link: "#",
-    icon: <Smartphone size={24} />,
-    color: "#94a3b8",
-    bg: "linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%)",
-    soon: true,
-  },
+const skills = [
+  { icon: <Code2 size={20} />, label: "Frontend", items: ["HTML", "CSS", "React", "Next.js", "Tailwind"] },
+  { icon: <Server size={20} />, label: "Backend", items: ["Node.js", "Python", "FastAPI", "PHP", "Java"] },
+  { icon: <Database size={20} />, label: "Database", items: ["PostgreSQL", "MySQL", "Firebase", "InfluxDB"] },
+  { icon: <BarChart2 size={20} />, label: "Data & AI", items: ["Data Analysis", "NLP", "Machine Learning", "Streamlit"] },
+  { icon: <Wifi size={20} />, label: "Industrial & IoT", items: ["MQTT", "WebSockets", "ESP32", "Sensors", "Andon"] },
+  { icon: <Globe size={20} />, label: "DevOps & Tools", items: ["Git", "Docker", "Vercel", "Prisma", "Grafana"] },
 ];
 
 const publications = [
@@ -124,25 +59,41 @@ function Reveal({ children, delay = 0, style }: { children: React.ReactNode; del
 function SectionHeader({ label, title, sub }: { label: string; title: string; sub?: string }) {
   const { ref, visible } = useReveal();
   return (
-    <div ref={ref} style={{ marginBottom: 52, textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s, transform 0.6s" }}>
+    <div ref={ref} style={{ marginBottom: 48, textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s, transform 0.6s" }}>
       <span className="section-label">{label}</span>
       <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.9rem,4vw,2.7rem)", margin: "10px 0 12px", lineHeight: 1.15 }}>{title}</h2>
-      {sub && <p style={{ color: "var(--fg-muted)", maxWidth: 540, margin: "0 auto", fontSize: "1.02rem", lineHeight: 1.65 }}>{sub}</p>}
+      {sub && <p style={{ color: "var(--fg-muted)", maxWidth: 620, margin: "0 auto", fontSize: "1.02rem", lineHeight: 1.65 }}>{sub}</p>}
     </div>
   );
 }
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("Semua");
 
-  const ticker = ["HTML","CSS","React","Next.js","PHP","Python","MySQL","Firebase","PostgreSQL","NLP","IoT","Data Science","Tailwind","Git","Vercel","Flutter","Java","Dart"];
+  const ticker = [
+    "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "Customer Claims 8D",
+    "Capex Management", "IoT Telemetry", "Next.js", "React", "Python ML", "PostgreSQL",
+    "Firebase", "WebSockets", "FastAPI", "Tailwind CSS", "Docker", "Data Science"
+  ];
+
+  const categories = [
+    { label: "Semua", count: projectsData.length },
+    { label: "Industrial & IoT", count: projectsData.filter(p => p.category === "Industrial & IoT").length },
+    { label: "Web & App", count: projectsData.filter(p => p.category === "Web & App").length },
+    { label: "Data & AI", count: projectsData.filter(p => p.category === "Data & AI").length },
+  ];
+
+  const filteredProjects = activeCategory === "Semua"
+    ? projectsData
+    : projectsData.filter(p => p.category === activeCategory);
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
       <Navbar />
 
-      {/* HERO */}
+      {/* HERO SECTION */}
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: 80 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px", width: "100%" }}>
           <div className="hero-grid" style={{ display: "grid", gap: 60, alignItems: "center" }}>
@@ -170,7 +121,7 @@ export default function Home() {
                 fontSize: "1.08rem", color: "var(--fg-muted)", lineHeight: 1.72, marginBottom: 32, maxWidth: 480,
                 opacity: mounted ? 1 : 0, transition: "opacity 0.7s 0.3s"
               }}>
-                Mahasiswa Teknik Informatika yang berfokus pada <strong style={{ color: "var(--fg)" }}>Frontend Development</strong>, <strong style={{ color: "var(--fg)" }}>Data Analysis</strong>, dan <strong style={{ color: "var(--fg)" }}>Database Management</strong>.
+                Mahasiswa Teknik Informatika yang berfokus pada <strong style={{ color: "var(--fg)" }}>Smart Manufacturing & IoT</strong>, <strong style={{ color: "var(--fg)" }}>Frontend Development</strong>, dan <strong style={{ color: "var(--fg)" }}>Data Analytics</strong>.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36, opacity: mounted ? 1 : 0, transition: "opacity 0.7s 0.4s" }}>
                 <a href="#projects" className="btn-primary">Lihat Projects <ArrowRight size={16} /></a>
@@ -262,7 +213,7 @@ export default function Home() {
                   }} />
                 <div style={{ display: "none", flexDirection: "column", alignItems: "center", gap: 10, padding: 32, textAlign: "center" }}>
                   <div style={{ width: 80, height: 80, borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 32, fontWeight: 700 }}>R</div>
-                  <p style={{ color: "var(--fg-muted)", fontSize: "0.82rem" }}>Tambahkan foto:<br />/public/profile.jpg</p>
+                  <p style={{ color: "var(--fg-muted)", fontSize: "0.82rem" }}>Ricky Alfian Saputra</p>
                 </div>
               </div>
               <div style={{ position: "absolute", bottom: -14, right: -14, zIndex: -1, width: "100%", height: "100%", borderRadius: 28, border: "2px solid var(--border)" }} />
@@ -272,15 +223,15 @@ export default function Home() {
             <Reveal>
               <span className="section-label">About Me</span>
               <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", margin: "10px 0 18px", lineHeight: 1.2 }}>
-                Membangun solusi digital yang bermakna
+                Membangun solusi digital & smart manufacturing yang bermakna
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p style={{ color: "var(--fg-muted)", lineHeight: 1.75, marginBottom: 14 }}>
-                Mahasiswa <strong style={{ color: "var(--fg)" }}>Teknik Informatika, Universitas Pelita Bangsa</strong> Cikarang, dengan keahlian utama di bidang frontend web development dan analisis data.
+                Mahasiswa <strong style={{ color: "var(--fg)" }}>Teknik Informatika, Universitas Pelita Bangsa</strong> Cikarang, dengan spesialisasi pengembangan sistem manufaktur cerdas, frontend web modern, dan analisis data telemetri.
               </p>
               <p style={{ color: "var(--fg-muted)", lineHeight: 1.75, marginBottom: 28 }}>
-                Berpengalaman membangun antarmuka web responsif, sistem informasi berbasis data, dan berkontribusi dalam project IoT komunitas. Memiliki 2 publikasi ilmiah di 2025.
+                Berpengalaman membangun sistem enterprise seperti Predictive Maintenance, Preventive Maintenance digital, Andon Quality real-time, sistem CAPEX, hingga aplikasi web responsif dan project IoT komunitas. Memiliki 2 publikasi ilmiah di 2025.
               </p>
             </Reveal>
             <Reveal delay={0.15}>
@@ -289,7 +240,7 @@ export default function Home() {
                   { icon: <MapPin size={15} />, label: "Lokasi", value: "Cikarang, Indonesia" },
                   { icon: <BookOpen size={15} />, label: "Studi", value: "Teknik Informatika" },
                   { icon: <Award size={15} />, label: "IPK", value: "3.55 / 4.00" },
-                  { icon: <Clock size={15} />, label: "Freelance", value: "Feb 2023 – Now" },
+                  { icon: <Clock size={15} />, label: "Status", value: "Available for Hire" },
                 ].map(item => (
                   <div key={item.label} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <div style={{ color: "var(--accent)", marginTop: 2, flexShrink: 0 }}>{item.icon}</div>
@@ -312,11 +263,11 @@ export default function Home() {
       {/* SKILLS */}
       <div style={{ background: "var(--bg-card)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <section id="skills" style={{ padding: "90px 24px", maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader label="Skills" title="Teknologi & Keahlian" sub="Berbagai teknologi yang saya kuasai dalam membangun solusi digital yang lengkap." />
+          <SectionHeader label="Skills" title="Teknologi & Keahlian" sub="Penguasaan teknologi modern untuk membangun sistem end-to-end dari perangkat IoT hingga cloud dashboard." />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20 }}>
             {skills.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.07}>
-                <div className="card" style={{ padding: 24 }}>
+                <div className="card" style={{ padding: 24, height: "100%" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
                     <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}>{s.icon}</div>
                     <h3 style={{ margin: 0, fontSize: "0.97rem", fontWeight: 700 }}>{s.label}</h3>
@@ -331,49 +282,88 @@ export default function Home() {
         </section>
       </div>
 
-      {/* PROJECTS */}
-      <section id="projects" style={{ padding: "90px 24px", maxWidth: 1100, margin: "0 auto" }}>
-        <SectionHeader label="Projects" title="Karya & Project" sub="Kumpulan project yang telah saya bangun, mulai dari web app, data science, hingga NLP." />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 22 }}>
-          {projects.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.07}>
-              <div className="card" style={{ overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-                {/* Visual */}
-                <div style={{ background: p.bg, height: 148, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                  {p.soon ? (
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ width: 60, height: 60, borderRadius: 14, background: "#e8e8ec", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 8px", color: "#94a3b8" }}>{p.icon}</div>
-                      <span style={{ background: "#e2e8f0", color: "#64748b", padding: "3px 12px", borderRadius: 100, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase" }}>Coming Soon</span>
-                    </div>
-                  ) : (
-                    <>
-                      <div style={{ width: 64, height: 64, borderRadius: 16, background: p.color + "22", display: "flex", alignItems: "center", justifyContent: "center", color: p.color }}>{p.icon}</div>
-                      <div style={{ position: "absolute", right: -16, bottom: -16, width: 90, height: 90, borderRadius: "50%", background: p.color + "18" }} />
-                      <div style={{ position: "absolute", left: -10, top: -10, width: 55, height: 55, borderRadius: "50%", background: p.color + "12" }} />
-                    </>
-                  )}
-                </div>
-                <div style={{ padding: "20px 22px 22px", display: "flex", flexDirection: "column", flex: 1 }}>
-                  <h3 style={{ margin: "0 0 8px", fontSize: "1.05rem", fontWeight: 700 }}>{p.title}</h3>
-                  <p style={{ color: "var(--fg-muted)", fontSize: "0.88rem", lineHeight: 1.62, margin: "0 0 14px", flex: 1 }}>{p.desc}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
-                    {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
-                  </div>
-                  {!p.soon ? (
-                    <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: p.color, fontWeight: 600, fontSize: "0.86rem", textDecoration: "none", transition: "gap 0.2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.gap = "10px")} onMouseLeave={e => (e.currentTarget.style.gap = "6px")}>
-                      Lihat Project <ExternalLink size={13} />
-                    </a>
-                  ) : (
-                    <span style={{ color: "#94a3b8", fontWeight: 600, fontSize: "0.86rem" }}>🚧 Dalam Pengembangan</span>
-                  )}
-                </div>
-              </div>
+      {/* PROJECTS SECTION WITH INTERACTIVE TV SHOWCASE */}
+      <section id="projects" style={{ padding: "90px 24px", maxWidth: 1160, margin: "0 auto" }}>
+        <SectionHeader
+          label="Featured Works"
+          title="Karya & Project Showcase"
+          sub="Klik salah satu card project di bawah untuk menyalakan siaran TV interaktif dan masuk ke dalam detail sistem."
+        />
+
+        {/* TV HINT CALLOUT */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          background: "var(--bg-card)",
+          border: "1px solid var(--border)",
+          borderRadius: 100,
+          padding: "8px 20px",
+          width: "max-content",
+          margin: "0 auto 32px",
+          boxShadow: "0 2px 12px var(--shadow)"
+        }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 8px #22c55e" }} />
+          <Tv size={15} style={{ color: "var(--accent)" }} />
+          <span style={{ fontSize: "0.84rem", color: "var(--fg-muted)", fontWeight: 600 }}>
+            Interaktif: Klik card untuk animasi TV Turn-On & masuk ke dalam card
+          </span>
+        </div>
+
+        {/* CATEGORY FILTER TABS */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 38 }}>
+          {categories.map(cat => {
+            const isActive = activeCategory === cat.label;
+            return (
+              <button
+                key={cat.label}
+                onClick={() => setActiveCategory(cat.label)}
+                style={{
+                  background: isActive ? "var(--accent)" : "var(--bg-card)",
+                  color: isActive ? "#ffffff" : "var(--fg-muted)",
+                  border: `1px solid ${isActive ? "var(--accent)" : "var(--border)"}`,
+                  borderRadius: 100,
+                  padding: "8px 18px",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  transition: "all 0.2s ease",
+                  boxShadow: isActive ? "0 4px 14px rgba(232, 103, 58, 0.3)" : "none",
+                }}
+              >
+                <span>{cat.label}</span>
+                <span style={{
+                  background: isActive ? "rgba(255,255,255,0.25)" : "#e2ddd8",
+                  color: isActive ? "#ffffff" : "var(--fg)",
+                  borderRadius: 100,
+                  padding: "1px 7px",
+                  fontSize: "0.72rem",
+                  fontWeight: 700,
+                }}>
+                  {cat.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* PROJECTS GRID */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(330px,1fr))", gap: 24 }}>
+          {filteredProjects.map((p, i) => (
+            <Reveal key={p.id} delay={i * 0.05}>
+              <ProjectCard project={p} onOpenTv={(proj) => setSelectedProject(proj)} />
             </Reveal>
           ))}
         </div>
-        <div style={{ textAlign: "center", marginTop: 40 }}>
-          <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" className="btn-outline"><GitBranch size={16} /> Semua di GitHub</a>
+
+        <div style={{ textAlign: "center", marginTop: 44 }}>
+          <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" className="btn-outline">
+            <GitBranch size={16} /> Lihat Semua Repository di GitHub
+          </a>
         </div>
       </section>
 
@@ -386,9 +376,9 @@ export default function Home() {
               <Reveal><h3 style={{ fontWeight: 700, marginBottom: 24, display: "flex", alignItems: "center", gap: 8 }}><Layers size={18} style={{ color: "var(--accent)" }} /> Pengalaman Kerja</h3></Reveal>
               <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
                 {[
-                  { role: "Full-Stack Web Developer", company: "Freelance", period: "Feb 2023 – Sekarang", desc: "Pengembangan aplikasi web end-to-end, manajemen full stack, dan pengujian sistem.", icon: <Code2 size={18} />, color: "#e8673a" },
-                  { role: "Project Leader – IoT Penyiraman", company: "PERUM Graha Cikarang RT 02/RW 17", period: "Jun 2025 – Jul 2025", desc: "Memimpin perancangan sistem penyiraman otomatis berbasis IoT dengan sensor kelembapan tanah.", icon: <Wifi size={18} />, color: "#3a7be8" },
-                  { role: "Staff Divisi PDD – Seminar", company: "Universitas Pelita Bangsa", period: "Des 2025", desc: "Publikasi, dekorasi, dan dokumentasi acara seminar; mendapat sertifikat editing.", icon: <Users size={18} />, color: "#5a3ae8" },
+                  { role: "Full-Stack Web Developer", company: "Freelance", period: "Feb 2023 – Sekarang", desc: "Pengembangan sistem web enterprise, IoT monitoring, manajemen database, dan API integration.", icon: <Code2 size={18} />, color: "#e8673a" },
+                  { role: "Project Leader – IoT Penyiraman", company: "PERUM Graha Cikarang RT 02/RW 17", period: "Jun 2025 – Jul 2025", desc: "Memimpin perancangan sistem penyiraman otomatis berbasis IoT dengan sensor kelembapan tanah & ESP32.", icon: <Wifi size={18} />, color: "#3a7be8" },
+                  { role: "Staff Divisi PDD – Seminar", company: "Universitas Pelita Bangsa", period: "Des 2025", desc: "Publikasi, dekorasi, dan dokumentasi acara seminar; implementasi sistem absensi digital.", icon: <Users size={18} />, color: "#5a3ae8" },
                 ].map((e, i) => (
                   <Reveal key={i} delay={i * 0.1}>
                     <div style={{ display: "flex", gap: 14 }}>
@@ -448,7 +438,7 @@ export default function Home() {
           <span className="section-label">Contact</span>
           <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2rem,4vw,2.8rem)", margin: "10px 0 14px" }}>Yuk, Berkolaborasi!</h2>
           <p style={{ color: "var(--fg-muted)", lineHeight: 1.7, marginBottom: 40, fontSize: "1.04rem" }}>
-            Saya terbuka untuk peluang freelance, kolaborasi project, atau sekadar diskusi teknologi.
+            Saya terbuka untuk peluang kerja, freelance, kolaborasi project industri, atau sekadar diskusi teknologi.
           </p>
         </Reveal>
         <Reveal delay={0.1}>
@@ -496,6 +486,16 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* INTERACTIVE TV MODAL (When any card is clicked) */}
+      {selectedProject && (
+        <ProjectTvModal
+          project={selectedProject}
+          projects={projectsData}
+          onClose={() => setSelectedProject(null)}
+          onSelectProject={(proj) => setSelectedProject(proj)}
+        />
+      )}
 
       <style>{`
         .hero-grid { grid-template-columns: 1fr 1fr; }
