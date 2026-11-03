@@ -22,7 +22,7 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
     setTimeout(() => {
       onOpenTv(project);
       setIsSucking(false);
-    }, 280);
+    }, 320);
   };
 
   return (
@@ -39,18 +39,17 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
         border: `1px solid ${isHovered ? project.color + "77" : "var(--border)"}`,
         borderRadius: 18,
         boxShadow: isSucking
-          ? `0 0 45px ${project.color}99, inset 0 0 30px ${project.color}66`
+          ? `0 0 35px ${project.color}77, inset 0 0 25px ${project.color}44`
           : isHovered
           ? `0 14px 36px var(--shadow), 0 0 20px ${project.color}20`
           : "0 3px 16px var(--shadow)",
         transform: isSucking
-          ? "scale(0.86) rotate(-2deg)"
+          ? "scale(0.94) translate3d(0, 0, 0)"
           : isHovered
           ? "translateY(-5px)"
           : "translateY(0)",
-        filter: isSucking ? "brightness(1.5) contrast(1.3)" : "none",
         transition: isSucking
-          ? "all 0.28s cubic-bezier(0.55, 0.055, 0.675, 0.19)"
+          ? "all 0.32s cubic-bezier(0.2, 0.9, 0.3, 1)"
           : "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
       onClick={handleCardClick}
@@ -68,28 +67,31 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(5, 8, 18, 0.6)",
+            background: "rgba(5, 8, 18, 0.5)",
+            backdropFilter: "blur(2px)",
           }}
         >
           <div
             style={{
-              width: 140,
-              height: 140,
+              width: 130,
+              height: 130,
               borderRadius: "50%",
-              border: `3px solid ${project.color}`,
-              boxShadow: `0 0 35px ${project.color}, inset 0 0 25px ${project.color}`,
-              animation: "cardVortexSpin 0.28s ease-in forwards",
+              border: `2px solid ${project.color}`,
+              boxShadow: `0 0 30px ${project.color}, inset 0 0 20px ${project.color}`,
+              animation: "cardVortexSpin 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) forwards",
+              willChange: "transform, opacity",
             }}
           />
           <div
             style={{
               position: "absolute",
-              width: 12,
-              height: 12,
+              width: 10,
+              height: 10,
               borderRadius: "50%",
               background: "#ffffff",
-              boxShadow: "0 0 20px #ffffff, 0 0 40px #38bdf8",
-              animation: "singularityPulse 0.28s ease-in forwards",
+              boxShadow: "0 0 20px #ffffff, 0 0 35px #38bdf8",
+              animation: "singularityPulse 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) forwards",
+              willChange: "transform, opacity",
             }}
           />
         </div>
@@ -112,11 +114,11 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             height: "100%",
             objectFit: "cover",
             transform: isSucking
-              ? "scale(0.7) rotate(6deg)"
+              ? "scale(0.88)"
               : isHovered
-              ? "scale(1.06)"
+              ? "scale(1.05)"
               : "scale(1)",
-            transition: isSucking ? "transform 0.28s ease-in" : "transform 0.5s ease",
+            transition: isSucking ? "transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1)" : "transform 0.4s ease",
           }}
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";

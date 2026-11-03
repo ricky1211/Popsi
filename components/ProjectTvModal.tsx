@@ -64,14 +64,14 @@ export default function ProjectTvModal({
     }
     setTimeout(() => {
       onClose();
-    }, 420);
+    }, 340);
   }, [animStage, onClose, soundEnabled]);
 
   useEffect(() => {
     if (!project) return;
     const timer = setTimeout(() => {
       setAnimStage("active");
-    }, 620);
+    }, 450);
     return () => clearTimeout(timer);
   }, [project]);
 
@@ -102,6 +102,7 @@ export default function ProjectTvModal({
 
   return (
     <div
+      className={`modal-backdrop-fade ${animStage === "power-off" ? "modal-backdrop-exit" : ""}`}
       style={{
         position: "fixed",
         inset: 0,
@@ -308,6 +309,7 @@ export default function ProjectTvModal({
                 key={currentImage}
                 src={currentImage}
                 alt={currentImageTitle}
+                className={animStage === "power-on" ? "crt-screen-turn-on" : animStage === "power-off" ? "crt-screen-turn-off" : ""}
                 style={{
                   width: "100%",
                   height: "100%",
@@ -846,59 +848,76 @@ export default function ProjectTvModal({
       )}
 
       <style>{`
-        /* VORTEX SUCTION TUNNEL ANIMATION */
+        /* MODAL BACKDROP SMOOTH FADE */
+        .modal-backdrop-fade {
+          animation: backdropFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: opacity;
+        }
+
+        .modal-backdrop-exit {
+          animation: backdropFadeOut 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          will-change: opacity;
+        }
+
+        @keyframes backdropFadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+
+        @keyframes backdropFadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
+        /* VORTEX GRAVITY RINGS */
         .vortex-ring {
           position: absolute;
           border-radius: 50%;
           border-style: dashed;
           pointer-events: none;
+          will-change: transform, opacity;
         }
 
         .ring-1 {
-          width: 90vw;
-          height: 90vw;
-          border-width: 3px;
-          animation: ringSuction 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+          width: 80vw;
+          height: 80vw;
+          border-width: 2px;
+          animation: ringSmoothSpin 0.42s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
         }
 
         .ring-2 {
-          width: 60vw;
-          height: 60vw;
+          width: 52vw;
+          height: 52vw;
           border-width: 2px;
-          animation: ringSuction 0.5s 0.08s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+          animation: ringSmoothSpin 0.38s 0.04s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
         }
 
         .ring-3 {
-          width: 35vw;
-          height: 35vw;
+          width: 32vw;
+          height: 32vw;
           border-width: 2px;
-          animation: ringSuction 0.4s 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+          animation: ringSmoothSpin 0.34s 0.08s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
         }
 
-        @keyframes ringSuction {
+        @keyframes ringSmoothSpin {
           0% {
-            transform: scale(1.6) rotate(0deg);
-            opacity: 0.9;
+            transform: scale(1.3) rotate(0deg);
+            opacity: 0.8;
           }
           100% {
-            transform: scale(0.02) rotate(320deg);
-            opacity: 0.1;
+            transform: scale(0.15) rotate(160deg);
+            opacity: 0;
           }
         }
 
         @keyframes suctionSingularity {
           0% {
-            transform: scale(0.1);
-            opacity: 0.2;
+            transform: scale(0.2);
+            opacity: 0.4;
           }
-          40% {
-            transform: scale(3.5);
-            opacity: 1;
-            filter: blur(1px);
-          }
-          70% {
-            transform: scale(1.2);
-            opacity: 0.8;
+          50% {
+            transform: scale(2.2);
+            opacity: 0.9;
           }
           100% {
             transform: scale(0.01);
@@ -911,92 +930,124 @@ export default function ProjectTvModal({
           width: 100vw;
           height: 100vh;
           pointer-events: none;
-          animation: warpBurst 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+          animation: smoothWarpBurst 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes warpBurst {
+        @keyframes smoothWarpBurst {
           0% {
-            transform: scale(0.2) rotate(45deg);
+            transform: scale(0.4);
             opacity: 0;
           }
-          50% {
-            transform: scale(1.8) rotate(15deg);
-            opacity: 0.8;
+          40% {
+            opacity: 0.6;
           }
           100% {
-            transform: scale(2.4) rotate(0deg);
+            transform: scale(1.8);
             opacity: 0;
           }
         }
 
-        /* TV CHASSIS WARP-IN: BEING SUCKED FORWARD */
+        /* TV CHASSIS WARP-IN: SMOOTH CINEMATIC SPRING ZOOM */
         .tv-suction-enter {
-          animation: tvSuctionInward 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: tvSmoothEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
         }
 
-        @keyframes tvSuctionInward {
+        @keyframes tvSmoothEnter {
           0% {
-            transform: scale(0.06) rotate(-28deg) translateZ(-800px);
-            filter: brightness(24) contrast(2) blur(14px);
-            opacity: 0.4;
-          }
-          35% {
-            transform: scale(0.35) rotate(-12deg) translateZ(-400px);
-            filter: brightness(12) contrast(1.6) blur(6px);
-            opacity: 0.9;
+            transform: scale(0.72) translate3d(0, 35px, 0);
+            opacity: 0;
           }
           70% {
-            transform: scale(1.06) rotate(2deg) translateZ(50px);
-            filter: brightness(1.8) blur(1px);
-            opacity: 1;
-          }
-          85% {
-            transform: scale(0.98) rotate(-0.5deg) translateZ(0);
-            filter: brightness(1.2);
+            transform: scale(1.015) translate3d(0, -3px, 0);
             opacity: 1;
           }
           100% {
-            transform: scale(1) rotate(0deg) translateZ(0);
-            filter: brightness(1) blur(0);
+            transform: scale(1) translate3d(0, 0, 0);
             opacity: 1;
           }
         }
 
-        /* REVERSE SUCTION EXIT */
+        /* TV CHASSIS WARP-OUT: SMOOTH EXPEDIENT RETREAT */
         .tv-suction-exit {
-          animation: tvSuctionOutward 0.42s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+          animation: tvSmoothExit 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          will-change: transform, opacity;
         }
 
-        @keyframes tvSuctionOutward {
+        @keyframes tvSmoothExit {
           0% {
-            transform: scale(1) rotate(0deg);
-            filter: brightness(1);
+            transform: scale(1) translate3d(0, 0, 0);
             opacity: 1;
           }
           30% {
-            transform: scale(1.04) rotate(1.5deg);
-            filter: brightness(4);
+            transform: scale(1.02) translate3d(0, -3px, 0);
             opacity: 1;
           }
-          75% {
-            transform: scale(0.18) rotate(-24deg);
-            filter: brightness(22) blur(8px);
-            opacity: 0.8;
+          100% {
+            transform: scale(0.65) translate3d(0, 30px, 0);
+            opacity: 0;
+          }
+        }
+
+        /* CRT TUBE BEAM EXPANSION (ORGANIC RETRO TURN-ON EFFECT) */
+        .crt-screen-turn-on {
+          animation: crtBeamExpand 0.44s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform-origin: center center;
+          will-change: transform, opacity;
+        }
+
+        @keyframes crtBeamExpand {
+          0% {
+            transform: scaleY(0.005) scaleX(0.2);
+            opacity: 0;
+          }
+          22% {
+            transform: scaleY(0.005) scaleX(1);
+            opacity: 1;
+          }
+          65% {
+            transform: scaleY(0.75) scaleX(1);
+            opacity: 1;
           }
           100% {
-            transform: scale(0) rotate(-60deg);
-            filter: brightness(35) blur(16px);
+            transform: scaleY(1) scaleX(1);
+            opacity: 1;
+          }
+        }
+
+        /* CRT TUBE BEAM COLLAPSE (VINTAGE TURN-OFF FLICKER) */
+        .crt-screen-turn-off {
+          animation: crtBeamCollapse 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transform-origin: center center;
+          will-change: transform, opacity;
+        }
+
+        @keyframes crtBeamCollapse {
+          0% {
+            transform: scaleY(1) scaleX(1);
+            opacity: 1;
+          }
+          35% {
+            transform: scaleY(0.008) scaleX(1);
+            opacity: 1;
+          }
+          70% {
+            transform: scaleY(0.008) scaleX(0.03);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0);
             opacity: 0;
           }
         }
 
         @keyframes reverseSuctionHole {
           0% {
-            transform: scale(1.8) rotate(0deg);
+            transform: scale(1.4) rotate(0deg);
             opacity: 1;
           }
           100% {
-            transform: scale(0.01) rotate(-360deg);
+            transform: scale(0.05) rotate(-180deg);
             opacity: 0;
           }
         }
