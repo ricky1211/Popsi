@@ -253,42 +253,6 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             </span>
           </div>
         </div>
-
-        {/* HOVER QUICK PORTAL LAUNCH OVERLAY */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(10, 14, 26, 0.75)",
-            backdropFilter: "blur(3px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 6,
-            color: "#ffffff",
-            opacity: isHovered && !isSucking ? 1 : 0,
-            transition: "opacity 0.2s ease",
-            pointerEvents: "none",
-          }}
-        >
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: "50%",
-              background: project.color,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 16px ${project.color}`,
-            }}
-          >
-            <Tv size={16} />
-          </div>
-          <span style={{ fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.03em" }}>
-            Tersedot ke TV Portal
-          </span>
-        </div>
       </div>
 
       {/* COMPACT CARD BODY */}
