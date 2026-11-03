@@ -1,20 +1,18 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import {
   GitBranch, Briefcase, Mail, Phone,
   Code2, Award, Layers,
   Server, BarChart2, Wifi, Globe,
-  Star, ArrowRight, Database
+  ArrowRight, Database, Sparkles
 } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { projectsData, ProjectItem } from "@/components/projectsData";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTvModal from "@/components/ProjectTvModal";
 import { withBasePath } from "@/components/basePath";
-
-const GlobeCanvas = dynamic(() => import("@/components/GlobeCanvas"), { ssr: false });
+import CosmicHeroShowcase from "@/components/CosmicHeroShowcase";
 
 const emptySubscribe = () => () => {};
 function useMounted() {
@@ -160,41 +158,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Globe Canvas with Clean Floating Badges */}
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ position: "relative", width: "min(350px, 80vw)", aspectRatio: "1" }}>
-                <div className="animate-float" style={{
-                  position: "absolute", top: "4%", right: "-4%", zIndex: 2,
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
-                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}><Code2 size={14} /></div>
-                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>Prodi</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>Informatika</div></div>
-                </div>
-
-                <div className="animate-float delay-200" style={{
-                  position: "absolute", bottom: "8%", left: "-6%", zIndex: 2,
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
-                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#f0f5ff", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent2)" }}><Star size={14} /></div>
-                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>IPK</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>3.56 / 4.00</div></div>
-                </div>
-
-                <div className="animate-float delay-400" style={{
-                  position: "absolute", top: "48%", right: "-10%", zIndex: 2, transform: "translateY(-50%)",
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
-                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#f0fff5", display: "flex", alignItems: "center", justifyContent: "center", color: "#22c55e" }}><Award size={14} /></div>
-                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>Publikasi</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>Sinta 4</div></div>
-                </div>
-
-                <div style={{ width: "100%", height: "100%", padding: 18 }}><GlobeCanvas /></div>
-              </div>
+            {/* Cosmic Hero Showcase: Cosmic Immersive Highlight with Orbiting Comets & Jas Hitam Badge */}
+            <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
+              <CosmicHeroShowcase />
             </div>
           </div>
         </div>
@@ -304,24 +270,142 @@ export default function Home() {
       {/* ABOUT & EXPERIENCE COMPACT SECTION */}
       <section id="about" style={{ padding: "70px 24px", maxWidth: 1060, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 40, alignItems: "start" }} className="two-col">
-          {/* Left: About Card */}
+          {/* Left: About Card with Executive Suit Highlight & Profile Gallery */}
           <Reveal>
-            <div className="card" style={{ padding: "24px", borderRadius: 18 }}>
-              <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
-                <img
-                  src={withBasePath("/profile.jpg")}
-                  alt="Ricky Alfian"
-                  style={{ width: 64, height: 64, borderRadius: 14, objectFit: "cover" }}
-                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                />
+            <div className="card" style={{ padding: "26px", borderRadius: 20, position: "relative", overflow: "hidden" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: -20,
+                  right: -20,
+                  width: 140,
+                  height: 140,
+                  background: "radial-gradient(circle, rgba(232, 103, 58, 0.15) 0%, rgba(0,0,0,0) 70%)",
+                  filter: "blur(20px)",
+                  borderRadius: "50%",
+                  pointerEvents: "none",
+                }}
+              />
+              <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 18 }}>
+                {/* HIGHLIGHTED FORMAL SUIT PROFILE IMAGE */}
+                <div
+                  style={{
+                    position: "relative",
+                    width: 76,
+                    height: 76,
+                    borderRadius: 18,
+                    padding: 2.5,
+                    background: "linear-gradient(135deg, #e8673a, #38bdf8, #8b5cf6)",
+                    boxShadow: "0 8px 24px rgba(232, 103, 58, 0.35)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={withBasePath("/Profile/Foto-Profil.jpg")}
+                    alt="Ricky Alfian - Jas Hitam Formal"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: 15,
+                      objectFit: "cover",
+                    }}
+                    onError={e => {
+                      (e.currentTarget as HTMLImageElement).src = withBasePath("/profile.jpg");
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: -3,
+                      right: -3,
+                      background: "#22c55e",
+                      width: 13,
+                      height: 13,
+                      borderRadius: "50%",
+                      border: "2.5px solid var(--bg-card)",
+                      boxShadow: "0 0 8px rgba(34, 197, 94, 0.8)",
+                    }}
+                    title="Active · Ready for Opportunity"
+                  />
+                </div>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 700 }}>Ricky Alfian Saputra</h3>
-                  <span style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600 }}>Teknik Informatika · Cikarang</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+                    <h3 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 800 }}>Ricky Alfian Saputra</h3>
+                    <span
+                      style={{
+                        background: "rgba(232, 103, 58, 0.15)",
+                        color: "var(--accent)",
+                        border: "1px solid rgba(232, 103, 58, 0.4)",
+                        fontSize: "0.62rem",
+                        fontWeight: 700,
+                        padding: "1px 6px",
+                        borderRadius: 100,
+                      }}
+                    >
+                      Jas Hitam
+                    </span>
+                  </div>
+                  <span style={{ fontSize: "0.82rem", color: "var(--accent)", fontWeight: 600 }}>
+                    Teknik Informatika · Cikarang, ID
+                  </span>
+                  <div style={{ fontSize: "0.72rem", color: "var(--fg-muted)", marginTop: 2 }}>
+                    Frontend & Industrial IoT Specialist
+                  </div>
                 </div>
               </div>
+
               <p style={{ color: "var(--fg-muted)", fontSize: "0.86rem", lineHeight: 1.6, margin: "0 0 16px" }}>
-                Pengembang sistem cerdas manufaktur dengan pengalaman internship di <strong>PT Menara Terus Makmur (Astra Otoparts)</strong> dalam digitalisasi pemeliharaan mesin, Andon Quality, dan alur operasional.
+                Pengembang sistem manufaktur cerdas dengan pengalaman magang di <strong>PT Menara Terus Makmur (Astra Otoparts Group)</strong> dalam digitalisasi pemeliharaan mesin presisi, sensor telemetri Jingduan 630T, display Andon Quality, dan sistem manajemen Capex & QPR.
               </p>
+
+              {/* MINI PROFILE GALLERY STRIP */}
+              <div style={{ marginBottom: 18, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
+                <div style={{ fontSize: "0.7rem", color: "var(--fg-muted)", fontWeight: 600, marginBottom: 8, display: "flex", alignItems: "center", gap: 5 }}>
+                  <Sparkles size={12} style={{ color: "var(--accent)" }} /> Profile Highlights & Moments
+                </div>
+                <div style={{ display: "flex", gap: 8, overflowX: "auto" }} className="no-scrollbar">
+                  {[
+                    { src: "/Profile/cosmic-hero.jpg", label: "Kosmik Imersif" },
+                    { src: "/Profile/Foto-Profil.jpg", label: "Jas Hitam" },
+                    { src: "/Profile/1.jpeg", label: "Portrait 1" },
+                    { src: "/Profile/2.jpeg", label: "Portrait 2" },
+                    { src: "/Profile/3.jpeg", label: "Portrait 3" },
+                    { src: "/Profile/4.jpeg", label: "Portrait 4" },
+                    { src: "/Profile/5.jpeg", label: "Portrait 5" },
+                  ].map((imgItem, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        position: "relative",
+                        width: 52,
+                        height: 52,
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        border: "1px solid var(--border)",
+                        flexShrink: 0,
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.borderColor = "var(--accent)";
+                        e.currentTarget.style.transform = "scale(1.08)";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.borderColor = "var(--border)";
+                        e.currentTarget.style.transform = "scale(1)";
+                      }}
+                      title={imgItem.label}
+                    >
+                      <img
+                        src={withBasePath(imgItem.src)}
+                        alt={imgItem.label}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Lokasi</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Cikarang, ID</div></div>
                 <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Kampus</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Pelita Bangsa</div></div>

@@ -16,3 +16,4 @@ export function withBasePath(path: string): string {
   }
   return `${basePath}${cleanPath}`;
 }
+
