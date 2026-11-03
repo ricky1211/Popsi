@@ -3,10 +3,10 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import {
-  GitBranch, Briefcase, Mail, Phone, MapPin,
-  Code2, BookOpen, Award, Users, Layers, Clock, ChevronRight,
-  Server, BarChart2, Wifi, Lock, Globe,
-  Star, ArrowRight, Database, Tv
+  GitBranch, Briefcase, Mail, Phone,
+  Code2, Award, Layers,
+  Server, BarChart2, Wifi, Globe,
+  Star, ArrowRight, Database
 } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { projectsData, ProjectItem } from "@/components/projectsData";
@@ -21,17 +21,17 @@ function useMounted() {
 }
 
 const skills = [
-  { icon: <Code2 size={20} />, label: "Frontend", items: ["HTML", "CSS", "React", "Next.js", "Tailwind"] },
-  { icon: <Server size={20} />, label: "Backend", items: ["Node.js", "Python", "FastAPI", "PHP", "Java"] },
-  { icon: <Database size={20} />, label: "Database", items: ["PostgreSQL", "MySQL", "Firebase", "InfluxDB"] },
-  { icon: <BarChart2 size={20} />, label: "Data & AI", items: ["Data Analysis", "NLP", "Machine Learning", "Streamlit"] },
-  { icon: <Wifi size={20} />, label: "Industrial & IoT", items: ["MQTT", "WebSockets", "ESP32", "Sensors", "Andon"] },
-  { icon: <Globe size={20} />, label: "DevOps & Tools", items: ["Git", "Docker", "Vercel", "Prisma", "Grafana"] },
+  { icon: <Wifi size={18} />, label: "Industrial & IoT", items: ["MQTT", "WebSockets", "ESP32", "InfluxDB"] },
+  { icon: <BarChart2 size={18} />, label: "AI & Telemetry", items: ["Python", "Machine Learning", "FFT", "Grafana"] },
+  { icon: <Code2 size={18} />, label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
+  { icon: <Server size={18} />, label: "Backend", items: ["FastAPI", "Node.js", "PHP", "Java"] },
+  { icon: <Database size={18} />, label: "Database", items: ["PostgreSQL", "MySQL", "Firebase", "Prisma"] },
+  { icon: <Globe size={18} />, label: "DevOps & Cloud", items: ["Docker", "Git", "Vercel", "REST API"] },
 ];
 
 const publications = [
-  { title: "Keamanan Sistem Operasi dalam Era Internet of Things", journal: "JATI – Sinta 4", year: "2025", icon: <Lock size={16} /> },
-  { title: "Implementasi Aplikasi Toolkit Data Mining", journal: "Publikasi Artikel Jurnal", year: "2025", icon: <BarChart2 size={16} /> },
+  { title: "Keamanan Sistem Operasi dalam Era Internet of Things", journal: "JATI – Sinta 4", year: "2025" },
+  { title: "Implementasi Aplikasi Toolkit Data Mining", journal: "Publikasi Jurnal Ilmiah", year: "2025" },
 ];
 
 function useReveal() {
@@ -50,7 +50,7 @@ function useReveal() {
 function Reveal({ children, delay = 0, style }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
   const { ref, visible } = useReveal();
   return (
-    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(28px)", transition: `opacity 0.65s ease ${delay}s, transform 0.65s ease ${delay}s`, ...style }}>
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.55s ease ${delay}s, transform 0.55s ease ${delay}s`, ...style }}>
       {children}
     </div>
   );
@@ -59,10 +59,10 @@ function Reveal({ children, delay = 0, style }: { children: React.ReactNode; del
 function SectionHeader({ label, title, sub }: { label: string; title: string; sub?: string }) {
   const { ref, visible } = useReveal();
   return (
-    <div ref={ref} style={{ marginBottom: 48, textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.6s, transform 0.6s" }}>
-      <span className="section-label">{label}</span>
-      <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.9rem,4vw,2.7rem)", margin: "10px 0 12px", lineHeight: 1.15 }}>{title}</h2>
-      {sub && <p style={{ color: "var(--fg-muted)", maxWidth: 620, margin: "0 auto", fontSize: "1.02rem", lineHeight: 1.65 }}>{sub}</p>}
+    <div ref={ref} style={{ marginBottom: 36, textAlign: "center", opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.5s, transform 0.5s" }}>
+      <span className="section-label" style={{ fontSize: "0.75rem", letterSpacing: "0.15em" }}>{label}</span>
+      <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.75rem,3.5vw,2.4rem)", margin: "8px 0 10px", lineHeight: 1.2 }}>{title}</h2>
+      {sub && <p style={{ color: "var(--fg-muted)", maxWidth: 540, margin: "0 auto", fontSize: "0.92rem", lineHeight: 1.55 }}>{sub}</p>}
     </div>
   );
 }
@@ -73,9 +73,8 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
 
   const ticker = [
-    "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "Customer Claims 8D",
-    "Capex Management", "IoT Telemetry", "Next.js", "React", "Python ML", "PostgreSQL",
-    "Firebase", "WebSockets", "FastAPI", "Tailwind CSS", "Docker", "Data Science"
+    "Predictive Maintenance", "Preventive Maintenance", "Andon Quality", "8D Customer Claims",
+    "Capex System", "IoT Sensors", "Next.js", "Python ML", "PostgreSQL", "WebSockets", "FastAPI"
   ];
 
   const categories = [
@@ -94,48 +93,62 @@ export default function Home() {
       <Navbar />
 
       {/* HERO SECTION */}
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", paddingTop: 80 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px", width: "100%" }}>
-          <div className="hero-grid" style={{ display: "grid", gap: 60, alignItems: "center" }}>
+      <div style={{ minHeight: "92vh", display: "flex", alignItems: "center", paddingTop: 76, paddingBottom: 40 }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 24px", width: "100%" }}>
+          <div className="hero-grid" style={{ display: "grid", gap: 48, alignItems: "center" }}>
             <div>
+              {/* Status Pill */}
               <div style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 100, padding: "6px 16px", marginBottom: 24,
-                opacity: mounted ? 1 : 0, transition: "opacity 0.5s"
+                display: "inline-flex", alignItems: "center", gap: 7,
+                background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 100, padding: "5px 14px", marginBottom: 20,
+                boxShadow: "0 2px 10px var(--shadow)",
+                opacity: mounted ? 1 : 0, transition: "opacity 0.4s"
               }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 0 3px rgba(34,197,94,0.2)" }} />
-                <span style={{ fontSize: "0.82rem", color: "var(--fg-muted)", fontWeight: 500 }}>Open to work · Cikarang, Indonesia</span>
+                <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 0 3px rgba(34,197,94,0.2)" }} />
+                <span style={{ fontSize: "0.78rem", color: "var(--fg-muted)", fontWeight: 600 }}>Available for Hire · Cikarang, ID</span>
               </div>
+
+              {/* Punchy Title */}
               <h1 style={{
-                fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2.6rem,5.5vw,3.8rem)",
-                lineHeight: 1.1, margin: "0 0 18px",
-                opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)",
-                transition: "opacity 0.7s 0.15s, transform 0.7s 0.15s"
+                fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2.4rem,5vw,3.5rem)",
+                lineHeight: 1.1, margin: "0 0 14px",
+                opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)",
+                transition: "opacity 0.6s 0.1s, transform 0.6s 0.1s"
               }}>
                 Ricky Alfian<br />
                 <span style={{ background: "linear-gradient(135deg,var(--accent),var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                   Saputra
                 </span>
               </h1>
+
+              {/* Compact 1-liner Intro */}
               <p style={{
-                fontSize: "1.08rem", color: "var(--fg-muted)", lineHeight: 1.72, marginBottom: 32, maxWidth: 480,
-                opacity: mounted ? 1 : 0, transition: "opacity 0.7s 0.3s"
+                fontSize: "1.02rem", color: "var(--fg-muted)", lineHeight: 1.65, marginBottom: 26, maxWidth: 460,
+                opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.2s"
               }}>
-                Mahasiswa Teknik Informatika yang berfokus pada <strong style={{ color: "var(--fg)" }}>Smart Manufacturing & IoT</strong>, <strong style={{ color: "var(--fg)" }}>Frontend Development</strong>, dan <strong style={{ color: "var(--fg)" }}>Data Analytics</strong>.
+                Membangun <strong style={{ color: "var(--fg)" }}>Smart Industrial Systems</strong>, telemetri IoT, arsitektur web modern, dan analitik berbasis data presisi.
               </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36, opacity: mounted ? 1 : 0, transition: "opacity 0.7s 0.4s" }}>
-                <a href="#projects" className="btn-primary">Lihat Projects <ArrowRight size={16} /></a>
-                <a href="https://porto-rubykappa.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-outline">Portfolio Lama</a>
+
+              {/* Action Buttons */}
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 28, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.3s" }}>
+                <a href="#projects" className="btn-primary" style={{ padding: "10px 22px", fontSize: "0.9rem" }}>
+                  Eksplorasi Project <ArrowRight size={15} />
+                </a>
+                <a href="#contact" className="btn-outline" style={{ padding: "10px 20px", fontSize: "0.9rem" }}>
+                  Kontak Langsung
+                </a>
               </div>
-              <div style={{ display: "flex", gap: 12, opacity: mounted ? 1 : 0, transition: "opacity 0.7s 0.5s" }}>
+
+              {/* Compact Social Badges */}
+              <div style={{ display: "flex", gap: 10, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.4s" }}>
                 {[
-                  { icon: <GitBranch size={18} />, href: "https://github.com/ricky1211", label: "GitHub" },
-                  { icon: <Briefcase size={18} />, href: "https://www.linkedin.com/in/rkyalfnsptr", label: "LinkedIn" },
-                  { icon: <Mail size={18} />, href: "mailto:rickyalfian751@gmail.com", label: "Email" },
-                  { icon: <Phone size={18} />, href: "tel:+6285215784866", label: "Phone" },
+                  { icon: <GitBranch size={16} />, href: "https://github.com/ricky1211", label: "GitHub" },
+                  { icon: <Briefcase size={16} />, href: "https://www.linkedin.com/in/rkyalfnsptr", label: "LinkedIn" },
+                  { icon: <Mail size={16} />, href: "mailto:rickyalfian751@gmail.com", label: "Email" },
+                  { icon: <Phone size={16} />, href: "tel:+6285215784866", label: "Phone" },
                 ].map(s => (
                   <a key={s.label} href={s.href} title={s.label} target="_blank" rel="noopener noreferrer" style={{
-                    width: 44, height: 44, borderRadius: 12, background: "var(--bg-card)",
+                    width: 38, height: 38, borderRadius: 10, background: "var(--bg-card)",
                     border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
                     color: "var(--fg-muted)", textDecoration: "none", transition: "all 0.2s",
                   }}
@@ -146,37 +159,40 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Globe side */}
+            {/* Globe Canvas with Clean Floating Badges */}
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ position: "relative", width: "min(380px, 85vw)", aspectRatio: "1" }}>
+              <div style={{ position: "relative", width: "min(350px, 80vw)", aspectRatio: "1" }}>
                 <div className="animate-float" style={{
-                  position: "absolute", top: "5%", right: "-5%", zIndex: 2,
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14,
-                  padding: "10px 16px", boxShadow: "0 8px 24px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 10,
+                  position: "absolute", top: "4%", right: "-4%", zIndex: 2,
+                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
+                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
+                  display: "flex", alignItems: "center", gap: 8,
                 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}><Code2 size={15} /></div>
-                  <div><div style={{ fontSize: "0.7rem", color: "var(--fg-muted)", fontWeight: 500 }}>Universitas</div><div style={{ fontSize: "0.82rem", fontWeight: 700 }}>Pelita Bangsa</div></div>
+                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}><Code2 size={14} /></div>
+                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>Prodi</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>Informatika</div></div>
                 </div>
+
                 <div className="animate-float delay-200" style={{
-                  position: "absolute", bottom: "10%", left: "-8%", zIndex: 2,
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14,
-                  padding: "10px 16px", boxShadow: "0 8px 24px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 10,
+                  position: "absolute", bottom: "8%", left: "-6%", zIndex: 2,
+                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
+                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
+                  display: "flex", alignItems: "center", gap: 8,
                 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#f0f5ff", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent2)" }}><Star size={15} /></div>
-                  <div><div style={{ fontSize: "0.7rem", color: "var(--fg-muted)", fontWeight: 500 }}>IPK</div><div style={{ fontSize: "0.82rem", fontWeight: 700 }}>3.55 / 4.00</div></div>
+                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#f0f5ff", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent2)" }}><Star size={14} /></div>
+                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>IPK</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>3.55 / 4.00</div></div>
                 </div>
+
                 <div className="animate-float delay-400" style={{
-                  position: "absolute", top: "45%", right: "-14%", zIndex: 2, transform: "translateY(-50%)",
-                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14,
-                  padding: "10px 16px", boxShadow: "0 8px 24px var(--shadow)",
-                  display: "flex", alignItems: "center", gap: 10,
+                  position: "absolute", top: "48%", right: "-10%", zIndex: 2, transform: "translateY(-50%)",
+                  background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12,
+                  padding: "8px 12px", boxShadow: "0 6px 20px var(--shadow)",
+                  display: "flex", alignItems: "center", gap: 8,
                 }}>
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#f0fff5", display: "flex", alignItems: "center", justifyContent: "center", color: "#22c55e" }}><Award size={15} /></div>
-                  <div><div style={{ fontSize: "0.7rem", color: "var(--fg-muted)", fontWeight: 500 }}>Publikasi</div><div style={{ fontSize: "0.82rem", fontWeight: 700 }}>Sinta 4</div></div>
+                  <div style={{ width: 28, height: 28, borderRadius: 6, background: "#f0fff5", display: "flex", alignItems: "center", justifyContent: "center", color: "#22c55e" }}><Award size={14} /></div>
+                  <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>Publikasi</div><div style={{ fontSize: "0.78rem", fontWeight: 700 }}>Sinta 4</div></div>
                 </div>
-                <div style={{ width: "100%", height: "100%", padding: 24 }}><GlobeCanvas /></div>
+
+                <div style={{ width: "100%", height: "100%", padding: 18 }}><GlobeCanvas /></div>
               </div>
             </div>
           </div>
@@ -184,135 +200,26 @@ export default function Home() {
       </div>
 
       {/* TICKER */}
-      <div style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", overflow: "hidden", padding: "13px 0", background: "var(--bg-card)" }}>
+      <div style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", overflow: "hidden", padding: "10px 0", background: "var(--bg-card)" }}>
         <div className="animate-marquee" style={{ display: "flex", gap: 0, width: "max-content" }}>
           {[...ticker, ...ticker].map((t, i) => (
-            <span key={i} style={{ padding: "0 24px", color: "var(--fg-muted)", fontWeight: 500, fontSize: "0.87rem", display: "flex", alignItems: "center", gap: 8, whiteSpace: "nowrap" }}>
+            <span key={i} style={{ padding: "0 20px", color: "var(--fg-muted)", fontWeight: 600, fontSize: "0.8rem", display: "flex", alignItems: "center", gap: 8, whiteSpace: "nowrap" }}>
               <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--accent)", display: "inline-block", flexShrink: 0 }} />{t}
             </span>
           ))}
         </div>
       </div>
 
-      {/* ABOUT */}
-      <section id="about" style={{ padding: "90px 24px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gap: 60, alignItems: "center" }} className="two-col">
-          <Reveal>
-            <div style={{ position: "relative", maxWidth: 340, margin: "0 auto" }}>
-              <div style={{
-                borderRadius: 28, overflow: "hidden", border: "1px solid var(--border)",
-                boxShadow: "0 20px 60px var(--shadow)", aspectRatio: "3/4",
-                background: "linear-gradient(135deg,#f5f0ea,#e8ddd4)",
-                display: "flex", alignItems: "center", justifyContent: "center"
-              }}>
-                <img src="/profile.jpg" alt="Ricky Alfian Saputra" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                  onError={e => {
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                    const fb = (e.currentTarget as HTMLImageElement).nextElementSibling as HTMLElement;
-                    if (fb) fb.style.display = "flex";
-                  }} />
-                <div style={{ display: "none", flexDirection: "column", alignItems: "center", gap: 10, padding: 32, textAlign: "center" }}>
-                  <div style={{ width: 80, height: 80, borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 32, fontWeight: 700 }}>R</div>
-                  <p style={{ color: "var(--fg-muted)", fontSize: "0.82rem" }}>Ricky Alfian Saputra</p>
-                </div>
-              </div>
-              <div style={{ position: "absolute", bottom: -14, right: -14, zIndex: -1, width: "100%", height: "100%", borderRadius: 28, border: "2px solid var(--border)" }} />
-            </div>
-          </Reveal>
-          <div>
-            <Reveal>
-              <span className="section-label">About Me</span>
-              <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", margin: "10px 0 18px", lineHeight: 1.2 }}>
-                Membangun solusi digital & smart manufacturing yang bermakna
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p style={{ color: "var(--fg-muted)", lineHeight: 1.75, marginBottom: 14 }}>
-                Mahasiswa <strong style={{ color: "var(--fg)" }}>Teknik Informatika, Universitas Pelita Bangsa</strong> Cikarang, dengan spesialisasi pengembangan sistem manufaktur cerdas, frontend web modern, dan analisis data telemetri.
-              </p>
-              <p style={{ color: "var(--fg-muted)", lineHeight: 1.75, marginBottom: 28 }}>
-                Berpengalaman membangun sistem enterprise seperti Predictive Maintenance, Preventive Maintenance digital, Andon Quality real-time, sistem CAPEX, hingga aplikasi web responsif dan project IoT komunitas. Memiliki 2 publikasi ilmiah di 2025.
-              </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 32 }}>
-                {[
-                  { icon: <MapPin size={15} />, label: "Lokasi", value: "Cikarang, Indonesia" },
-                  { icon: <BookOpen size={15} />, label: "Studi", value: "Teknik Informatika" },
-                  { icon: <Award size={15} />, label: "IPK", value: "3.55 / 4.00" },
-                  { icon: <Clock size={15} />, label: "Status", value: "Available for Hire" },
-                ].map(item => (
-                  <div key={item.label} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <div style={{ color: "var(--accent)", marginTop: 2, flexShrink: 0 }}>{item.icon}</div>
-                    <div>
-                      <div style={{ fontSize: "0.73rem", color: "var(--fg-muted)", fontWeight: 500 }}>{item.label}</div>
-                      <div style={{ fontSize: "0.88rem", fontWeight: 600 }}>{item.value}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: "flex", gap: 12 }}>
-                <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" className="btn-primary"><GitBranch size={16} /> GitHub</a>
-                <a href="https://www.linkedin.com/in/rkyalfnsptr" target="_blank" rel="noopener noreferrer" className="btn-outline"><Briefcase size={16} /> LinkedIn</a>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* SKILLS */}
-      <div style={{ background: "var(--bg-card)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-        <section id="skills" style={{ padding: "90px 24px", maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader label="Skills" title="Teknologi & Keahlian" sub="Penguasaan teknologi modern untuk membangun sistem end-to-end dari perangkat IoT hingga cloud dashboard." />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20 }}>
-            {skills.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.07}>
-                <div className="card" style={{ padding: 24, height: "100%" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}>{s.icon}</div>
-                    <h3 style={{ margin: 0, fontSize: "0.97rem", fontWeight: 700 }}>{s.label}</h3>
-                  </div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {s.items.map(it => <span key={it} className="tag">{it}</span>)}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-      </div>
-
       {/* PROJECTS SECTION WITH INTERACTIVE TV SHOWCASE */}
-      <section id="projects" style={{ padding: "90px 24px", maxWidth: 1160, margin: "0 auto" }}>
+      <section id="projects" style={{ padding: "70px 24px", maxWidth: 1140, margin: "0 auto" }}>
         <SectionHeader
-          label="Featured Works"
-          title="Karya & Project Showcase"
-          sub="Klik salah satu card project di bawah untuk menyalakan siaran TV interaktif dan masuk ke dalam detail sistem."
+          label="Portfolio Showcase"
+          title="Karya & Project Pilihan"
+          sub="Klik salah satu card untuk menyalakan siaran TV interaktif dan melihat detail sistem."
         />
 
-        {/* TV HINT CALLOUT */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 10,
-          background: "var(--bg-card)",
-          border: "1px solid var(--border)",
-          borderRadius: 100,
-          padding: "8px 20px",
-          width: "max-content",
-          margin: "0 auto 32px",
-          boxShadow: "0 2px 12px var(--shadow)"
-        }}>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 8px #22c55e" }} />
-          <Tv size={15} style={{ color: "var(--accent)" }} />
-          <span style={{ fontSize: "0.84rem", color: "var(--fg-muted)", fontWeight: 600 }}>
-            Interaktif: Klik card untuk animasi TV Turn-On & masuk ke dalam card
-          </span>
-        </div>
-
-        {/* CATEGORY FILTER TABS */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 38 }}>
+        {/* COMPACT CATEGORY FILTER TABS */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {categories.map(cat => {
             const isActive = activeCategory === cat.label;
             return (
@@ -324,24 +231,24 @@ export default function Home() {
                   color: isActive ? "#ffffff" : "var(--fg-muted)",
                   border: `1px solid ${isActive ? "var(--accent)" : "var(--border)"}`,
                   borderRadius: 100,
-                  padding: "8px 18px",
-                  fontSize: "0.85rem",
+                  padding: "6px 14px",
+                  fontSize: "0.8rem",
                   fontWeight: 600,
                   cursor: "pointer",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 6,
                   transition: "all 0.2s ease",
-                  boxShadow: isActive ? "0 4px 14px rgba(232, 103, 58, 0.3)" : "none",
+                  boxShadow: isActive ? "0 3px 12px rgba(232, 103, 58, 0.25)" : "none",
                 }}
               >
                 <span>{cat.label}</span>
                 <span style={{
-                  background: isActive ? "rgba(255,255,255,0.25)" : "#e2ddd8",
+                  background: isActive ? "rgba(255,255,255,0.25)" : "#ece7e1",
                   color: isActive ? "#ffffff" : "var(--fg)",
                   borderRadius: 100,
-                  padding: "1px 7px",
-                  fontSize: "0.72rem",
+                  padding: "1px 6px",
+                  fontSize: "0.68rem",
                   fontWeight: 700,
                 }}>
                   {cat.count}
@@ -351,143 +258,167 @@ export default function Home() {
           })}
         </div>
 
-        {/* PROJECTS GRID */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(330px,1fr))", gap: 24 }}>
+        {/* COMPACT & NEAT PROJECTS GRID */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(265px,1fr))", gap: 18 }}>
           {filteredProjects.map((p, i) => (
-            <Reveal key={p.id} delay={i * 0.05}>
+            <Reveal key={p.id} delay={i * 0.04}>
               <ProjectCard project={p} onOpenTv={(proj) => setSelectedProject(proj)} />
             </Reveal>
           ))}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 44 }}>
-          <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" className="btn-outline">
-            <GitBranch size={16} /> Lihat Semua Repository di GitHub
+        <div style={{ textAlign: "center", marginTop: 36 }}>
+          <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: "0.85rem", padding: "10px 20px" }}>
+            <GitBranch size={15} /> Semua Repositori di GitHub
           </a>
         </div>
       </section>
 
-      {/* EXPERIENCE */}
+      {/* SKILLS */}
       <div style={{ background: "var(--bg-card)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-        <section id="experience" style={{ padding: "90px 24px", maxWidth: 1100, margin: "0 auto" }}>
-          <SectionHeader label="Experience" title="Pengalaman & Riwayat" />
-          <div style={{ display: "grid", gap: 48 }} className="two-col">
-            <div>
-              <Reveal><h3 style={{ fontWeight: 700, marginBottom: 24, display: "flex", alignItems: "center", gap: 8 }}><Layers size={18} style={{ color: "var(--accent)" }} /> Pengalaman Kerja</h3></Reveal>
-              <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-                {[
-                  { role: "Full-Stack Web Developer", company: "Freelance", period: "Feb 2023 – Sekarang", desc: "Pengembangan sistem web enterprise, IoT monitoring, manajemen database, dan API integration.", icon: <Code2 size={18} />, color: "#e8673a" },
-                  { role: "Project Leader – IoT Penyiraman", company: "PERUM Graha Cikarang RT 02/RW 17", period: "Jun 2025 – Jul 2025", desc: "Memimpin perancangan sistem penyiraman otomatis berbasis IoT dengan sensor kelembapan tanah & ESP32.", icon: <Wifi size={18} />, color: "#3a7be8" },
-                  { role: "Staff Divisi PDD – Seminar", company: "Universitas Pelita Bangsa", period: "Des 2025", desc: "Publikasi, dekorasi, dan dokumentasi acara seminar; implementasi sistem absensi digital.", icon: <Users size={18} />, color: "#5a3ae8" },
-                ].map((e, i) => (
-                  <Reveal key={i} delay={i * 0.1}>
-                    <div style={{ display: "flex", gap: 14 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 10, background: e.color + "18", display: "flex", alignItems: "center", justifyContent: "center", color: e.color, flexShrink: 0 }}>{e.icon}</div>
-                      <div>
-                        <div style={{ fontSize: "0.78rem", color: "var(--fg-muted)", marginBottom: 2 }}>{e.period}</div>
-                        <div style={{ fontWeight: 700, fontSize: "0.93rem", marginBottom: 3 }}>{e.role}</div>
-                        <div style={{ fontSize: "0.83rem", color: "var(--accent)", fontWeight: 600, marginBottom: 6 }}>{e.company}</div>
-                        <p style={{ fontSize: "0.86rem", color: "var(--fg-muted)", lineHeight: 1.6, margin: 0 }}>{e.desc}</p>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-            <div>
-              <Reveal><h3 style={{ fontWeight: 700, marginBottom: 24, display: "flex", alignItems: "center", gap: 8 }}><BookOpen size={18} style={{ color: "var(--accent2)" }} /> Pendidikan</h3></Reveal>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 36 }}>
-                {[
-                  { school: "Universitas Pelita Bangsa", degree: "S1 Teknik Informatika, IPK 3.55", period: "Jul 2022 – Sep 2026", color: "var(--accent)" },
-                  { school: "SMK Puja Mahardika", degree: "Multimedia · Wakil Ketua OSIS", period: "Jul 2019 – Jun 2022", color: "var(--accent2)" },
-                ].map((ed, i) => (
-                  <Reveal key={i} delay={i * 0.1}>
-                    <div style={{ display: "flex", gap: 14 }}>
-                      <div style={{ width: 4, borderRadius: 2, background: ed.color, flexShrink: 0 }} />
-                      <div>
-                        <div style={{ fontSize: "0.76rem", color: "var(--fg-muted)", marginBottom: 2 }}>{ed.period}</div>
-                        <div style={{ fontWeight: 700, fontSize: "0.93rem" }}>{ed.school}</div>
-                        <div style={{ fontSize: "0.84rem", color: "var(--fg-muted)" }}>{ed.degree}</div>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-              <Reveal delay={0.1}><h3 style={{ fontWeight: 700, marginBottom: 18, display: "flex", alignItems: "center", gap: 8 }}><Award size={18} style={{ color: "#e8a03a" }} /> Publikasi</h3></Reveal>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {publications.map((pub, i) => (
-                  <Reveal key={i} delay={0.15 + i * 0.08}>
-                    <div className="card" style={{ padding: "16px 18px", display: "flex", gap: 12, alignItems: "flex-start" }}>
-                      <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fffbf0", display: "flex", alignItems: "center", justifyContent: "center", color: "#e8a03a", flexShrink: 0 }}>{pub.icon}</div>
-                      <div>
-                        <div style={{ fontSize: "0.86rem", fontWeight: 600, lineHeight: 1.4, marginBottom: 3 }}>{pub.title}</div>
-                        <div style={{ fontSize: "0.76rem", color: "var(--accent)" }}>{pub.journal} · {pub.year}</div>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
+        <section id="skills" style={{ padding: "70px 24px", maxWidth: 1060, margin: "0 auto" }}>
+          <SectionHeader label="Skillset" title="Keahlian & Teknologi" sub="Teknologi inti yang saya gunakan untuk merancang solusi digital terintegrasi." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14 }}>
+            {skills.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.05}>
+                <div className="card" style={{ padding: "16px 18px", height: "100%", borderRadius: 14 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <div style={{ width: 34, height: 34, borderRadius: 8, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)" }}>{s.icon}</div>
+                    <h3 style={{ margin: 0, fontSize: "0.88rem", fontWeight: 700 }}>{s.label}</h3>
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                    {s.items.map(it => (
+                      <span key={it} style={{ background: "#f3efe9", color: "var(--fg-muted)", fontSize: "0.72rem", padding: "3px 8px", borderRadius: 4, fontWeight: 500 }}>
+                        {it}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </section>
       </div>
 
-      {/* CONTACT */}
-      <section id="contact" style={{ padding: "90px 24px", maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
+      {/* ABOUT & EXPERIENCE COMPACT SECTION */}
+      <section id="about" style={{ padding: "70px 24px", maxWidth: 1060, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 40, alignItems: "start" }} className="two-col">
+          {/* Left: About Card */}
+          <Reveal>
+            <div className="card" style={{ padding: "24px", borderRadius: 18 }}>
+              <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 16 }}>
+                <img
+                  src="/profile.jpg"
+                  alt="Ricky Alfian"
+                  style={{ width: 64, height: 64, borderRadius: 14, objectFit: "cover" }}
+                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                />
+                <div>
+                  <h3 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 700 }}>Ricky Alfian Saputra</h3>
+                  <span style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600 }}>Teknik Informatika · Cikarang</span>
+                </div>
+              </div>
+              <p style={{ color: "var(--fg-muted)", fontSize: "0.86rem", lineHeight: 1.6, margin: "0 0 16px" }}>
+                Berfokus pada pengembangan sistem cerdas manufaktur (Predictive & Preventive Maintenance, Andon Board) dan web application modern.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Lokasi</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Cikarang, ID</div></div>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Kampus</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>Pelita Bangsa</div></div>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>IPK</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>3.55 / 4.00</div></div>
+                <div><div style={{ fontSize: "0.68rem", color: "var(--fg-muted)" }}>Pengalaman</div><div style={{ fontSize: "0.82rem", fontWeight: 600 }}>2023 – Now</div></div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Right: Experience & Publications */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <Reveal delay={0.1}>
+              <h3 style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 12, display: "flex", alignItems: "center", gap: 6 }}>
+                <Layers size={16} style={{ color: "var(--accent)" }} /> Riwayat Pengalaman
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[
+                  { role: "Full-Stack Web Developer", company: "Freelance", period: "2023 – Sekarang", desc: "Membangun sistem web enterprise manufaktur, API backend, dan dashboard visual." },
+                  { role: "Project Leader – IoT Penyiraman", company: "Perum Graha Cikarang", period: "2025", desc: "Perancangan sistem otomasi penyiraman berbasis sensor ESP32." },
+                  { role: "Staff Divisi PDD", company: "Seminar Universitas Pelita Bangsa", period: "2025", desc: "Dokumentasi & implementasi sistem absensi digital seminar." },
+                ].map((exp, i) => (
+                  <div key={i} style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 14px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2 }}>
+                      <span style={{ fontWeight: 700, fontSize: "0.85rem" }}>{exp.role}</span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--fg-muted)" }}>{exp.period}</span>
+                    </div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600, marginBottom: 3 }}>{exp.company}</div>
+                    <p style={{ margin: 0, fontSize: "0.78rem", color: "var(--fg-muted)", lineHeight: 1.45 }}>{exp.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Compact Publications */}
+            <Reveal delay={0.15}>
+              <h3 style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
+                <Award size={16} style={{ color: "var(--accent2)" }} /> Publikasi Ilmiah
+              </h3>
+              <div style={{ display: "grid", gap: 8 }}>
+                {publications.map((pub, i) => (
+                  <div key={i} style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: "0.8rem", fontWeight: 600 }}>{pub.title}</span>
+                    <span style={{ fontSize: "0.72rem", color: "var(--accent)", fontWeight: 700, flexShrink: 0, marginLeft: 10 }}>{pub.journal}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT COMPACT */}
+      <section id="contact" style={{ padding: "60px 24px", maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
         <Reveal>
-          <span className="section-label">Contact</span>
-          <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2rem,4vw,2.8rem)", margin: "10px 0 14px" }}>Yuk, Berkolaborasi!</h2>
-          <p style={{ color: "var(--fg-muted)", lineHeight: 1.7, marginBottom: 40, fontSize: "1.04rem" }}>
-            Saya terbuka untuk peluang kerja, freelance, kolaborasi project industri, atau sekadar diskusi teknologi.
+          <span className="section-label" style={{ fontSize: "0.75rem" }}>Contact</span>
+          <h2 style={{ fontFamily: "var(--font-dm-serif)", fontSize: "clamp(1.75rem,3.5vw,2.3rem)", margin: "8px 0 10px" }}>Mari Berkolaborasi</h2>
+          <p style={{ color: "var(--fg-muted)", fontSize: "0.92rem", marginBottom: 24 }}>
+            Terbuka untuk peluang kerja sama, project freelance, maupun diskusi sistem IoT & web.
           </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 32 }}>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 24 }}>
             {[
-              { icon: <Mail size={20} />, label: "Email", value: "rickyalfian751@gmail.com", href: "mailto:rickyalfian751@gmail.com" },
-              { icon: <Phone size={20} />, label: "WhatsApp", value: "+62 852-1578-4866", href: "https://wa.me/6285215784866" },
-              { icon: <GitBranch size={20} />, label: "GitHub", value: "github.com/ricky1211", href: "https://github.com/ricky1211" },
-              { icon: <Briefcase size={20} />, label: "LinkedIn", value: "linkedin.com/in/rkyalfnsptr", href: "https://www.linkedin.com/in/rkyalfnsptr" },
+              { icon: <Mail size={16} />, label: "Email", value: "rickyalfian751@gmail.com", href: "mailto:rickyalfian751@gmail.com" },
+              { icon: <Phone size={16} />, label: "WhatsApp", value: "+62 852-1578-4866", href: "https://wa.me/6285215784866" },
+              { icon: <GitBranch size={16} />, label: "GitHub", value: "github.com/ricky1211", href: "https://github.com/ricky1211" },
+              { icon: <Briefcase size={16} />, label: "LinkedIn", value: "rkyalfnsptr", href: "https://www.linkedin.com/in/rkyalfnsptr" },
             ].map(c => (
               <a key={c.label} href={c.href} target="_blank" rel="noopener noreferrer" className="card"
-                style={{ padding: "18px", display: "flex", gap: 12, alignItems: "center", textDecoration: "none", color: "inherit", textAlign: "left" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)", flexShrink: 0 }}>{c.icon}</div>
+                style={{ padding: "12px 14px", display: "flex", gap: 10, alignItems: "center", textDecoration: "none", color: "inherit", textAlign: "left", borderRadius: 12 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: "#fff5f0", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent)", flexShrink: 0 }}>{c.icon}</div>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: "0.73rem", color: "var(--fg-muted)", fontWeight: 500 }}>{c.label}</div>
-                  <div style={{ fontSize: "0.82rem", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.value}</div>
+                  <div style={{ fontSize: "0.68rem", color: "var(--fg-muted)", fontWeight: 500 }}>{c.label}</div>
+                  <div style={{ fontSize: "0.78rem", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.value}</div>
                 </div>
-                <ChevronRight size={14} style={{ color: "var(--fg-muted)", marginLeft: "auto", flexShrink: 0 }} />
               </a>
             ))}
           </div>
-          <a href="mailto:rickyalfian751@gmail.com" className="btn-primary" style={{ fontSize: "1rem", padding: "14px 36px" }}>
-            <Mail size={17} /> Kirim Pesan
+
+          <a href="mailto:rickyalfian751@gmail.com" className="btn-primary" style={{ fontSize: "0.92rem", padding: "10px 28px" }}>
+            <Mail size={15} /> Kirim Pesan Cepat
           </a>
         </Reveal>
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid var(--border)", padding: "26px 24px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ fontWeight: 700 }}>Ricky Alfian Saputra</span>
-          <span style={{ color: "var(--fg-muted)", fontSize: "0.87rem" }}>© 2025 · Built with Next.js & ❤️</span>
-          <div style={{ display: "flex", gap: 14 }}>
-            {[
-              { icon: <GitBranch size={16} />, href: "https://github.com/ricky1211" },
-              { icon: <Briefcase size={16} />, href: "https://www.linkedin.com/in/rkyalfnsptr" },
-              { icon: <Mail size={16} />, href: "mailto:rickyalfian751@gmail.com" },
-            ].map((s, i) => (
-              <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
-                style={{ color: "var(--fg-muted)", textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "var(--accent)")}
-                onMouseLeave={e => (e.currentTarget.style.color = "var(--fg-muted)")}
-              >{s.icon}</a>
-            ))}
+      <footer style={{ borderTop: "1px solid var(--border)", padding: "20px 24px" }}>
+        <div style={{ maxWidth: 1060, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ fontWeight: 700, fontSize: "0.9rem" }}>Ricky Alfian Saputra</span>
+          <span style={{ color: "var(--fg-muted)", fontSize: "0.8rem" }}>© 2025 · Built with Next.js & React</span>
+          <div style={{ display: "flex", gap: 12 }}>
+            <a href="https://github.com/ricky1211" target="_blank" rel="noopener noreferrer" style={{ color: "var(--fg-muted)" }}><GitBranch size={15} /></a>
+            <a href="https://www.linkedin.com/in/rkyalfnsptr" target="_blank" rel="noopener noreferrer" style={{ color: "var(--fg-muted)" }}><Briefcase size={15} /></a>
+            <a href="mailto:rickyalfian751@gmail.com" style={{ color: "var(--fg-muted)" }}><Mail size={15} /></a>
           </div>
         </div>
       </footer>
 
-      {/* INTERACTIVE TV MODAL (When any card is clicked) */}
+      {/* INTERACTIVE TV MODAL */}
       {selectedProject && (
         <ProjectTvModal
           project={selectedProject}

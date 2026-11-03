@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ProjectItem } from "./projectsData";
-import { ExternalLink, Tv, ArrowRight } from "lucide-react";
+import { ExternalLink, Tv, ArrowUpRight } from "lucide-react";
 
 interface ProjectCardProps {
   project: ProjectItem;
@@ -11,11 +11,10 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPressing, setIsPressing] = useState(false);
 
   return (
     <div
-      className="card project-interactive-card"
+      className="card project-compact-card"
       style={{
         overflow: "hidden",
         height: "100%",
@@ -23,38 +22,28 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
         flexDirection: "column",
         cursor: "pointer",
         position: "relative",
-        border: `1px solid ${isHovered ? project.color + "66" : "var(--border)"}`,
+        background: "var(--bg-card)",
+        border: `1px solid ${isHovered ? project.color + "77" : "var(--border)"}`,
+        borderRadius: 18,
         boxShadow: isHovered
-          ? `0 16px 42px var(--shadow), 0 0 24px ${project.color}25`
-          : "0 4px 20px var(--shadow)",
-        transform: isPressing
-          ? "scale(0.97)"
-          : isHovered
-          ? "translateY(-6px)"
-          : "translateY(0)",
-        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+          ? `0 14px 36px var(--shadow), 0 0 20px ${project.color}20`
+          : "0 3px 16px var(--shadow)",
+        transform: isHovered ? "translateY(-5px)" : "translateY(0)",
+        transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
-      onClick={() => {
-        setIsPressing(true);
-        setTimeout(() => setIsPressing(false), 200);
-        onOpenTv(project);
-      }}
+      onClick={() => onOpenTv(project)}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setIsPressing(false);
-      }}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* CARD IMAGE CONTAINER WITH OVERLAYS */}
+      {/* COMPACT THUMBNAIL WITH HUD OVERLAYS */}
       <div
         style={{
           position: "relative",
-          height: "190px",
+          height: 160,
           overflow: "hidden",
-          background: "#0f172a",
+          background: "#090d16",
         }}
       >
-        {/* Project Real Photo */}
         <img
           src={project.image}
           alt={project.title}
@@ -62,29 +51,34 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            transform: isHovered ? "scale(1.08)" : "scale(1)",
-            transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+            transform: isHovered ? "scale(1.06)" : "scale(1)",
+            transition: "transform 0.5s ease",
           }}
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";
           }}
         />
 
-        {/* Gradient shadow overlay for legibility */}
+        {/* Gradient Scrim */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.1) 40%, rgba(15,23,42,0.85) 100%)",
+            background: "linear-gradient(180deg, rgba(10,14,24,0.3) 0%, rgba(10,14,24,0.1) 40%, rgba(10,14,24,0.85) 100%)",
           }}
         />
 
-        {/* TOP BADGES: Channel & TV Indicator */}
+        {/* HUD CORNER BRACKETS */}
+        <div style={{ position: "absolute", top: 8, left: 8, width: 8, height: 8, borderTop: "2px solid rgba(255,255,255,0.6)", borderLeft: "2px solid rgba(255,255,255,0.6)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 8, right: 8, width: 8, height: 8, borderTop: "2px solid rgba(255,255,255,0.6)", borderRight: "2px solid rgba(255,255,255,0.6)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: 8, left: 8, width: 8, height: 8, borderBottom: "2px solid rgba(255,255,255,0.6)", borderLeft: "2px solid rgba(255,255,255,0.6)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: 8, right: 8, width: 8, height: 8, borderBottom: "2px solid rgba(255,255,255,0.6)", borderRight: "2px solid rgba(255,255,255,0.6)", pointerEvents: "none" }} />
+
+        {/* TOP BAR: Channel Pill + Category */}
         <div
           style={{
             position: "absolute",
-            top: 12,
+            top: 10,
             left: 12,
             right: 12,
             display: "flex",
@@ -93,69 +87,47 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             pointerEvents: "none",
           }}
         >
-          {/* Channel badge */}
           <div
             style={{
-              background: "rgba(15, 23, 42, 0.85)",
-              border: `1px solid ${project.color}88`,
-              borderRadius: 8,
-              padding: "4px 9px",
+              background: "rgba(10, 14, 26, 0.88)",
+              border: `1px solid ${project.color}77`,
+              borderRadius: 6,
+              padding: "3px 8px",
               display: "flex",
               alignItems: "center",
               gap: 5,
-              fontSize: "0.75rem",
+              fontSize: "0.72rem",
               fontWeight: 800,
               color: project.color,
-              backdropFilter: "blur(8px)",
               fontFamily: "monospace",
+              backdropFilter: "blur(6px)",
             }}
           >
+            <Tv size={11} />
             <span>{project.channel}</span>
-            <span style={{ color: "#64748b" }}>·</span>
-            <span style={{ color: "#e2e8f0", fontSize: "0.7rem", fontWeight: 600 }}>
-              {project.category}
-            </span>
           </div>
 
-          {/* Interactive TV Portal Badge */}
-          <div
+          <span
             style={{
-              background: isHovered ? project.color : "rgba(15, 23, 42, 0.85)",
-              color: isHovered ? "#ffffff" : "#f1f5f9",
-              border: `1px solid ${isHovered ? project.color : "rgba(255,255,255,0.18)"}`,
-              borderRadius: 100,
-              padding: "4px 10px",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              fontSize: "0.72rem",
-              fontWeight: 700,
-              boxShadow: isHovered
-                ? `0 0 16px ${project.color}88`
-                : "0 2px 8px rgba(0,0,0,0.4)",
-              transition: "all 0.25s ease",
+              background: "rgba(15, 23, 42, 0.82)",
+              color: "#cbd5e1",
+              border: "1px solid rgba(255,255,255,0.12)",
+              borderRadius: 6,
+              padding: "2px 7px",
+              fontSize: "0.68rem",
+              fontWeight: 600,
+              backdropFilter: "blur(4px)",
             }}
           >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: "50%",
-                background: isHovered ? "#ffffff" : "#22c55e",
-                display: "inline-block",
-                boxShadow: "0 0 6px #22c55e",
-              }}
-            />
-            <Tv size={12} />
-            <span>TV Portal</span>
-          </div>
+            {project.category}
+          </span>
         </div>
 
-        {/* BOTTOM BADGE: Metric or Status */}
+        {/* BOTTOM BAR: Metric Callout */}
         <div
           style={{
             position: "absolute",
-            bottom: 10,
+            bottom: 8,
             left: 12,
             right: 12,
             display: "flex",
@@ -164,34 +136,28 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             pointerEvents: "none",
           }}
         >
-          {project.metrics ? (
-            <span
-              style={{
-                background: "rgba(15, 23, 42, 0.9)",
-                color: project.color,
-                border: `1px solid ${project.color}55`,
-                borderRadius: 6,
-                padding: "2px 8px",
-                fontSize: "0.72rem",
-                fontWeight: 700,
-                backdropFilter: "blur(6px)",
-              }}
-            >
-              ⚡ {project.metrics.value}
-            </span>
-          ) : (
-            <span />
-          )}
+          <span
+            style={{
+              background: "rgba(10, 14, 26, 0.9)",
+              color: project.color,
+              border: `1px solid ${project.color}55`,
+              borderRadius: 4,
+              padding: "2px 6px",
+              fontSize: "0.7rem",
+              fontWeight: 700,
+            }}
+          >
+            ⚡ {project.metrics.value}
+          </span>
 
           <span
             style={{
-              background: project.status === "Live" ? "#22c55e" : "#3b82f6",
+              background: project.status === "Live" ? "#16a34a" : "#2563eb",
               color: "#ffffff",
-              borderRadius: 6,
-              padding: "2px 8px",
-              fontSize: "0.68rem",
+              borderRadius: 4,
+              padding: "1px 6px",
+              fontSize: "0.65rem",
               fontWeight: 700,
-              letterSpacing: "0.04em",
               textTransform: "uppercase",
             }}
           >
@@ -199,75 +165,81 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
           </span>
         </div>
 
-        {/* HOVER OVERLAY: "Klik untuk Masuk" */}
+        {/* HOVER QUICK PORTAL LAUNCH OVERLAY */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(10, 15, 30, 0.72)",
+            background: "rgba(10, 14, 26, 0.75)",
+            backdropFilter: "blur(3px)",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            gap: 8,
+            gap: 6,
             color: "#ffffff",
             opacity: isHovered ? 1 : 0,
-            transform: isHovered ? "translateY(0)" : "translateY(8px)",
-            transition: "all 0.25s ease",
-            backdropFilter: "blur(3px)",
+            transition: "opacity 0.2s ease",
             pointerEvents: "none",
           }}
         >
           <div
             style={{
-              width: 44,
-              height: 44,
+              width: 32,
+              height: 32,
               borderRadius: "50%",
               background: project.color,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: `0 0 20px ${project.color}99`,
+              boxShadow: `0 0 16px ${project.color}`,
             }}
           >
-            <Tv size={22} color="#ffffff" />
+            <Tv size={16} />
           </div>
-          <span style={{ fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.02em" }}>
-            Nyalakan TV & Masuk Project
+          <span style={{ fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.03em" }}>
+            Masuk TV Portal
           </span>
         </div>
       </div>
 
-      {/* CARD CONTENT BODY */}
-      <div
-        style={{
-          padding: "18px 20px 20px",
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-        }}
-      >
-        {/* Title */}
-        <h3
-          style={{
-            margin: "0 0 6px",
-            fontSize: "1.08rem",
-            fontWeight: 700,
-            lineHeight: 1.3,
-            color: isHovered ? project.color : "var(--fg)",
-            transition: "color 0.2s ease",
-          }}
-        >
-          {project.title}
-        </h3>
+      {/* COMPACT CARD BODY */}
+      <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", flex: 1 }}>
+        {/* Title & Tagline */}
+        <div style={{ marginBottom: 6 }}>
+          <h3
+            style={{
+              margin: 0,
+              fontSize: "1rem",
+              fontWeight: 700,
+              lineHeight: 1.3,
+              color: isHovered ? project.color : "var(--fg)",
+              transition: "color 0.2s ease",
+            }}
+          >
+            {project.title}
+          </h3>
+          <p
+            style={{
+              fontSize: "0.74rem",
+              color: "var(--fg-muted)",
+              margin: "2px 0 0",
+              fontWeight: 500,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {project.subtitle}
+          </p>
+        </div>
 
-        {/* Short description */}
+        {/* 1-Line Description */}
         <p
           style={{
             color: "var(--fg-muted)",
-            fontSize: "0.86rem",
-            lineHeight: 1.6,
-            margin: "0 0 14px",
+            fontSize: "0.82rem",
+            lineHeight: 1.45,
+            margin: "0 0 10px",
             flex: 1,
             display: "-webkit-box",
             WebkitLineClamp: 2,
@@ -278,45 +250,38 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
           {project.desc}
         </p>
 
-        {/* Tags */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 5,
-            marginBottom: 16,
-          }}
-        >
-          {project.tags.slice(0, 4).map((tag) => (
+        {/* Micro Tech Stack Chips */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 12 }}>
+          {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="tag"
               style={{
-                fontSize: "0.74rem",
-                padding: "3px 10px",
+                background: "#f1ede7",
+                color: "var(--fg-muted)",
+                fontSize: "0.7rem",
+                fontWeight: 600,
+                padding: "2px 7px",
+                borderRadius: 4,
               }}
             >
               {tag}
             </span>
           ))}
-          {project.tags.length > 4 && (
-            <span
-              className="tag"
-              style={{ fontSize: "0.72rem", padding: "3px 8px", color: "var(--fg-muted)" }}
-            >
-              +{project.tags.length - 4}
+          {project.tags.length > 3 && (
+            <span style={{ fontSize: "0.68rem", color: "var(--fg-muted)", padding: "2px 4px" }}>
+              +{project.tags.length - 3}
             </span>
           )}
         </div>
 
-        {/* Card Footer: Interactive Trigger Link */}
+        {/* Card Footer: Interactive Link */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             borderTop: "1px solid var(--border)",
-            paddingTop: 12,
+            paddingTop: 8,
             marginTop: "auto",
           }}
         >
@@ -324,14 +289,13 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 6,
+              gap: 4,
               color: project.color,
               fontWeight: 700,
-              fontSize: "0.86rem",
-              transition: "gap 0.2s ease",
+              fontSize: "0.8rem",
             }}
           >
-            Tonton & Jelajahi <ArrowRight size={14} />
+            Buka Siaran <ArrowUpRight size={13} />
           </span>
 
           {project.link && (
@@ -340,23 +304,20 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              title="Buka langsung tautan web"
+              title="Buka Live Web Langsung"
               style={{
                 color: "var(--fg-muted)",
                 display: "flex",
                 alignItems: "center",
-                gap: 4,
-                fontSize: "0.75rem",
+                gap: 3,
+                fontSize: "0.72rem",
                 textDecoration: "none",
-                padding: "2px 6px",
-                borderRadius: 4,
-                transition: "color 0.2s",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = project.color)}
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-muted)")}
             >
-              <span>Live Web</span>
-              <ExternalLink size={12} />
+              <span>Live</span>
+              <ExternalLink size={10} />
             </a>
           )}
         </div>

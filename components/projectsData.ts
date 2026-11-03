@@ -5,7 +5,6 @@ export interface ProjectItem {
   subtitle: string;
   category: "Industrial & IoT" | "Web & App" | "Data & AI";
   desc: string;
-  fullDesc: string;
   problem: string;
   solution: string;
   highlights: string[];
@@ -13,8 +12,7 @@ export interface ProjectItem {
   tags: string[];
   image: string;
   link?: string;
-  github?: string;
-  status: "Live" | "Enterprise" | "In Development";
+  status: "Live" | "Enterprise" | "In Dev";
   color: string;
 }
 
@@ -22,21 +20,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "predictive-maintenance",
     channel: "CH 01",
-    title: "Predictive Maintenance (PdM)",
-    subtitle: "AI-Powered Industrial Telemetry & Failure Prediction",
+    title: "Predictive Maintenance",
+    subtitle: "IoT Telemetry · ML Failure Prediction",
     category: "Industrial & IoT",
-    desc: "Sistem monitoring kondisi mesin berbasis sensor vibrasi & temperatur dengan Machine Learning untuk prediksi kerusakan.",
-    fullDesc: "Platform Predictive Maintenance cerdas yang mengintegrasikan sensor vibrasi, temperatur, dan arus listrik pada mesin industri. Data dikirim secara real-time via MQTT ke server analitik untuk memprediksi potensi kegagalan komponen (bearing failure, unbalance, overheating) jauh sebelum mesin mengalami kerusakan fatal.",
-    problem: "Kerusakan mesin yang mendadak (unplanned downtime) di lini produksi manufaktur menyebabkan kerugian finansial puluhan juta rupiah per jam dan mengganggu target delivery.",
-    solution: "Menerapkan model Machine Learning Random Forest & LSTM untuk menghitung Remaining Useful Life (RUL) mesin serta memberikan rekomendasi tindakan pemeliharaan preventif secara otomatis.",
+    desc: "Monitoring sensor getaran & suhu mesin via ML untuk mencegah kerusakan mendadak.",
+    problem: "Unplanned downtime mesin menyebabkan kerugian puluhan juta rupiah per jam.",
+    solution: "Model Random Forest & FFT memprediksi sisa umur mesin (RUL) sebelum rusak.",
     highlights: [
-      "Real-time sensor telemetry via MQTT & WebSockets (< 300ms latency)",
-      "Deteksi anomali vibrasi dengan algoritma FFT (Fast Fourier Transform)",
-      "Automated alert notification via Telegram Bot & Email darurat",
-      "Interactive vibration spectrum & temperature trend visualization"
+      "Vibration spectrum FFT",
+      "Alert bot Telegram real-time",
+      "Sensor MQTT < 300ms latency",
+      "InfluxDB & Grafana dashboard"
     ],
-    metrics: { label: "Unplanned Downtime", value: "Turun 38%" },
-    tags: ["IoT Sensors", "Python", "Machine Learning", "FastAPI", "InfluxDB", "Grafana"],
+    metrics: { label: "Downtime", value: "-38% Unplanned" },
+    tags: ["IoT ESP32", "Python ML", "FastAPI", "InfluxDB"],
     image: "/projects/predictive-maintenance.jpg",
     status: "Enterprise",
     color: "#f97316"
@@ -44,21 +41,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "preventive-maintenance",
     channel: "CH 02",
-    title: "Preventive Maintenance System",
-    subtitle: "Automated Digital Work Orders & Machine Health Tracking",
+    title: "Preventive Maintenance",
+    subtitle: "Digital Work Orders · MTBF / MTTR",
     category: "Industrial & IoT",
-    desc: "Platform digitalisasi jadwal servis berkala, checklist inspeksi teknisi, dan pelacakan metrik MTBF & MTTR mesin.",
-    fullDesc: "Aplikasi manajemen pemeliharaan terencana (PM) terpusat untuk industri manufaktur modern. Menggantikan checklist kertas konvensional dengan sistem verifikasi fisik QR-Code pada mesin, penjadwalan otomatis berbasis jam operasional (running hours), dan kalkulasi otomatis MTBF/MTTR.",
-    problem: "Jadwal servis mesin sering terlewat karena pencatatan manual di kertas, riwayat kerusakan sulit dilacak, dan audit pemeliharaan memakan waktu berhari-hari.",
-    solution: "Sistem inspeksi digital berbasis QR-Code di tiap mesin, delegasi work order otomatis kepada teknisi piket, dan dashboard KPI performa mesin secara transparan.",
+    desc: "Digitalisasi checklist inspeksi fisik & otomasi jadwal servis mesin berkala.",
+    problem: "Servis mesin sering terlewat akibat pencatatan manual kertas yang berserakan.",
+    solution: "Verifikasi fisik via QR-Code mesin dan perhitungan otomatis MTBF & MTTR.",
     highlights: [
-      "Dynamic calendar & automated PM schedule generator",
-      "QR code machine tagging untuk verifikasi fisik kehadiran teknisi",
-      "Otomatisasi kalkulasi MTBF (Mean Time Between Failures) & MTTR",
-      "Digital audit logbook & export PDF laporan pemeliharaan lengkap"
+      "QR-code tag verifikasi teknisi",
+      "Auto calendar PM generator",
+      "Kalkulasi MTBF/MTTR live",
+      "Logbook digital export PDF"
     ],
-    metrics: { label: "Kepatuhan Jadwal PM", value: "99.4% On-Time" },
-    tags: ["Next.js", "PostgreSQL", "Node.js", "Docker", "Prisma", "Tailwind CSS"],
+    metrics: { label: "Kepatuhan PM", value: "99.4% On-Time" },
+    tags: ["Next.js", "PostgreSQL", "Node.js", "Docker"],
     image: "/projects/preventive-maintenance.jpg",
     status: "Enterprise",
     color: "#0284c7"
@@ -67,20 +63,19 @@ export const projectsData: ProjectItem[] = [
     id: "andon-quality",
     channel: "CH 03",
     title: "Andon Quality Display",
-    subtitle: "Real-time Shopfloor Stop & Defect Alert System",
+    subtitle: "Real-time Shopfloor Stop & Alert",
     category: "Industrial & IoT",
-    desc: "Sistem display visual lantai produksi real-time untuk sinyal abnormalitas kualitas dan alert line stop.",
-    fullDesc: "Sistem Andon digital modern yang menghubungkan switch operator lantai produksi dengan layar display utama pabrik. Ketika terjadi deviasi kualitas atau bottle-neck material, operator dapat memicu sinyal lampu Andon secara instan, memanggil leader/QC, dan mencatat waktu response stoppage.",
-    problem: "Keterlambatan respon tim support saat terjadi defect di assembly line mengakibatkan produk cacat terlanjur lolos dan jalur terhenti berlarut-larut.",
-    solution: "Display Andon visual berbasis WebSockets dengan update latency < 500ms, integrasi push notification ke smartwatch/ponsel supervisor, dan pencatatan Pareto alasan stop.",
+    desc: "Display visual lantai pabrik real-time untuk sinyal abnormalitas dan line stop.",
+    problem: "Keterlambatan respon supervisor saat terjadi defect berujung produk cacat lolos.",
+    solution: "Andon visual berbasis WebSockets instan dengan notifikasi darurat < 500ms.",
     highlights: [
-      "Ultra low-latency WebSocket shopfloor digital board",
-      "3-Color visual status (Hijau: Normal, Kuning: Bantuan, Merah: Line Stop)",
-      "Automatic timer stoppage duration logging & SLA escalation",
-      "Analisa Pareto defect harian dan per shift kerja produksi"
+      "Board visual 3 warna standar pabrik",
+      "Push alert leader smartwatch",
+      "Auto-timer stoppage duration",
+      "Analisa Pareto defect shift"
     ],
-    metrics: { label: "Response Time Leader", value: "< 45 Detik" },
-    tags: ["WebSockets", "React", "MQTT", "ESP32", "Node.js", "PostgreSQL"],
+    metrics: { label: "Respon Leader", value: "< 45 Detik" },
+    tags: ["WebSockets", "React", "MQTT", "Node.js"],
     image: "/projects/andon-quality.jpg",
     status: "Enterprise",
     color: "#ef4444"
@@ -88,21 +83,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "claim-customers",
     channel: "CH 04",
-    title: "Claim Customers & 8D Portal",
-    subtitle: "Quality Complaints, RMA Tracking & 8D Investigation",
+    title: "Claim Customers 8D",
+    subtitle: "Complaint Workflow · Root Cause Analysis",
     category: "Web & App",
-    desc: "Portal manajemen klaim garansi & komplain kualitas pelanggan dengan alur investigasi 8D Report terintegrasi.",
-    fullDesc: "Sistem informasi komprehensif untuk menangani feedback dan keluhan kualitas dari customer (OEM & Distributor). Meliputi pencatatan tiket klaim, pengunggahan bukti cacat foto/video, alur investigasi tim QA, penerbitan laporan 8D (Eight Disciplines of Problem Solving), hingga kompensasi / RMA.",
-    problem: "Proses penanganan klaim customer lambat dan berserakan di email, menyebabkan hilangnya kepuasan pelanggan dan lambatnya identifikasi akar masalah (root cause).",
-    solution: "Standarisasi tiket klaim terintegrasi dengan workflow 8D Report digital, SLA tracking, dan analisa penyebab menggunakan 5-Why Analysis & Fishbone.",
+    desc: "Portal terpadu penanganan komplain kualitas customer dengan alur investigasi 8D.",
+    problem: "Penanganan klaim lambat di email membuat customer kecewa dan defect berulang.",
+    solution: "Sistem tiket klaim terstandarisasi, countdown SLA, dan generator 8D Report.",
     highlights: [
-      "End-to-end customer complaint ticketing & SLA countdown",
-      "Built-in 8D Report generator dengan ekspor PDF siap kirim ke customer",
-      "Root cause analysis tool (Ishikawa Fishbone & 5-Why digital)",
-      "Customer satisfaction survey & warranty claim approval matrix"
+      "Generator 8D Report otomatis",
+      "Fishbone & 5-Why digital",
+      "Upload bukti foto & video cacat",
+      "SLA alert & counter kompensasi"
     ],
-    metrics: { label: "Resolusi Komplain", value: "3x Lebih Cepat" },
-    tags: ["React", "Express.js", "PostgreSQL", "Tailwind CSS", "PDF Generator"],
+    metrics: { label: "Resolusi Klaim", value: "3x Lebih Cepat" },
+    tags: ["React", "Express.js", "PostgreSQL", "Tailwind"],
     image: "/projects/claim-customers.jpg",
     status: "Enterprise",
     color: "#8b5cf6"
@@ -110,21 +104,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "capex",
     channel: "CH 05",
-    title: "Capex Management System",
-    subtitle: "Capital Expenditure Feasibility & Multi-Tier Approval",
+    title: "Capex Management",
+    subtitle: "Capital Budget · Feasibility & Approval",
     category: "Web & App",
-    desc: "Sistem evaluasi proposal investasi modal perusahaan, analisa ROI & Payback Period, serta approval matrix bertingkat.",
-    fullDesc: "Aplikasi enterprise untuk mengelola siklus pengajuan belanja modal (Capital Expenditure) perusahaan manufaktur bernilai miliaran rupiah. Memfasilitasi pengajuan proposal mesin baru, perhitungan kelayakan finansial (ROI, NPV, Payback Period), hierarki approval berjenjang (Manager -> GM -> Direksi), dan pelacakan serapan anggaran.",
-    problem: "Pengajuan pembelian mesin & investasi modal masih menggunakan dokumen fisik yang rawan terselip, perhitungan ROI manual, dan realisasi anggaran sulit dikontrol.",
-    solution: "Otomasi workflow approval CAPEX dengan kalkulator kelayakan investasi otomatis, budget lock prevention, dan monitoring realisasi vs budget secara presisi.",
+    desc: "Evaluasi proposal investasi mesin bernilai miliaran, analisa ROI & approval berjenjang.",
+    problem: "Pengajuan anggaran modal rawan salah hitung kelayakan dan sulit dikontrol.",
+    solution: "Kalkulator otomatis ROI/NPV/Payback Period dan alur persetujuan multi-level.",
     highlights: [
-      "Automated Financial Feasibility Calculator (ROI, NPV, IRR, Payback Period)",
-      "Multi-level approval workflow with email OTP verification",
-      "Budget allocation tracker per department & cost center",
-      "Comparative vendor quotation bidding analyzer"
+      "Kalkulator kelayakan finansial ROI/NPV",
+      "Multi-tier approval workflow",
+      "Budget lock per department",
+      "Komparasi tender vendor"
     ],
-    metrics: { label: "Akurasi Realisasi Budget", value: "100% Terkontrol" },
-    tags: ["Next.js", "TypeScript", "Prisma", "Chart.js", "MySQL", "Excel Export"],
+    metrics: { label: "Akurasi Budget", value: "100% Terkontrol" },
+    tags: ["Next.js", "TypeScript", "Prisma", "MySQL"],
     image: "/projects/capex.jpg",
     status: "Enterprise",
     color: "#10b981"
@@ -132,21 +125,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "absensi-seminar",
     channel: "CH 06",
-    title: "Absensi Seminar Realtime",
-    subtitle: "High-Speed QR Ticket Validation & Certificate Distribution",
+    title: "Absensi Seminar Live",
+    subtitle: "QR Code Pass · Live Counter & Certificate",
     category: "Web & App",
-    desc: "Sistem absensi seminar real-time berbasis Firebase Database dengan fitur export Excel dan manajemen sertifikat.",
-    fullDesc: "Aplikasi absensi peserta seminar dan event kampus secara instan. Menggunakan scan QR Code tiket peserta, validasi kehadiran real-time pada Firebase Realtime Database, dashboard pantauan kuota hadir, dan sistem penerbitan e-certificate otomatis pasca seminar.",
-    problem: "Antrean registrasi seminar manual menggunakan kertas memakan waktu lama dan data kehadiran sering tidak sinkron.",
-    solution: "Pindai tiket QR Code dalam 2 detik per peserta, sinkronisasi kehadiran live, dan rekap data instan ke Excel.",
+    desc: "Sistem absensi event kilat via QR-Code tiket dengan auto-generate e-sertifikat.",
+    problem: "Antrean registrasi seminar manual menggunakan kertas memakan waktu lama.",
+    solution: "Validasi kehadiran < 2 detik via Firebase Realtime dan ekspor data ke Excel.",
     highlights: [
-      "Scan QR Code kehadiran kilat < 2 detik per orang",
-      "Live counter peserta hadir dan persentase kuota ruangan",
-      "Export data peserta lengkap ke format Excel/CSV sekali klik",
-      "Integrasi pengiriman e-certificate otomatis ke email peserta"
+      "Scan QR Code kilat < 2 detik",
+      "Live counter kapasitas ruangan",
+      "Export Excel peserta 1 klik",
+      "Kirim e-sertifikat otomatis"
     ],
-    metrics: { label: "Kapasitas Event", value: "500+ Peserta/Sesi" },
-    tags: ["Firebase", "React", "Vercel", "QR Code", "Excel Export"],
+    metrics: { label: "Kapasitas Event", value: "500+ Peserta" },
+    tags: ["Firebase", "React", "QR Code", "Vercel"],
     image: "/projects/absensi-seminar.jpg",
     link: "https://absensi-seminar.vercel.app/",
     status: "Live",
@@ -155,21 +147,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "landing-seo",
     channel: "CH 07",
-    title: "Landing Page SEO & Campaign",
-    subtitle: "Conversion-Focused High Performance Web Architecture",
+    title: "Landing Page SEO",
+    subtitle: "Core Web Vitals · High Conversion",
     category: "Web & App",
-    desc: "Landing page teroptimasi SEO untuk kampanye digital marketing dengan performa tinggi (Lighthouse 98+).",
-    fullDesc: "Landing page pemasaran digital yang dibangun dengan fokus pada Core Web Vitals, semantic schema markup (JSON-LD), dan arsitektur konten yang ramah mesin pencari. Menghasilkan konversi prospek tinggi serta loading kilat di semua perangkat mobile.",
-    problem: "Website promosi sering lambat dimuat dan tidak terindeks dengan baik di Google, sehingga biaya akuisisi iklan membengkak.",
-    solution: "Next.js Static Site Generation (SSG) dengan kompresi aset gambar otomatis dan struktur SEO on-page yang ketat.",
+    desc: "Landing page promosi teroptimasi SEO teknis dengan skor performa Google 98+.",
+    problem: "Website bisnis lambat dimuat dan sulit bersaing di halaman pencarian Google.",
+    solution: "Next.js Static Site Generation dengan struktur metadata JSON-LD super cepat.",
     highlights: [
-      "Google Lighthouse Score 98/100 pada Mobile & Desktop",
-      "Structured data JSON-LD rich snippets untuk Google SERP",
-      "High conversion Call-to-Action section terintegrasi WhatsApp",
-      "Responsive design adaptif di semua resolusi layar perangkat"
+      "Lighthouse 98/100 Mobile",
+      "Schema JSON-LD rich snippets",
+      "Integrasi direct WhatsApp CTA",
+      "Mobile responsive adaptif"
     ],
-    metrics: { label: "Lighthouse Performance", value: "98/100 Mobile" },
-    tags: ["Next.js", "SEO", "Marketing", "Tailwind CSS", "Vercel"],
+    metrics: { label: "Lighthouse", value: "98/100 Mobile" },
+    tags: ["Next.js", "SEO", "Tailwind", "Vercel"],
     image: "/projects/landing-seo.jpg",
     link: "https://project-uas-digital-marketing-klmpk.vercel.app/",
     status: "Live",
@@ -178,21 +169,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "nlp-project",
     channel: "CH 08",
-    title: "NLP Indonesian Text Analytics",
-    subtitle: "Indonesian Sentiment Analysis & Semantic Keyword Mining",
+    title: "NLP Text Analytics",
+    subtitle: "Indonesian Sentiment · Slang Normalizer",
     category: "Data & AI",
-    desc: "Aplikasi Natural Language Processing untuk analisis sentimen teks berbahasa Indonesia dengan visualisasi interaktif.",
-    fullDesc: "Sistem analitik pemrosesan bahasa alami (NLP) yang dikembangkan khusus untuk teks bahasa Indonesia. Memproses ulasan pengguna dari media sosial dan e-commerce melalui pipeline text preprocessing (tokenizing, filtering stopword, stemming Sastrawi) hingga klasifikasi sentimen positif, netral, atau negatif.",
-    problem: "Teks ulasan pelanggan di Indonesia penuh dengan bahasa gaul, singkatan, dan imbuhan kompleks yang sulit diproses model standar.",
-    solution: "Pipeline preprocessing kustom dengan kamus normalisasi slang Indo dan model klasifikasi Naive Bayes / SVM berakurasi tinggi.",
+    desc: "Analisis sentimen ulasan publik berbahasa Indonesia dengan visualisasi grafis.",
+    problem: "Bahasa ulasan konsumen sarat singkatan dan slang yang sukar dianalisis.",
+    solution: "Pipeline preprocessing kustom dengan stemming Sastrawi dan model SVM.",
     highlights: [
-      "Indonesian text stemming & slang words normalizer pipeline",
-      "Interactive sentiment breakdown (Positif, Netral, Negatif)",
-      "Word Cloud & N-gram frequent term visualizer",
-      "Batch processing upload file dataset CSV secara instan"
+      "Stemming & slang normalizer",
+      "Distribusi sentimen 3 kelas",
+      "Visualisasi Word Cloud interaktif",
+      "Batch CSV upload analyzer"
     ],
-    metrics: { label: "Akurasi Klasifikasi", value: "89.2% Accuracy" },
-    tags: ["Python", "NLP", "Machine Learning", "Streamlit", "NLTK", "Sastrawi"],
+    metrics: { label: "Akurasi Model", value: "89.2% Test" },
+    tags: ["Python", "NLP", "Streamlit", "Scikit-Learn"],
     image: "/projects/nlp-project.jpg",
     link: "https://project-uas-nlp.vercel.app/",
     status: "Live",
@@ -201,21 +191,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "data-science",
     channel: "CH 09",
-    title: "Data Science & BI Dashboard",
-    subtitle: "Exploratory Analytics, Outlier Detection & Trend Insights",
+    title: "Data Science Dashboard",
+    subtitle: "EDA Analytics · Trend Forecasting",
     category: "Data & AI",
-    desc: "Dashboard analisis data interaktif dengan visualisasi exploratory data analysis (EDA) dan forecasting tren.",
-    fullDesc: "Dashboard Business Intelligence interaktif untuk menganalisis tren data besar, mendeteksi korelasi variabel, serta memprediksi pola masa depan. Dilengkapi filter multi-dimensi, heat map korelasi, dan ekspor insight otomatis untuk menunjang keputusan bisnis.",
-    problem: "Eksplorasi data mentah dalam spreadsheet membingungkan pengambil keputusan dan lambat dalam menemukan pola penting.",
-    solution: "Visualisasi interaktif Plotly dengan agregasi otomatis, outlier detection, dan ringkasan statistik komprehensif.",
+    desc: "Dashboard eksplorasi data multi-variat dengan chart interaktif dan deteksi anomali.",
+    problem: "Data spreadsheet mentah sulit dipahami tanpa visualisasi tren yang jelas.",
+    solution: "Visualisasi interaktif Plotly dengan korelasi matriks dan deteksi outlier.",
     highlights: [
-      "Exploratory Data Analysis (EDA) interaktif multi-filter",
-      "Correlation matrix heatmap & distribution histograms",
-      "Automated outlier & missing values detection",
-      "Dynamic trend projection & summary metric cards"
+      "EDA multi-filter dinamis",
+      "Heatmap matriks korelasi",
+      "Outlier detector otomatis",
+      "Ringkasan statistik instan"
     ],
-    metrics: { label: "Volume Data", value: "100k+ Records" },
-    tags: ["Python", "Data Science", "Pandas", "Plotly", "Streamlit", "Scikit-Learn"],
+    metrics: { label: "Data Volume", value: "100k+ Records" },
+    tags: ["Python", "Pandas", "Plotly", "Streamlit"],
     image: "/projects/data-science.jpg",
     link: "https://data-science-xi.vercel.app/",
     status: "Live",
@@ -224,21 +213,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "mcgoo-guide",
     channel: "CH 10",
-    title: "MCGOO Gaming Strategy Guide",
-    subtitle: "Interactive Esports Tier-List & Synergy Meta Builder",
+    title: "MCGOO Strategy Guide",
+    subtitle: "Gaming Tier-List · Synergy Builder",
     category: "Web & App",
-    desc: "Landing page panduan strategi game mobile dengan kalkulator sinergi, tier-list dinamis, dan UI interaktif.",
-    fullDesc: "Platform web komunitas gaming yang menyajikan panduan strategi, sinergi commander, tier-list hero, dan rekomendasi kombinasi item. Memiliki antarmuka visual yang terinspirasi dari game modern dengan animasi dinamis.",
-    problem: "Pemain kesulitan memantau update meta yang sering berubah setiap patch dan membutuhkan kalkulator sinergi cepat saat bermain.",
-    solution: "Web app responsif dengan database strategi terlengkap, kalkulator sinergi live, dan tampilan cepat dibuka di smartphone.",
+    desc: "Portal panduan strategi game mobile dengan kalkulator sinergi meta terkini.",
+    problem: "Gamer kesulitan mencari kombinasi strategi terbaik saat bermain cepat.",
+    solution: "Aplikasi web responsif dengan tier-list live dan kalkulator sinergi instan.",
     highlights: [
-      "Interactive synergy calculator & composition builder",
-      "Meta tier-list filter berdasarkan patch update terbaru",
-      "Pencarian cepat hero & item database",
-      "Dark mode gaming aesthetic dengan animasi smooth"
+      "Kalkulator sinergi live",
+      "Tier-list patch meta update",
+      "Pencarian hero & item instan",
+      "Dark mode gaming aesthetic"
     ],
-    metrics: { label: "Komunitas Pembaca", value: "Ribuan Gamers" },
-    tags: ["React", "Tailwind CSS", "Vite", "Gaming UI", "Tier List"],
+    metrics: { label: "Readers", value: "Ribuan Gamers" },
+    tags: ["React", "Vite", "Tailwind", "Gaming UI"],
     image: "/projects/mcgoo-guide.jpg",
     link: "https://magicchestguide.vercel.app/",
     status: "Live",
@@ -247,21 +235,20 @@ export const projectsData: ProjectItem[] = [
   {
     id: "berita-live",
     channel: "CH 11",
-    title: "Portal Berita Live Mandiri",
-    subtitle: "Realtime News Feed Aggregator & Clean Reader Experience",
+    title: "Portal Berita Mandiri",
+    subtitle: "REST API Feed · Distraction-Free",
     category: "Web & App",
-    desc: "Portal berita dengan konten dinamis, kategori berita, pencarian artikel real-time, dan pembacaan bebas distraksi.",
-    fullDesc: "Aplikasi portal berita modern dengan update konten secara real-time melalui integrasi REST API. Dilengkapi sistem navigasi kategori berita, pencarian artikel instan, pembacaan artikel bebas iklan yang bersih, dan mode simpan bacaan.",
-    problem: "Situs berita konvensional sering penuh dengan pop-up iklan yang mengganggu dan proses pencarian berita lama.",
-    solution: "Antarmuka minimalis modern yang cepat dimuat, layout typography yang nyaman dibaca, dan fitur search real-time.",
+    desc: "Agregator berita dinamis dengan filter kategori dan mode baca bebas distraksi.",
+    problem: "Situs berita konvensional dipenuhi iklan yang mengganggu kenyamanan baca.",
+    solution: "Antarmuka bersih, update live REST API, dan fitur simpan bacaan lokal.",
     highlights: [
-      "Live REST API news integration with category filtering",
-      "Instant debounced search bar",
-      "Bookmark & read-later local storage synchronization",
-      "Clean reader view & social share integration"
+      "Live REST API news update",
+      "Instant debounced search",
+      "Bookmark baca nanti",
+      "Clean distraction-free view"
     ],
-    metrics: { label: "Sinkronisasi Berita", value: "Live REST API" },
-    tags: ["React", "REST API", "Tailwind CSS", "News API", "Vercel"],
+    metrics: { label: "Sync Speed", value: "Live REST API" },
+    tags: ["React", "REST API", "Tailwind", "Vercel"],
     image: "/projects/berita-live.jpg",
     link: "https://fe-berita-mandiri-seal.vercel.app/",
     status: "Live",
@@ -270,24 +257,22 @@ export const projectsData: ProjectItem[] = [
   {
     id: "warga-rt",
     channel: "CH 12",
-    title: "WargaRT02 Smart App & IoT",
-    subtitle: "Connected Neighborhood Governance & Smart Barrier Gate",
+    title: "WargaRT02 Smart App",
+    subtitle: "Civic Governance · IoT Barrier Gate",
     category: "Industrial & IoT",
-    desc: "Aplikasi manajemen warga RT 02 dengan fitur iuran, pengumuman, dan data kependudukan berbasis IoT.",
-    fullDesc: "Aplikasi seluler dan web terpadu untuk pengelolaan rukun tetangga (RT 02 Graha Cikarang). Mengintegrasikan pencatatan iuran transparan dengan mutasi otomatis, pelaporan keluhan warga, dan kontrol barrier gate masuk komplek berbasis mikrokontroler IoT.",
-    problem: "Pungutan iuran warga masih menggunakan kupon manual yang rawan selisih, dan pengumuman keamanan sering tidak sampai merata.",
-    solution: "Platform digital terpadu untuk warga: cek status iuran, notifikasi broadcast darurat, dan akses portal gerbang perumahan.",
+    desc: "Aplikasi rukun tetangga terintegrasi: iuran digital, pengumuman & gerbang IoT.",
+    problem: "Pengelolaan iuran warga manual rawan selisih dan gerbang komplek belum otomatis.",
+    solution: "Portal kas RT transparan dan pembuka barrier gate komplek berbasis ESP32.",
     highlights: [
-      "Digital citizen dues (iuran bulanan) tracker with payment proof",
-      "Smart gate barrier control integration via mobile authentication",
-      "Emergency SOS alert button to security post",
-      "Pengumuman digital & broadcast pesan RT terverifikasi"
+      "Iuran digital & bukti bayar",
+      "Buka palang gerbang via HP",
+      "Tombol SOS darurat pos satpam",
+      "Broadcast pengumuman warga"
     ],
-    metrics: { label: "Implementasi", value: "Komunitas RT 02" },
-    tags: ["Flutter", "Firebase", "IoT ESP32", "Dart", "Smart City"],
+    metrics: { label: "Komunitas", value: "RT 02 Cikarang" },
+    tags: ["Flutter", "Firebase", "ESP32 IoT", "Dart"],
     image: "/projects/warga-rt.jpg",
-    status: "In Development",
+    status: "In Dev",
     color: "#6366f1"
   }
 ];
-
