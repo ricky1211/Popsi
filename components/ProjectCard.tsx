@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ProjectItem } from "./projectsData";
 import { ExternalLink, Tv, ArrowUpRight } from "lucide-react";
+import { playTvSound } from "./tvAudio";
 
 interface ProjectCardProps {
   project: ProjectItem;
@@ -11,10 +12,22 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isSucking, setIsSucking] = useState(false);
+
+  const handleCardClick = () => {
+    if (isSucking) return;
+    setIsSucking(true);
+    playTvSound("suction");
+
+    setTimeout(() => {
+      onOpenTv(project);
+      setIsSucking(false);
+    }, 280);
+  };
 
   return (
     <div
-      className="card project-compact-card"
+      className={`card project-compact-card ${isSucking ? "card-suction-active" : ""}`}
       style={{
         overflow: "hidden",
         height: "100%",
@@ -25,16 +38,63 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
         background: "var(--bg-card)",
         border: `1px solid ${isHovered ? project.color + "77" : "var(--border)"}`,
         borderRadius: 18,
-        boxShadow: isHovered
+        boxShadow: isSucking
+          ? `0 0 45px ${project.color}99, inset 0 0 30px ${project.color}66`
+          : isHovered
           ? `0 14px 36px var(--shadow), 0 0 20px ${project.color}20`
           : "0 3px 16px var(--shadow)",
-        transform: isHovered ? "translateY(-5px)" : "translateY(0)",
-        transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        transform: isSucking
+          ? "scale(0.86) rotate(-2deg)"
+          : isHovered
+          ? "translateY(-5px)"
+          : "translateY(0)",
+        filter: isSucking ? "brightness(1.5) contrast(1.3)" : "none",
+        transition: isSucking
+          ? "all 0.28s cubic-bezier(0.55, 0.055, 0.675, 0.19)"
+          : "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
-      onClick={() => onOpenTv(project)}
+      onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* VORTEX SUCTION OVERLAY ON CARD WHEN CLICKED */}
+      {isSucking && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 30,
+            pointerEvents: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(5, 8, 18, 0.6)",
+          }}
+        >
+          <div
+            style={{
+              width: 140,
+              height: 140,
+              borderRadius: "50%",
+              border: `3px solid ${project.color}`,
+              boxShadow: `0 0 35px ${project.color}, inset 0 0 25px ${project.color}`,
+              animation: "cardVortexSpin 0.28s ease-in forwards",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              background: "#ffffff",
+              boxShadow: "0 0 20px #ffffff, 0 0 40px #38bdf8",
+              animation: "singularityPulse 0.28s ease-in forwards",
+            }}
+          />
+        </div>
+      )}
+
       {/* COMPACT THUMBNAIL WITH HUD OVERLAYS */}
       <div
         style={{
@@ -51,8 +111,12 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            transform: isHovered ? "scale(1.06)" : "scale(1)",
-            transition: "transform 0.5s ease",
+            transform: isSucking
+              ? "scale(0.7) rotate(6deg)"
+              : isHovered
+              ? "scale(1.06)"
+              : "scale(1)",
+            transition: isSucking ? "transform 0.28s ease-in" : "transform 0.5s ease",
           }}
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -64,7 +128,8 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(180deg, rgba(10,14,24,0.3) 0%, rgba(10,14,24,0.1) 40%, rgba(10,14,24,0.85) 100%)",
+            background:
+              "linear-gradient(180deg, rgba(10,14,24,0.3) 0%, rgba(10,14,24,0.1) 40%, rgba(10,14,24,0.85) 100%)",
           }}
         />
 
@@ -177,7 +242,7 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             justifyContent: "center",
             gap: 6,
             color: "#ffffff",
-            opacity: isHovered ? 1 : 0,
+            opacity: isHovered && !isSucking ? 1 : 0,
             transition: "opacity 0.2s ease",
             pointerEvents: "none",
           }}
@@ -197,7 +262,7 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
             <Tv size={16} />
           </div>
           <span style={{ fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.03em" }}>
-            Masuk TV Portal
+            Tersedot ke TV Portal
           </span>
         </div>
       </div>
@@ -295,7 +360,7 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
               fontSize: "0.8rem",
             }}
           >
-            Buka Siaran <ArrowUpRight size={13} />
+            Masuk TV <ArrowUpRight size={13} />
           </span>
 
           {project.link && (
@@ -322,6 +387,33 @@ export default function ProjectCard({ project, onOpenTv }: ProjectCardProps) {
           )}
         </div>
       </div>
+
+      <style>{`
+        @keyframes cardVortexSpin {
+          0% {
+            transform: scale(1.4) rotate(0deg);
+            opacity: 0.9;
+          }
+          100% {
+            transform: scale(0.08) rotate(360deg);
+            opacity: 1;
+          }
+        }
+        @keyframes singularityPulse {
+          0% {
+            transform: scale(0.2);
+            opacity: 0.2;
+          }
+          50% {
+            transform: scale(2.2);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0.05);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 }

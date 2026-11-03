@@ -1,6 +1,6 @@
 "use client";
 
-export function playTvSound(type: "on" | "off" | "switch" | "beep") {
+export function playTvSound(type: "on" | "off" | "switch" | "beep" | "suction") {
   if (typeof window === "undefined") return;
 
   try {
@@ -16,8 +16,45 @@ export function playTvSound(type: "on" | "off" | "switch" | "beep") {
 
     const now = ctx.currentTime;
 
-    if (type === "on") {
-      // 1. High frequency CRT flyback capacitor pulse (15.6 kHz)
+    if (type === "suction") {
+      // 1. Vortex vacuum suction whoosh (sweeps down frequency as resonance swells)
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(3200, now);
+      filter.frequency.exponentialRampToValueAtTime(140, now + 0.4);
+
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(50, now + 0.42);
+
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.14, now + 0.2);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.5);
+
+      // 2. High-voltage CRT breakthrough glass pop
+      const pop = ctx.createOscillator();
+      const popGain = ctx.createGain();
+      pop.type = "triangle";
+      pop.frequency.setValueAtTime(1200, now + 0.2);
+      pop.frequency.exponentialRampToValueAtTime(90, now + 0.42);
+      popGain.gain.setValueAtTime(0.001, now);
+      popGain.gain.setValueAtTime(0.1, now + 0.2);
+      popGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+      pop.connect(popGain);
+      popGain.connect(ctx.destination);
+      pop.start(now + 0.2);
+      pop.stop(now + 0.45);
+    } else if (type === "on") {
+      // CRT flyback capacitor pulse (15.6 kHz)
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sawtooth";
@@ -30,7 +67,7 @@ export function playTvSound(type: "on" | "off" | "switch" | "beep") {
       osc.start(now);
       osc.stop(now + 0.32);
 
-      // 2. Warm phosphor tube pop / thump
+      // Warm phosphor tube pop
       const pop = ctx.createOscillator();
       const popGain = ctx.createGain();
       pop.type = "sine";
@@ -43,20 +80,19 @@ export function playTvSound(type: "on" | "off" | "switch" | "beep") {
       pop.start(now);
       pop.stop(now + 0.16);
     } else if (type === "off") {
-      // CRT TV collapse pitch drop & beam extinguish
+      // CRT TV collapse pitch drop & vacuum extinguish
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(8000, now);
-      osc.frequency.exponentialRampToValueAtTime(40, now + 0.22);
-      gain.gain.setValueAtTime(0.05, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+      osc.frequency.setValueAtTime(7000, now);
+      osc.frequency.exponentialRampToValueAtTime(30, now + 0.3);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start(now);
-      osc.stop(now + 0.24);
+      osc.stop(now + 0.32);
     } else if (type === "switch") {
-      // Channel switch click
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "triangle";
@@ -69,7 +105,6 @@ export function playTvSound(type: "on" | "off" | "switch" | "beep") {
       osc.start(now);
       osc.stop(now + 0.09);
     } else if (type === "beep") {
-      // Subtle console beep
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
@@ -82,7 +117,6 @@ export function playTvSound(type: "on" | "off" | "switch" | "beep") {
       osc.stop(now + 0.07);
     }
   } catch {
-    // Gracefully handle if user hasn't interacted or browser restricts audio
+    // Gracefully handle if audio context is blocked by browser policy
   }
 }
-

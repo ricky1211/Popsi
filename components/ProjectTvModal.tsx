@@ -59,19 +59,16 @@ export default function ProjectTvModal({
     }
     setTimeout(() => {
       onClose();
-    }, 360);
+    }, 420);
   }, [animStage, onClose, soundEnabled]);
 
   useEffect(() => {
     if (!project) return;
-    if (soundEnabled) {
-      playTvSound("on");
-    }
     const timer = setTimeout(() => {
       setAnimStage("active");
-    }, 550);
+    }, 620);
     return () => clearTimeout(timer);
-  }, [project, soundEnabled]);
+  }, [project]);
 
   useEffect(() => {
     if (!project) return;
@@ -99,66 +96,100 @@ export default function ProjectTvModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "rgba(4, 7, 16, 0.94)",
-        backdropFilter: "blur(20px)",
+        background: "rgba(3, 5, 14, 0.95)",
+        backdropFilter: "blur(22px)",
         padding: "16px",
         overflowY: "auto",
+        perspective: "1200px",
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
     >
-      {/* TV CATHODE RAY HORIZONTAL BEAM */}
+      {/* FULLSCREEN VORTEX SUCTION TUNNEL ( هنگام Tersedot ) */}
       {animStage === "power-on" && (
         <div
           style={{
             position: "fixed",
-            left: 0,
-            right: 0,
-            top: "50%",
-            height: 4,
-            background: "#ffffff",
-            boxShadow: "0 0 50px 14px rgba(255,255,255,0.9), 0 0 100px 30px rgba(56,189,248,0.8)",
-            zIndex: 10002,
+            inset: 0,
             pointerEvents: "none",
-            animation: "tvCathodeBeam 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+            zIndex: 10001,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
           }}
-        />
+        >
+          {/* Suction Tunnel Rings */}
+          <div className="vortex-ring ring-1" style={{ borderColor: project.color }} />
+          <div className="vortex-ring ring-2" style={{ borderColor: "#38bdf8" }} />
+          <div className="vortex-ring ring-3" style={{ borderColor: "#ffffff" }} />
+
+          {/* Central Singularity Beam */}
+          <div
+            style={{
+              position: "absolute",
+              width: 18,
+              height: 18,
+              borderRadius: "50%",
+              background: "#ffffff",
+              boxShadow: `0 0 60px 25px #ffffff, 0 0 120px 50px ${project.color}`,
+              animation: "suctionSingularity 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+            }}
+          />
+
+          {/* Radial Speed Warp Lines */}
+          <div
+            className="vortex-warp-burst"
+            style={{
+              background: `radial-gradient(circle, transparent 20%, ${project.color}33 60%, rgba(5,8,18,0.95) 90%)`,
+            }}
+          />
+        </div>
       )}
 
-      {/* TV CATHODE COLLAPSE */}
+      {/* REVERSE SUCTION BLACK HOLE COLLAPSE ( When closing ) */}
       {animStage === "power-off" && (
         <div
           style={{
             position: "fixed",
-            left: 0,
-            right: 0,
-            top: "50%",
-            height: 3,
-            background: "#ffffff",
-            boxShadow: "0 0 40px 10px #ffffff, 0 0 90px 25px rgba(239, 68, 68, 0.8)",
-            zIndex: 10002,
+            inset: 0,
             pointerEvents: "none",
-            animation: "tvCathodeCollapse 0.35s ease-in forwards",
+            zIndex: 10001,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
+        >
+          <div
+            style={{
+              width: 300,
+              height: 300,
+              borderRadius: "50%",
+              border: `4px solid ${project.color}`,
+              boxShadow: `0 0 60px ${project.color}, inset 0 0 40px #ffffff`,
+              animation: "reverseSuctionHole 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards",
+            }}
+          />
+        </div>
       )}
 
-      {/* TV CYBER CONSOLE HOUSING */}
+      {/* TV CYBER CONSOLE HOUSING (SUCKED IN FROM VORTEX) */}
       <div
-        className={`tv-chassis ${animStage === "power-on" ? "tv-turn-on" : animStage === "power-off" ? "tv-turn-off" : "tv-stable"}`}
+        className={`tv-chassis ${animStage === "power-on" ? "tv-suction-enter" : animStage === "power-off" ? "tv-suction-exit" : "tv-stable"}`}
         style={{
           width: "100%",
           maxWidth: 960,
           background: "linear-gradient(160deg, #121422 0%, #0b0d18 100%)",
           borderRadius: 22,
-          border: `2px solid ${project.color}55`,
-          boxShadow: `0 20px 70px rgba(0,0,0,0.9), 0 0 45px ${project.color}30`,
+          border: `2px solid ${project.color}66`,
+          boxShadow: `0 20px 70px rgba(0,0,0,0.9), 0 0 45px ${project.color}35`,
           display: "flex",
           flexDirection: "column",
           position: "relative",
           overflow: "hidden",
           color: "#f8fafc",
+          transformOrigin: "center center",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -209,7 +240,7 @@ export default function ProjectTvModal({
                 }}
               />
               <span style={{ fontWeight: 600, fontFamily: "monospace", letterSpacing: "0.04em" }}>
-                LIVE FEED · 4K CRT
+                WARP IN · 4K CRT
               </span>
             </div>
 
@@ -593,44 +624,161 @@ export default function ProjectTvModal({
       </div>
 
       <style>{`
-        @keyframes tvCathodeBeam {
-          0% { transform: scaleX(0); opacity: 0; }
-          25% { transform: scaleX(0.5); opacity: 1; filter: brightness(25); }
-          60% { transform: scaleX(1); opacity: 1; filter: brightness(15); }
-          100% { transform: scaleX(1); opacity: 0; }
+        /* VORTEX SUCTION TUNNEL ANIMATION ( TERSUDOT MASUK ) */
+        .vortex-ring {
+          position: absolute;
+          border-radius: 50%;
+          border-style: dashed;
+          pointer-events: none;
         }
 
-        @keyframes tvCathodeCollapse {
-          0% { transform: scaleX(1); opacity: 0; }
-          30% { transform: scaleX(1); opacity: 1; filter: brightness(25); }
-          80% { transform: scaleX(0.04); opacity: 1; filter: brightness(35); }
-          100% { transform: scaleX(0); opacity: 0; }
+        .ring-1 {
+          width: 90vw;
+          height: 90vw;
+          border-width: 3px;
+          animation: ringSuction 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
         }
 
-        .tv-turn-on {
-          animation: tvTurnOnZoom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          transform-origin: center center;
+        .ring-2 {
+          width: 60vw;
+          height: 60vw;
+          border-width: 2px;
+          animation: ringSuction 0.5s 0.08s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
         }
 
-        @keyframes tvTurnOnZoom {
-          0% { transform: scale(0.75, 0.005); filter: brightness(16); opacity: 0.8; }
-          40% { transform: scale(0.9, 0.04); filter: brightness(8); opacity: 0.95; }
-          75% { transform: scale(1.02, 1.02); filter: brightness(1.8); opacity: 1; }
-          100% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
+        .ring-3 {
+          width: 35vw;
+          height: 35vw;
+          border-width: 2px;
+          animation: ringSuction 0.4s 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
         }
 
-        .tv-turn-off {
-          animation: tvTurnOffCollapse 0.35s ease-in forwards;
-          transform-origin: center center;
+        @keyframes ringSuction {
+          0% {
+            transform: scale(1.6) rotate(0deg);
+            opacity: 0.9;
+          }
+          100% {
+            transform: scale(0.02) rotate(320deg);
+            opacity: 0.1;
+          }
         }
 
-        @keyframes tvTurnOffCollapse {
-          0% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
-          40% { transform: scale(1, 0.01); filter: brightness(14); opacity: 1; }
-          85% { transform: scale(0.08, 0.01); filter: brightness(24); opacity: 0.9; }
-          100% { transform: scale(0, 0); filter: brightness(35); opacity: 0; }
+        @keyframes suctionSingularity {
+          0% {
+            transform: scale(0.1);
+            opacity: 0.2;
+          }
+          40% {
+            transform: scale(3.5);
+            opacity: 1;
+            filter: blur(1px);
+          }
+          70% {
+            transform: scale(1.2);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(0.01);
+            opacity: 0;
+          }
         }
 
+        .vortex-warp-burst {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          animation: warpBurst 0.6s ease-out forwards;
+        }
+
+        @keyframes warpBurst {
+          0% {
+            transform: scale(0.2) rotate(-45deg);
+            opacity: 1;
+          }
+          70% {
+            transform: scale(1.8) rotate(15deg);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(2.4) rotate(0deg);
+            opacity: 0;
+          }
+        }
+
+        /* TV CHASSIS WARP-IN: BEING SUCKED FORWARD THROUGH WORMHOLE */
+        .tv-suction-enter {
+          animation: tvSuctionInward 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes tvSuctionInward {
+          0% {
+            transform: scale(0.06) rotate(-28deg) translateZ(-800px);
+            filter: brightness(24) contrast(2) blur(14px);
+            opacity: 0.4;
+          }
+          35% {
+            transform: scale(0.35) rotate(-12deg) translateZ(-400px);
+            filter: brightness(12) contrast(1.6) blur(6px);
+            opacity: 0.9;
+          }
+          70% {
+            transform: scale(1.06) rotate(2deg) translateZ(50px);
+            filter: brightness(1.8) blur(1px);
+            opacity: 1;
+          }
+          85% {
+            transform: scale(0.98) rotate(-0.5deg) translateZ(0);
+            filter: brightness(1.2);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1) rotate(0deg) translateZ(0);
+            filter: brightness(1) blur(0);
+            opacity: 1;
+          }
+        }
+
+        /* REVERSE SUCTION EXIT (COLLAPSES BACK INTO SINGULARITY) */
+        .tv-suction-exit {
+          animation: tvSuctionOutward 0.42s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+        }
+
+        @keyframes tvSuctionOutward {
+          0% {
+            transform: scale(1) rotate(0deg);
+            filter: brightness(1);
+            opacity: 1;
+          }
+          30% {
+            transform: scale(1.04) rotate(1.5deg);
+            filter: brightness(4);
+            opacity: 1;
+          }
+          75% {
+            transform: scale(0.18) rotate(-24deg);
+            filter: brightness(22) blur(8px);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(0) rotate(-60deg);
+            filter: brightness(35) blur(16px);
+            opacity: 0;
+          }
+        }
+
+        @keyframes reverseSuctionHole {
+          0% {
+            transform: scale(1.8) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0.01) rotate(-360deg);
+            opacity: 0;
+          }
+        }
+
+        /* CRT SCANLINES LAYER */
         .crt-scanline-layer {
           position: absolute;
           inset: 0;
@@ -649,6 +797,7 @@ export default function ProjectTvModal({
           opacity: 0.85;
         }
 
+        /* CRT VIGNETTE TUBE CURVATURE LAYER */
         .crt-vignette-layer {
           position: absolute;
           inset: 0;
