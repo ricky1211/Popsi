@@ -7,18 +7,13 @@ import {
   Server, BarChart2, Wifi, Globe,
   ArrowRight, Database, Sparkles
 } from "lucide-react";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projectsData, ProjectItem } from "@/components/projectsData";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectTvModal from "@/components/ProjectTvModal";
 import { withBasePath } from "@/components/basePath";
 import CosmicHeroShowcase from "@/components/CosmicHeroShowcase";
 import CodeNewspaperBackground from "@/components/CodeNewspaperBackground";
-
-const emptySubscribe = () => () => {};
-function useMounted() {
-  return useSyncExternalStore(emptySubscribe, () => true, () => false);
-}
 
 const skills = [
   { icon: <Wifi size={18} />, label: "Industrial & IoT", items: ["MQTT", "WebSockets", "ESP32", "InfluxDB"] },
@@ -68,7 +63,6 @@ function SectionHeader({ label, title, sub }: { label: string; title: string; su
 }
 
 export default function Home() {
-  const mounted = useMounted();
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
 
@@ -101,42 +95,27 @@ export default function Home() {
           {/* Status Pill */}
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 7,
-            background: "rgba(13, 18, 31, 0.85)", border: "1px solid var(--border)", borderRadius: 100, padding: "5px 14px", marginBottom: 16,
+            background: "rgba(13, 18, 31, 0.85)", border: "1px solid var(--border)", borderRadius: 100, padding: "5px 14px", marginBottom: 14,
             boxShadow: "0 4px 14px rgba(0,0,0,0.4)", backdropFilter: "blur(10px)",
-            opacity: mounted ? 1 : 0, transition: "opacity 0.4s"
           }}>
             <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 0 3px rgba(34,197,94,0.25)" }} />
             <span style={{ fontSize: "0.78rem", color: "var(--fg-muted)", fontWeight: 600 }}>Available for Hire · Cikarang, ID</span>
           </div>
 
-          {/* Cosmic Hero Showcase: Bintang Jatuh, Siluet Kode di Belakang, & Foto Profil Bulat di Tengah */}
-          <div style={{ width: "100%", marginBottom: 10, display: "flex", justifyContent: "center", position: "relative" }}>
+          {/* Cosmic Hero Showcase: Bintang Jatuh, Siluet Kode, Foto Profil Bulat, Nama (Image 5) & Selector */}
+          <div style={{ width: "100%", marginBottom: 16, display: "flex", justifyContent: "center", position: "relative" }}>
             <CosmicHeroShowcase />
           </div>
 
-          {/* Nama di Bawah Foto Profile (Sesuai Screenshot User) */}
-          <h1 style={{
-            fontFamily: "var(--font-dm-serif)", fontSize: "clamp(2.2rem, 5vw, 3.2rem)",
-            lineHeight: 1.15, margin: "12px 0 10px",
-            opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 0.6s 0.1s, transform 0.6s 0.1s"
-          }}>
-            Ricky Alfian{" "}
-            <span style={{ background: "linear-gradient(135deg,var(--accent),var(--accent2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Saputra
-            </span>
-          </h1>
-
           {/* Compact 1-liner Intro */}
           <p style={{
-            fontSize: "1.02rem", color: "var(--fg-muted)", lineHeight: 1.6, marginBottom: 22, maxWidth: 540,
-            opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.2s"
+            fontSize: "1.05rem", color: "rgba(226, 232, 240, 0.82)", lineHeight: 1.6, marginBottom: 22, maxWidth: 560,
           }}>
             Membangun <strong style={{ color: "var(--fg)" }}>Smart Industrial Systems</strong>, telemetri IoT, arsitektur web modern, dan analitik berbasis data presisi.
           </p>
 
           {/* Action Buttons */}
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 22, opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.3s" }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 22 }}>
             <a href="#projects" className="btn-primary" style={{ padding: "10px 24px", fontSize: "0.9rem" }}>
               Eksplorasi Project <ArrowRight size={15} />
             </a>
@@ -146,7 +125,7 @@ export default function Home() {
           </div>
 
           {/* Compact Social Badges */}
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", opacity: mounted ? 1 : 0, transition: "opacity 0.6s 0.4s" }}>
+          <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
             {[
               { icon: <GitBranch size={16} />, href: "https://github.com/ricky1211", label: "GitHub" },
               { icon: <Briefcase size={16} />, href: "https://www.linkedin.com/in/rkyalfnsptr", label: "LinkedIn" },

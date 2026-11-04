@@ -62,8 +62,8 @@ export default function CosmicHeroShowcase() {
           top: "44%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "min(720px, 94vw)",
-          height: "220px",
+          width: "min(680px, 92vw)",
+          height: "190px",
           zIndex: 1,
           pointerEvents: "none",
           display: "flex",
@@ -78,7 +78,7 @@ export default function CosmicHeroShowcase() {
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            opacity: 0.72,
+            opacity: 0.75,
             filter: "contrast(1.2) brightness(1.1)",
             maskImage:
               "radial-gradient(ellipse 75% 70% at 50% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)",
@@ -95,8 +95,8 @@ export default function CosmicHeroShowcase() {
           top: "44%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "460px",
-          height: "460px",
+          width: "400px",
+          height: "400px",
           pointerEvents: "none",
           zIndex: 2,
           overflow: "visible",
@@ -108,12 +108,12 @@ export default function CosmicHeroShowcase() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "360px",
-            height: "360px",
+            width: "320px",
+            height: "320px",
             transform: "translate(-50%, -50%)",
             background:
               "radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(56, 189, 248, 0.25) 45%, rgba(0, 0, 0, 0) 75%)",
-            filter: "blur(28px)",
+            filter: "blur(26px)",
             borderRadius: "50%",
             animation: "nebulaPulse 6s ease-in-out infinite alternate",
           }}
@@ -126,8 +126,8 @@ export default function CosmicHeroShowcase() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "400px",
-            height: "200px",
+            width: "360px",
+            height: "180px",
             transform: "translate(-50%, -50%) rotate(-18deg)",
             borderRadius: "50%",
             border: "1.5px dashed rgba(56, 189, 248, 0.45)",
@@ -147,8 +147,8 @@ export default function CosmicHeroShowcase() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "360px",
-            height: "250px",
+            width: "320px",
+            height: "220px",
             transform: "translate(-50%, -50%) rotate(34deg)",
             borderRadius: "50%",
             border: "1.5px dashed rgba(216, 70, 239, 0.45)",
@@ -168,8 +168,8 @@ export default function CosmicHeroShowcase() {
             position: "absolute",
             top: "50%",
             left: "50%",
-            width: "300px",
-            height: "160px",
+            width: "270px",
+            height: "145px",
             transform: "translate(-50%, -50%) rotate(-48deg)",
             borderRadius: "50%",
             border: "1.5px dashed rgba(249, 115, 22, 0.5)",
@@ -194,13 +194,13 @@ export default function CosmicHeroShowcase() {
         style={{
           position: "relative",
           zIndex: 3,
-          width: 250,
-          height: 250,
+          width: 210,
+          height: 210,
           borderRadius: "50%",
           padding: 3,
           background: "linear-gradient(135deg, #a855f7 0%, #38bdf8 50%, #f97316 100%)",
           boxShadow:
-            "0 0 50px rgba(168, 85, 247, 0.5), 0 0 35px rgba(56, 189, 248, 0.35)",
+            "0 0 45px rgba(168, 85, 247, 0.5), 0 0 30px rgba(56, 189, 248, 0.35)",
         }}
       >
         <div
@@ -230,7 +230,49 @@ export default function CosmicHeroShowcase() {
         </div>
       </div>
 
-      {/* 5. MINIMALIST DOTS SELECTOR (TITIK AVATAR BERSIH) */}
+      {/* 5. NAMA & SUBTITLE DI BAWAH FOTO SESUAI SCREENSHOT USER */}
+      <div style={{ marginTop: 16, textAlign: "center", zIndex: 3 }}>
+        <h1
+          style={{
+            fontSize: "clamp(1.75rem, 4vw, 2.25rem)",
+            fontWeight: 700,
+            color: "#ffffff",
+            letterSpacing: "-0.015em",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 9,
+            margin: 0,
+            fontFamily: "var(--font-google-sans)",
+          }}
+        >
+          <span>Ricky Alfian Saputra</span>
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: "#22c55e",
+              boxShadow: "0 0 10px #22c55e, 0 0 4px #22c55e",
+              display: "inline-block",
+            }}
+          />
+        </h1>
+        <div
+          style={{
+            fontSize: "0.92rem",
+            color: "rgba(226, 232, 240, 0.72)",
+            marginTop: 4,
+            fontWeight: 500,
+            letterSpacing: "0.01em",
+            fontFamily: "var(--font-google-sans)",
+          }}
+        >
+          Teknik Informatika · Cikarang, ID
+        </div>
+      </div>
+
+      {/* 6. MINIMALIST DOTS SELECTOR (TITIK AVATAR BERSIH) */}
       <div
         style={{
           marginTop: 14,
